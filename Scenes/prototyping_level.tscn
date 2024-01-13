@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxrmape6tjgn6"]
+
+[ext_resource type="Texture2D" uid="uid://xx2wsg7vw6ic" path="res://Assets/icon.svg" id="1_mqc7f"]
+[ext_resource type="Script" path="res://Scripts/Test.gd" id="2_aith0"]
+[ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="3_10kl4"]
+
+[node name="PrototypingLevel" type="Node2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+texture = ExtResource("1_mqc7f")
+script = ExtResource("2_aith0")
+
+[node name="Trail" parent="Icon" instance=ExtResource("3_10kl4")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
