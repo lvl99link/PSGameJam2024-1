@@ -1,20 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=6 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
 [ext_resource type="Texture2D" uid="uid://xx2wsg7vw6ic" path="res://Assets/icon.svg" id="1_wj0ye"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
+bounce = 0.5
+absorbent = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bl807"]
+radius = 63.0079
+
 [node name="Slime" type="RigidBody2D"]
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_wy72i")
 gravity_scale = 0.0
 lock_rotation = true
-linear_damp_mode = 1
+max_contacts_reported = 1
+contact_monitor = true
 script = ExtResource("1_ug4yn")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+z_index = 1
+polygon = PackedVector2Array(64, -59.6, 64, 59, 59.6, 64, -59, 64, -64, 59.6, -64, -59.6, -59, -63.9, 59, -64)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
 z_index = 1
 texture = ExtResource("1_wj0ye")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(64, -59.6, 64, 59, 59.6, 64, -59, 64, -64, 59.6, -64, -59.6, -59, -63.9, 59, -64)
+[node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
 
-[node name="Trail" parent="." instance=ExtResource("2_ldhr5")]
+[node name="DetectionArea" type="Area2D" parent="Node2D"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/DetectionArea"]
+z_index = 1
+shape = SubResource("CircleShape2D_bl807")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
