@@ -1,6 +1,11 @@
 class_name GameManager
 extends Node2D
 
+# TODO:
+# STANDARDIZE PLAYER AREA PREFABS SO WE HAVE A CONSISTENT REUSABLE 
+# "STARTING AREA" WITH ALL THE COMPONENTS NEEDED TO DETERMINE THE POSITION
+# AND ANGLES FOR WHERE PLAYER X WILL LAUNCH FROM
+
 enum ROUND {START, SLIMING, ENDING}
 const MAX_SPEED = 1000 # Fine tune
 const MAX_SLIMES = 4
@@ -10,6 +15,7 @@ const MAX_SLIMES = 4
 
 @onready var state: ROUND = ROUND.START
 @onready var timer: Timer = $Timer
+@onready var drag_line: Line2D = Line2D.new()
 
 var player_count: int = 2 		# Max static 2 for now
 var players: Array[Player]
@@ -31,6 +37,12 @@ func _ready() -> void:
 	initialize_rosters()
 	
 	camera_target = player_start_areas[turn - 1]
+	
+	# TODO: Extract to method
+	drag_line.add_point(Vector2.ZERO)
+	drag_line.add_point(Vector2.ZERO)
+	drag_line.visible = false
+	add_child(drag_line)
 	
 func _process(_delta: float) -> void:
 	# Debugging:
@@ -76,21 +88,36 @@ func initialize_rosters() -> void:
 
 func handle_start_state() -> void:
 	# WARNING: Runs once every loop; take care of performance.
+	# TODO:
+	# 1. If input is "invalid", cancel the slime launch.
+	# 2. Be able to manually cancel slime launch; let go of fire button without firing
+	# 3. Drag angles cannot be made except in the direction of the field (not starting area)
 	var area: Area2D = player_start_areas[clamp(turn - 1, 0, len(player_start_areas) - 1)] as Area2D
-	var collider: CollisionShape2D = area.get_child(0) as CollisionShape2D
+	var start_point = area.get_node("StartPoint") as Node2D
+	var collider: CollisionShape2D = area.get_node("CollisionShape2D") as CollisionShape2D
 	var shape: Rect2 = collider.shape.get_rect()
 	
 	if not active_slime:
 		select_slime(0)
 		area.add_child(active_slime)
-	active_slime.global_position.y = clamp(get_global_mouse_position().y, shape.size.y * -1 / 2, shape.size.y / 2)
-	active_slime.position.x = collider.shape.get_rect().position.x + (collider.shape.get_rect().size.x)
 	
 	if Input.is_action_just_released("fire"):
 		state = ROUND.SLIMING
 		active_slime.can_move = true
 		active_slime.trail.can_draw = true
+		drag_line.visible = false
 		launch_slime()
+		return
+	
+	if Input.is_action_pressed("fire"):
+		drag_line.visible = true
+		drag_line.points[0] = get_global_mouse_position()
+		drag_line.points[1] = active_slime.global_position
+	else:
+		drag_line.visible = false
+		active_slime.global_position.y = clamp(get_global_mouse_position().y, shape.size.y * -1 / 2, shape.size.y / 2)
+		#active_slime.position.x = collider.shape.get_rect().position.x + (collider.shape.get_rect().size.x)
+		active_slime.position.x = start_point.position.x
 
 func handle_sliming_state() -> void:
 	# start a timer. if the velocity is low enough for long enough, start the next turn
@@ -106,15 +133,22 @@ func select_slime(idx: int) -> void:
 	active_slime = players[turn - 1].roster[idx]
 
 func launch_slime() -> void:
+	# TODO:
+	# 1. Determine a method of determining the launch strength via player input
+	# 2. Find way to prevent shooting into your own arena
+	
 	launch_strength = 1 # debug until actual force calculations are made
 	# Always launch in the direction of the arena
-	var direction = active_slime.global_position.direction_to(get_viewport_rect().end / 2).x
-	direction = floor(direction) if direction < 0 else ceil(direction)
+	#var direction = active_slime.global_position.direction_to(get_viewport_rect().end / 2).x
+	#direction = floor(direction) if direction < 0 else ceil(direction)
+	var direction = 1 if get_global_mouse_position().x < active_slime.global_position.x else -1
+	print("direction ", direction)
 	
 	var strength = launch_strength * MAX_SPEED
-	var angle = get_global_mouse_position().direction_to(active_slime.position)
-	var x = strength * angle.x * direction # ALWAYS SHOULD BE TOWARDS CENTER OF MAP
-	var y = strength * angle.y
+	var angle = get_global_mouse_position().direction_to(active_slime.global_position)
+	print("angle ", angle)
+	var x = strength * abs(angle.x) * direction # ALWAYS SHOULD BE TOWARDS CENTER OF MAP
+	var y = strength * angle.y# * -1
 	active_slime.apply_impulse(Vector2(x, y))
 	swap_camera_to(active_slime)
 	Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_throws)

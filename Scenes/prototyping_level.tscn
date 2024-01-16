@@ -50,3 +50,6 @@ position = Vector2(558, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player2StartArea"]
 position = Vector2(-4, 0)
 shape = SubResource("RectangleShape2D_hnrrt")
+
+[node name="StartPoint" type="Node2D" parent="Player2StartArea"]
+position = Vector2(-94, 0)
