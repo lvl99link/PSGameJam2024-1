@@ -36,8 +36,9 @@ const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
 @onready var slime_audio_player: AudioStreamPlayer2D = $SlimeTrailAudioPlayer
 @onready var trail: Trail = $Node2D/Trail
 @onready var child_container: Node2D = $Node2D # Can't resize rigidbodies, so make a container to resize their children
-@onready var collider: CollisionPolygon2D = $CollisionPolygon2D
+@onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var detection_area: Area2D = $Node2D/DetectionArea
+@onready var score_detection_area: Area2D = $Node2D/ScoreDetectionArea
 
 var multiplier: int = 4
 var owned_by: Player
@@ -69,6 +70,11 @@ func handle_slime_trail_friction() -> void:
 	else:
 		linear_damp = Globals.FRICTION
 	
+func calculate_score() -> int:
+	var targets = score_detection_area.get_overlapping_areas()
+	if len(targets) > 0:
+		return (targets[0] as Target).value * multiplier
+	return 0
 
 func split() -> void:
 	if multiplier <= 1: return

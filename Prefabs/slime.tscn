@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=8 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
 [ext_resource type="Texture2D" uid="uid://xx2wsg7vw6ic" path="res://Assets/icon.svg" id="1_wj0ye"]
@@ -6,23 +6,24 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
 bounce = 0.5
-absorbent = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bl807"]
 radius = 63.0079
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_3wwjl"]
+radius = 63.0079
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tni1a"]
+radius = 63.0
+
 [node name="Slime" type="RigidBody2D"]
-collision_mask = 3
+collision_mask = 7
 physics_material_override = SubResource("PhysicsMaterial_wy72i")
 gravity_scale = 0.0
 lock_rotation = true
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("1_ug4yn")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-z_index = 1
-polygon = PackedVector2Array(64, -59.6, 64, 59, 59.6, 64, -59, 64, -64, 59.6, -64, -59.6, -59, -63.9, 59, -64)
 
 [node name="Node2D" type="Node2D" parent="."]
 
@@ -40,9 +41,22 @@ collision_mask = 2
 z_index = 1
 shape = SubResource("CircleShape2D_bl807")
 
+[node name="ScoreDetectionArea" type="Area2D" parent="Node2D"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/ScoreDetectionArea"]
+z_index = 1
+shape = SubResource("CircleShape2D_3wwjl")
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
 
 [node name="SlimeTrailAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+shape = SubResource("CircleShape2D_tni1a")
+debug_color = Color(0.976471, 0.137255, 0.145098, 0.419608)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

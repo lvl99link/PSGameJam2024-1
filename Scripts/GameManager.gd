@@ -12,6 +12,7 @@ const MAX_SLIMES = 4
 
 @export var camera: Camera2D
 @export var player_start_areas: Array[Area2D] ## List of area's from the editor where player's launch from
+@export var score_ui: ScoreUI
 
 @onready var state: ROUND = ROUND.START
 @onready var timer: Timer = $Timer
@@ -85,6 +86,7 @@ func initialize_rosters() -> void:
 		for i in MAX_SLIMES:
 			var slime = neutral_slime_prefab.instantiate()
 			player.roster.append(slime)
+			player.available_roster.append(slime)
 
 func handle_start_state() -> void:
 	# WARNING: Runs once every loop; take care of performance.
@@ -121,16 +123,17 @@ func handle_start_state() -> void:
 
 func handle_sliming_state() -> void:
 	# start a timer. if the velocity is low enough for long enough, start the next turn
-	if active_slime.linear_velocity.x < 5 and timer.is_stopped():
-		timer.start(3)
+	if active_slime.linear_velocity.x < 8 and timer.is_stopped():
+		timer.start(2)
 	await timer.timeout
-	if active_slime and abs(active_slime.linear_velocity.x) < 5:
+	if active_slime and abs(active_slime.linear_velocity.x) < 8:
+		Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_dizzys)
 		next_turn()
 	else:
 		return
 
 func select_slime(idx: int) -> void:
-	active_slime = players[turn - 1].roster[idx]
+	active_slime = players[turn - 1].available_roster[idx]
 
 func launch_slime() -> void:
 	# TODO:
@@ -142,17 +145,18 @@ func launch_slime() -> void:
 	#var direction = active_slime.global_position.direction_to(get_viewport_rect().end / 2).x
 	#direction = floor(direction) if direction < 0 else ceil(direction)
 	var direction = 1 if get_global_mouse_position().x < active_slime.global_position.x else -1
-	print("direction ", direction)
 	
 	var strength = launch_strength * MAX_SPEED
 	var angle = get_global_mouse_position().direction_to(active_slime.global_position)
-	print("angle ", angle)
+
 	var x = strength * abs(angle.x) * direction # ALWAYS SHOULD BE TOWARDS CENTER OF MAP
 	var y = strength * angle.y# * -1
 	active_slime.apply_impulse(Vector2(x, y))
-	swap_camera_to(active_slime)
-	Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_throws)
 	
+	players[turn - 1].slimes_on_field.append(active_slime)
+	swap_camera_to(active_slime)
+	
+	Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_throws)
 	# TODO: curving slimes with bezier curves and square functions
 
 func swap_camera_to(target: Node2D = null):
@@ -170,10 +174,22 @@ func next_turn() -> void:
 	if turn > player_count:
 		turn = 1
 		rounds_elapsed += 1
-		print(rounds_elapsed)
+		print("Rounds elapsed ", rounds_elapsed)
 	if rounds_elapsed == MAX_SLIMES:
 		state = ROUND.ENDING
 		return
 	#active_slime.trail.can_draw = false
 	swap_camera_to(player_start_areas[0])
+	calculate_scores()
 	state = ROUND.START
+
+func calculate_scores() -> void:
+	for player in players:
+		player = player as Player
+		var temp_score = 0
+		for slime in player.slimes_on_field:
+			slime = slime as Slime
+			temp_score += slime.calculate_score()
+		player.score = temp_score
+		score_ui.set_score(player.player_num, player.score)
+		print("player ", player.player_num, " score = ", player.score)

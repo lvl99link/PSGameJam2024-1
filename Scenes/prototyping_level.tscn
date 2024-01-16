@@ -1,17 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=7 format=3 uid="uid://dxrmape6tjgn6"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
+[ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
+[ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/score_ui.tscn" id="3_4ww4u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnrrt"]
 size = Vector2(172, 720)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tjxsh"]
+size = Vector2(172, 720)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xwleo"]
+radius = 296.108
+
 [node name="PrototypingLevel" type="Node2D"]
 
-[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "player_start_areas") groups=["GameManager"]]
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "player_start_areas", "score_ui") groups=["GameManager"]]
 unique_name_in_owner = true
 script = ExtResource("1_2dkag")
 camera = NodePath("../Camera2D")
 player_start_areas = [NodePath("../Player1StartArea"), NodePath("../Player2StartArea")]
+score_ui = NodePath("../ScoreCanvas/ScoreUI")
 
 [node name="Timer" type="Timer" parent="GameManager"]
 one_shot = true
@@ -19,8 +28,11 @@ one_shot = true
 [node name="Camera2D" type="Camera2D" parent="."]
 process_callback = 0
 limit_left = -640
+limit_right = 640
+limit_smoothed = true
 position_smoothing_enabled = true
 editor_draw_limits = true
+editor_draw_drag_margin = true
 
 [node name="StartLine" type="Node2D" parent="."]
 position = Vector2(-463, 0)
@@ -49,7 +61,22 @@ position = Vector2(558, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player2StartArea"]
 position = Vector2(-4, 0)
-shape = SubResource("RectangleShape2D_hnrrt")
+shape = SubResource("RectangleShape2D_tjxsh")
 
 [node name="StartPoint" type="Node2D" parent="Player2StartArea"]
 position = Vector2(-94, 0)
+
+[node name="ScoreArea" type="Area2D" parent="."]
+collision_layer = 4
+script = ExtResource("2_30w6k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreArea"]
+shape = SubResource("CircleShape2D_xwleo")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="ScoreArea"]
+
+[node name="ScoreCanvas" type="CanvasLayer" parent="."]
+
+[node name="ScoreUI" parent="ScoreCanvas" instance=ExtResource("3_4ww4u")]
+
+[connection signal="body_entered" from="ScoreArea" to="ScoreArea" method="_on_slime_entered"]
