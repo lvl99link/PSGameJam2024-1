@@ -6,7 +6,7 @@
 Label/colors/font_color = Color(0.207843, 0.854902, 0.207843, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/constants/outline_size = 8
-Label/font_sizes/font_size = 40
+Label/font_sizes/font_size = 80
 
 [node name="ScoreUI" type="Control"]
 layout_mode = 3

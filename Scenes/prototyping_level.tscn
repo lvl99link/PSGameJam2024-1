@@ -1,14 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=10 format=3 uid="uid://dxrmape6tjgn6"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
 [ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/score_ui.tscn" id="3_4ww4u"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
+radius = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wi2tq"]
+size = Vector2(16, 1088)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnrrt"]
-size = Vector2(172, 720)
+size = Vector2(314, 1088)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rc53a"]
+size = Vector2(17, 1088)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjxsh"]
-size = Vector2(172, 720)
+size = Vector2(308, 1080)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xwleo"]
 radius = 296.108
@@ -25,46 +34,99 @@ score_ui = NodePath("../ScoreCanvas/ScoreUI")
 [node name="Timer" type="Timer" parent="GameManager"]
 one_shot = true
 
+[node name="CursorArea" type="Area2D" parent="GameManager"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameManager/CursorArea"]
+shape = SubResource("CircleShape2D_jvgl3")
+debug_color = Color(0, 1, 0.14902, 0.419608)
+
 [node name="Camera2D" type="Camera2D" parent="."]
 process_callback = 0
-limit_left = -640
-limit_right = 640
+limit_left = -960
+limit_right = 960
 limit_smoothed = true
 position_smoothing_enabled = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
 
 [node name="StartLine" type="Node2D" parent="."]
-position = Vector2(-463, 0)
+position = Vector2(-641, 0)
 
 [node name="Line2D" type="Line2D" parent="StartLine"]
-points = PackedVector2Array(0, -362, 0, 362)
+points = PackedVector2Array(0, -544, 0, 544)
+
+[node name="Area2D" type="Area2D" parent="StartLine"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartLine/Area2D"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_wi2tq")
+debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
 
 [node name="Player1StartArea" type="Area2D" parent="."]
-position = Vector2(-550, 0)
+position = Vector2(-728, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player1StartArea"]
-position = Vector2(-4, 0)
+position = Vector2(-75, 0)
 shape = SubResource("RectangleShape2D_hnrrt")
 
 [node name="StartPoint" type="Node2D" parent="Player1StartArea"]
 position = Vector2(86, 0)
 
+[node name="SpawnPoints" type="Node2D" parent="Player1StartArea"]
+
+[node name="Point1" type="Node2D" parent="Player1StartArea/SpawnPoints"]
+position = Vector2(-32, -320)
+
+[node name="Point2" type="Node2D" parent="Player1StartArea/SpawnPoints"]
+position = Vector2(-128, -104)
+
+[node name="Point3" type="Node2D" parent="Player1StartArea/SpawnPoints"]
+position = Vector2(-120, 168)
+
+[node name="Point4" type="Node2D" parent="Player1StartArea/SpawnPoints"]
+position = Vector2(-80, 440)
+
 [node name="StartLine2" type="Node2D" parent="."]
-position = Vector2(464, 0)
+position = Vector2(648, 0)
 
 [node name="Line2D" type="Line2D" parent="StartLine2"]
-points = PackedVector2Array(0, -362, 0, 362)
+points = PackedVector2Array(0, -544, 0, 536)
+
+[node name="Area2D" type="Area2D" parent="StartLine2"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartLine2/Area2D"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_rc53a")
+debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
 
 [node name="Player2StartArea" type="Area2D" parent="."]
-position = Vector2(558, 0)
+position = Vector2(742, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player2StartArea"]
-position = Vector2(-4, 0)
+position = Vector2(64, 4)
 shape = SubResource("RectangleShape2D_tjxsh")
 
 [node name="StartPoint" type="Node2D" parent="Player2StartArea"]
 position = Vector2(-94, 0)
+
+[node name="SpawnPoints" type="Node2D" parent="Player2StartArea"]
+
+[node name="Point1" type="Node2D" parent="Player2StartArea/SpawnPoints"]
+position = Vector2(58, -368)
+
+[node name="Point2" type="Node2D" parent="Player2StartArea/SpawnPoints"]
+position = Vector2(98, -144)
+
+[node name="Point3" type="Node2D" parent="Player2StartArea/SpawnPoints"]
+position = Vector2(106, 152)
+
+[node name="Point4" type="Node2D" parent="Player2StartArea/SpawnPoints"]
+position = Vector2(18, 408)
 
 [node name="ScoreArea" type="Area2D" parent="."]
 collision_layer = 4
