@@ -36,9 +36,11 @@ const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
 @onready var slime_audio_player: AudioStreamPlayer2D = $SlimeTrailAudioPlayer
 @onready var trail: Trail = $Node2D/Trail
 @onready var child_container: Node2D = $Node2D # Can't resize rigidbodies, so make a container to resize their children
+
 @onready var collider: CollisionShape2D = $CollisionShape2D
-@onready var detection_area: Area2D = $Node2D/DetectionArea
+@onready var trail_detection_area: Area2D = $Node2D/TrailDetectionArea
 @onready var score_detection_area: Area2D = $Node2D/ScoreDetectionArea
+@onready var start_detection_area: Area2D = $Node2D/StartLineDetectionArea
 
 var multiplier: int = 4
 var owned_by: Player
@@ -62,7 +64,7 @@ func handle_slime_trail_friction() -> void:
 	# Applies greater friction if the given slime is overlapping a slime trail
 	# NOTE: Slime is not slowed down by its own slime trail. Could be a feature or a bug.
 	# 		Don't want it to be slowed by its own trail as its launched.
-	var trails = detection_area.get_overlapping_areas()
+	var trails = trail_detection_area.get_overlapping_areas()
 	if len(trails) > 0:
 		for t in trails:
 			if t != trail.collision_area:

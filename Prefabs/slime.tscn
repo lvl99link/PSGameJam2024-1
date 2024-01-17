@@ -1,23 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=9 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
-[ext_resource type="Texture2D" uid="uid://xx2wsg7vw6ic" path="res://Assets/icon.svg" id="1_wj0ye"]
+[ext_resource type="Texture2D" uid="uid://crknk0f71tklh" path="res://Assets/Art/Jam-A-Slime-A-Big.png" id="2_4y204"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
 bounce = 0.5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bl807"]
-radius = 63.0079
+radius = 38.0132
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3wwjl"]
-radius = 63.0079
+radius = 38.2099
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e2ld6"]
+radius = 54.037
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tni1a"]
-radius = 63.0
+radius = 39.0128
 
 [node name="Slime" type="RigidBody2D"]
-collision_mask = 7
+collision_mask = 15
 physics_material_override = SubResource("PhysicsMaterial_wy72i")
 gravity_scale = 0.0
 lock_rotation = true
@@ -29,25 +32,38 @@ script = ExtResource("1_ug4yn")
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D"]
 z_index = 1
-texture = ExtResource("1_wj0ye")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_4y204")
+region_enabled = true
+region_rect = Rect2(152, 40, 392, 320)
 
 [node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
 
-[node name="DetectionArea" type="Area2D" parent="Node2D"]
+[node name="TrailDetectionArea" type="Area2D" parent="Node2D"]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/TrailDetectionArea"]
 z_index = 1
 shape = SubResource("CircleShape2D_bl807")
 
 [node name="ScoreDetectionArea" type="Area2D" parent="Node2D"]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/ScoreDetectionArea"]
 z_index = 1
 shape = SubResource("CircleShape2D_3wwjl")
+
+[node name="StartLineDetectionArea" type="Area2D" parent="Node2D"]
+visible = false
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StartLineDetectionArea"]
+shape = SubResource("CircleShape2D_e2ld6")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"

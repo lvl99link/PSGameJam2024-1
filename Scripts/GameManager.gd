@@ -1,22 +1,18 @@
 class_name GameManager
 extends Node2D
 
-# TODO:
-# STANDARDIZE PLAYER AREA PREFABS SO WE HAVE A CONSISTENT REUSABLE 
-# "STARTING AREA" WITH ALL THE COMPONENTS NEEDED TO DETERMINE THE POSITION
-# AND ANGLES FOR WHERE PLAYER X WILL LAUNCH FROM
-
 enum ROUND {START, SLIMING, ENDING}
 const MAX_SPEED = 1000 # Fine tune
 const MAX_SLIMES = 4
 
-@export var camera: Camera2D
+@export var camera: Camera2D ## Current scene's camera
 @export var player_start_areas: Array[Area2D] ## List of area's from the editor where player's launch from
-@export var score_ui: ScoreUI
+@export var score_ui: ScoreUI ## UI Control node that has the score GUI
 
 @onready var state: ROUND = ROUND.START
 @onready var timer: Timer = $Timer
-@onready var drag_line: Line2D = Line2D.new()
+@onready var cursor_area: Area2D = $CursorArea
+@onready var drag_line: StrengthLine = StrengthLine.new()
 
 var player_count: int = 2 		# Max static 2 for now
 var players: Array[Player]
@@ -25,7 +21,10 @@ var rounds_elapsed: int = 0
 
 var launch_strength: float = 0.0 # Pct% value between 0 and 1
 var active_slime: Slime # Which slime is currently selected to be fired
+var held_slime: Slime # Which slime is currently being held and dragged around
 var camera_target: Node2D # Which node the main camera should focus/pan to
+var last_valid_slime_pos: Vector2 # Variable to hold the last slime position in case of invalid drag and drop
+var can_drag: bool # State to hold whether or not a prepped slime can be dragged back and launched
 
 # Import slime prefabs
 var neutral_slime_prefab = preload("res://Prefabs/slime.tscn")
@@ -39,36 +38,17 @@ func _ready() -> void:
 	
 	camera_target = player_start_areas[turn - 1]
 	
-	# TODO: Extract to method
-	drag_line.add_point(Vector2.ZERO)
-	drag_line.add_point(Vector2.ZERO)
-	drag_line.visible = false
 	add_child(drag_line)
 	
 func _process(_delta: float) -> void:
 	# Debugging:
 	if Input.is_action_pressed("reset"): get_tree().reload_current_scene()
+	cursor_area.global_position = get_global_mouse_position()
 	# Check state of game
 	if state == ROUND.START:
 		handle_start_state()
-	# TODO: Don't limit movements to the mouse position (controller support would be nice)
-	# If we're in the start (prelaunch) state, we want certain things to be true:
-	# 1. Should be able to select your slime
-	# 2. Selected slime's position moves into the starting area
-	# 3. Movement of 'cursor' should lock slime movement onto the starting line to determine position
-	# 4. Cannot move the slime beyond the bounds of the area
-	# 5. Clicking some button locks the position in place.
-	# 6. If locked, moving the cursor now changes the angle/direction of launch
-	# 7. If locked, clicking launches
-	# 8. Hold click? to increase strength of launch
-	# 9. Camera position is locked to the player's starting area.
-		pass
 	elif state == ROUND.SLIMING:
 		handle_sliming_state()
-	# If we're in the sliming state, all we need to do is disable all user inputs and 
-	# manage physics, collisions, camera to follow slime, etc for as long as all the active slimes' velocity is > 0
-	# Once the slimes stop, wait x seconds before switching to the next player's turn and repeating the process
-		pass
 
 func _physics_process(_delta: float) -> void:
 	if camera_target:
@@ -84,9 +64,17 @@ func initialize_rosters() -> void:
 	for player in players:
 		# Hard coding filling out each player's roster for now
 		for i in MAX_SLIMES:
-			var slime = neutral_slime_prefab.instantiate()
+			var slime = neutral_slime_prefab.instantiate() as Slime
 			player.roster.append(slime)
 			player.available_roster.append(slime)
+			
+			# TODO: Select the next available spawn point instead of rng.
+			var area: Area2D = player_start_areas[player.player_num - 1]
+			var spawn_points = area.get_node("SpawnPoints").get_children()
+			var rng = RandomNumberGenerator.new()
+			slime.position = spawn_points[rng.randi_range(0, len(spawn_points) - 1)].position
+			
+			area.add_child(slime)
 
 func handle_start_state() -> void:
 	# WARNING: Runs once every loop; take care of performance.
@@ -99,30 +87,61 @@ func handle_start_state() -> void:
 	var collider: CollisionShape2D = area.get_node("CollisionShape2D") as CollisionShape2D
 	var shape: Rect2 = collider.shape.get_rect()
 	
-	if not active_slime:
-		select_slime(0)
-		area.add_child(active_slime)
+	#region HANDLING PICKING UP A SLIME IF THERE IS NO ACTIVE SLIME
+	# TODO: Clean up, refactor, and maybe extract
+	if not (active_slime or held_slime) and Input.is_action_just_pressed("fire"):
+		if cursor_area.has_overlapping_bodies():
+			var slime = cursor_area.get_overlapping_bodies()[0] as Slime
+			# We only want to be able to pick up slimes that are in the active player's starting area
+			if slime not in player_start_areas[turn - 1].get_overlapping_bodies():
+				return 
+			held_slime = slime
+			last_valid_slime_pos = held_slime.global_position
+	if held_slime and Input.is_action_pressed("fire"):
+		held_slime.global_position = get_global_mouse_position()
+	elif held_slime and Input.is_action_just_released("fire"):
+		# Check if the slime is over a starting line
+		if held_slime.start_detection_area.has_overlapping_areas():
+			active_slime = held_slime
+			active_slime.global_position.x = start_point.global_position.x
+		# If it isn't a valid position (starting area) reset it's position
+		elif held_slime not in player_start_areas[turn - 1].get_overlapping_bodies():
+			held_slime.global_position = last_valid_slime_pos
+		held_slime = null
+		return
+	#endregion
 	
-	if Input.is_action_just_released("fire"):
+	#region HANDLING FOR WHEN SLIME IS IN START LINE READY TO BE DRAGGED
+	if active_slime and Input.is_action_just_pressed("fire"):
+		var selected_slimes = cursor_area.get_overlapping_bodies()
+		if len(selected_slimes) > 0 and selected_slimes[0] != active_slime:
+			active_slime.global_position = last_valid_slime_pos
+			active_slime = null
+			held_slime = selected_slimes[0]
+		can_drag =  cursor_area.has_overlapping_bodies() and\
+					cursor_area.get_overlapping_bodies()[0] == active_slime
+	if can_drag and active_slime and Input.is_action_just_released("fire"):
+		if cursor_area.has_overlapping_bodies() and cursor_area.get_overlapping_bodies()[0] == active_slime:
+			return
 		state = ROUND.SLIMING
 		active_slime.can_move = true
 		active_slime.trail.can_draw = true
 		drag_line.visible = false
+		can_drag = false
 		launch_slime()
 		return
-	
-	if Input.is_action_pressed("fire"):
+	if can_drag and active_slime and Input.is_action_pressed("fire"):
 		drag_line.visible = true
 		drag_line.points[0] = get_global_mouse_position()
 		drag_line.points[1] = active_slime.global_position
-	else:
+	elif active_slime:
 		drag_line.visible = false
 		active_slime.global_position.y = clamp(get_global_mouse_position().y, shape.size.y * -1 / 2, shape.size.y / 2)
-		#active_slime.position.x = collider.shape.get_rect().position.x + (collider.shape.get_rect().size.x)
 		active_slime.position.x = start_point.position.x
+	#endregion
 
 func handle_sliming_state() -> void:
-	# start a timer. if the velocity is low enough for long enough, start the next turn
+	# Start a timer. If the velocity is low enough for long enough, start the next turn
 	if active_slime.linear_velocity.x < 8 and timer.is_stopped():
 		timer.start(2)
 	await timer.timeout
@@ -132,15 +151,12 @@ func handle_sliming_state() -> void:
 	else:
 		return
 
-func select_slime(idx: int) -> void:
-	active_slime = players[turn - 1].available_roster[idx]
-
 func launch_slime() -> void:
 	# TODO:
 	# 1. Determine a method of determining the launch strength via player input
 	# 2. Find way to prevent shooting into your own arena
 	
-	launch_strength = 1 # debug until actual force calculations are made
+	launch_strength = drag_line.strength
 	# Always launch in the direction of the arena
 	#var direction = active_slime.global_position.direction_to(get_viewport_rect().end / 2).x
 	#direction = floor(direction) if direction < 0 else ceil(direction)
