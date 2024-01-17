@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpw7a2j0x3alc"]
+
+[ext_resource type="Script" path="res://Scripts/Target.gd" id="1_me3nm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xwleo"]
+radius = 449.782
+
+[node name="TargetArea" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_me3nm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xwleo")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_slime_entered"]

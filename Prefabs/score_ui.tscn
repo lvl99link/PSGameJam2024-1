@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://dafrdpmlh500b"]
+
+[ext_resource type="Script" path="res://Scripts/ScoreUI.gd" id="1_ssiqm"]
+
+[sub_resource type="Theme" id="Theme_o2f3o"]
+Label/colors/font_color = Color(0.207843, 0.854902, 0.207843, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/constants/outline_size = 8
+Label/font_sizes/font_size = 40
+
+[node name="ScoreUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ssiqm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_o2f3o")
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="Player1Score" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Score 1"
+
+[node name="Player2Score" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.913725, 0.133333, 0.133333, 1)
+text = "Score 2"

@@ -52,3 +52,4 @@ reset={
 
 2d_physics/layer_1="Slimes"
 2d_physics/layer_2="Trails"
+2d_physics/layer_3="Targets"
