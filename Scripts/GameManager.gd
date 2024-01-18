@@ -6,13 +6,13 @@ const MAX_SPEED = 1000 # Fine tune
 const MAX_SLIMES = 4
 
 @export var camera: Camera2D ## Current scene's camera
-@export var player_start_areas: Array[Area2D] ## List of area's from the editor where player's launch from
+@export var player_start_areas: Array[Area2D] ## List of areas from the editor where players launch from
 @export var score_ui: ScoreUI ## UI Control node that has the score GUI
 
 @onready var state: ROUND = ROUND.START
 @onready var timer: Timer = $Timer
-@onready var cursor_area: Area2D = $CursorArea
-@onready var drag_line: StrengthLine = StrengthLine.new()
+@onready var cursor_area: Area2D = $CursorArea # Used for detecting slimes under our cursor
+@onready var drag_line: StrengthLine = StrengthLine.new() # The 'strength indicator and angle' line
 
 var player_count: int = 2 		# Max static 2 for now
 var players: Array[Player]
@@ -32,10 +32,9 @@ var neutral_slime_prefab = preload("res://Prefabs/slime.tscn")
 func _ready() -> void:
 	# Fill out the players array
 	initialize_players()
-	
 	# Fill out each player's roster (hardcoded rn)
 	initialize_rosters()
-	
+	# Move camera to the current player's starting area
 	camera_target = player_start_areas[turn - 1]
 	
 	add_child(drag_line)
@@ -65,6 +64,7 @@ func initialize_rosters() -> void:
 		# Hard coding filling out each player's roster for now
 		for i in MAX_SLIMES:
 			var slime = neutral_slime_prefab.instantiate() as Slime
+			slime.owned_by = player
 			player.roster.append(slime)
 			player.available_roster.append(slime)
 			
@@ -124,7 +124,6 @@ func handle_start_state() -> void:
 		if cursor_area.has_overlapping_bodies() and cursor_area.get_overlapping_bodies()[0] == active_slime:
 			return
 		state = ROUND.SLIMING
-		active_slime.can_move = true
 		active_slime.trail.can_draw = true
 		drag_line.visible = false
 		can_drag = false
@@ -153,27 +152,20 @@ func handle_sliming_state() -> void:
 
 func launch_slime() -> void:
 	# TODO:
-	# 1. Determine a method of determining the launch strength via player input
-	# 2. Find way to prevent shooting into your own arena
-	
+	# 1. Find way to prevent shooting into your own arena
 	launch_strength = drag_line.strength
-	# Always launch in the direction of the arena
-	#var direction = active_slime.global_position.direction_to(get_viewport_rect().end / 2).x
-	#direction = floor(direction) if direction < 0 else ceil(direction)
 	var direction = 1 if get_global_mouse_position().x < active_slime.global_position.x else -1
-	
 	var strength = launch_strength * MAX_SPEED
 	var angle = get_global_mouse_position().direction_to(active_slime.global_position)
 
-	var x = strength * abs(angle.x) * direction # ALWAYS SHOULD BE TOWARDS CENTER OF MAP
-	var y = strength * angle.y# * -1
+	var x = strength * abs(angle.x) * direction
+	var y = strength * angle.y
 	active_slime.apply_impulse(Vector2(x, y))
 	
 	players[turn - 1].slimes_on_field.append(active_slime)
 	swap_camera_to(active_slime)
 	
 	Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_throws)
-	# TODO: curving slimes with bezier curves and square functions
 
 func swap_camera_to(target: Node2D = null):
 	if target == null:
@@ -194,7 +186,7 @@ func next_turn() -> void:
 	if rounds_elapsed == MAX_SLIMES:
 		state = ROUND.ENDING
 		return
-	#active_slime.trail.can_draw = false
+
 	swap_camera_to(player_start_areas[0])
 	calculate_scores()
 	state = ROUND.START
