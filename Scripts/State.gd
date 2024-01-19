@@ -6,7 +6,7 @@ extends Node
 # You create a new script for each State you want to implement and extend this class.
 # Then overwrite any of the below virtual functions in THAT script.
 
-var state_machine = null
+var state_machine: StateMachine = null
 
 # Virtual function. Receives events from the `_unhandled_input()` callback.
 func handle_input(_event: InputEvent) -> void:

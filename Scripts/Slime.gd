@@ -32,6 +32,7 @@ const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
 ]
 #endregion
 
+@onready var state_manager: StateMachine = $StateManager
 @onready var audio_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var slime_audio_player: AudioStreamPlayer2D = $SlimeTrailAudioPlayer
 @onready var trail: Trail = $Node2D/Trail
@@ -121,6 +122,7 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	Globals.freeze_frame(0.05, 0.15)
 	Globals.shake(0.2)
 
+	state_manager.transition_to("IMPACTING")
 	var hit_vector = body.global_position.direction_to(global_position)
 	split(hit_vector)
 
