@@ -51,7 +51,6 @@ var can_split: bool = true
 
 func _ready() -> void:
 	linear_damp = Globals.FRICTION
-	print("Created, can draw= ", trail.can_draw)
 
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()
@@ -81,8 +80,10 @@ func handle_slime_trail_friction() -> void:
 		linear_damp = Globals.FRICTION
 	
 func calculate_score() -> int:
+	# Gets all the 'score areas' that the slime might be overlapping
 	var targets = score_detection_area.get_overlapping_areas()
 	if len(targets) > 0:
+		# TODO: Only gets the first overlapping area. Maybe better way to pick.
 		return (targets[0] as Target).value * multiplier
 	return 0
 
@@ -102,7 +103,7 @@ func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	can_split = false
 	
 	var perpendicular = Vector2(hit_vector.y, -hit_vector.x)
-	var height = collider.shape.get_rect().size.x/2
+	var height = collider.shape.get_rect().size.x/3
 	var new_slime = clone()
 	global_position += height * perpendicular
 	new_slime.global_position -= height * perpendicular
@@ -117,6 +118,8 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	
 	var directional_velocity = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
 	if abs(directional_velocity) < 300: return
+	Globals.freeze_frame(0.05, 0.15)
+	Globals.shake(0.2)
 
 	var hit_vector = body.global_position.direction_to(global_position)
 	split(hit_vector)

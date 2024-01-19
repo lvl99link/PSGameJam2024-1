@@ -5,7 +5,7 @@ enum ROUND {START, SLIMING, ENDING}
 const MAX_SPEED = 1000 # Fine tune
 const MAX_SLIMES = 4
 
-@export var camera: Camera2D ## Current scene's camera
+@export var camera: CustomCamera ## Current scene's camera
 @export var player_start_areas: Array[Area2D] ## List of areas from the editor where players launch from
 @export var score_ui: ScoreUI ## UI Control node that has the score GUI
 
@@ -30,6 +30,7 @@ var can_drag: bool # State to hold whether or not a prepped slime can be dragged
 var neutral_slime_prefab = preload("res://Prefabs/slime.tscn")
 
 func _ready() -> void:
+	Globals.camera = camera
 	# Fill out the players array
 	initialize_players()
 	# Fill out each player's roster (hardcoded rn)
@@ -80,8 +81,7 @@ func handle_start_state() -> void:
 	# WARNING: Runs once every loop; take care of performance.
 	# TODO:
 	# 1. If input is "invalid", cancel the slime launch.
-	# 2. Be able to manually cancel slime launch; let go of fire button without firing
-	# 3. Drag angles cannot be made except in the direction of the field (not starting area)
+	# 2. Drag angles cannot be made except in the direction of the field (not starting area)
 	var area: Area2D = player_start_areas[clamp(turn - 1, 0, len(player_start_areas) - 1)] as Area2D
 	var start_point = area.get_node("StartPoint") as Node2D
 	var collider: CollisionShape2D = area.get_node("CollisionShape2D") as CollisionShape2D
