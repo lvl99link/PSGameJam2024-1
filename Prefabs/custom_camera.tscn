@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://psco1baapw31"]
+
+[ext_resource type="Script" path="res://Scripts/Camera.gd" id="1_3o6vh"]
+
+[node name="Camera2D" type="Camera2D"]
+process_callback = 0
+limit_left = -960
+limit_right = 960
+limit_smoothed = true
+position_smoothing_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource("1_3o6vh")

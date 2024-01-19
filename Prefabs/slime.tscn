@@ -1,8 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=14 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
 [ext_resource type="Texture2D" uid="uid://crknk0f71tklh" path="res://Assets/Art/Jam-A-Slime-A-Big.png" id="2_4y204"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
+[ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="4_t08mx"]
+[ext_resource type="Script" path="res://Scripts/States/SlimeIdleState.gd" id="5_0heq5"]
+[ext_resource type="Script" path="res://Scripts/States/SlimeSlimingState.gd" id="6_8dhtv"]
+[ext_resource type="Script" path="res://Scripts/States/SlimeImpactState.gd" id="7_834mo"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
 bounce = 0.5
@@ -11,10 +15,13 @@ bounce = 0.5
 radius = 38.0132
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3wwjl"]
-radius = 38.2099
+radius = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e2ld6"]
 radius = 54.037
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hwetx"]
+radius = 41.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tni1a"]
 radius = 39.0128
@@ -49,11 +56,11 @@ z_index = 1
 shape = SubResource("CircleShape2D_bl807")
 
 [node name="ScoreDetectionArea" type="Area2D" parent="Node2D"]
-visible = false
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/ScoreDetectionArea"]
+visible = false
 z_index = 1
 shape = SubResource("CircleShape2D_3wwjl")
 
@@ -65,14 +72,51 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/StartLineDetectionArea"]
 shape = SubResource("CircleShape2D_e2ld6")
 
+[node name="SlimeDetectionArea" type="Area2D" parent="Node2D"]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/SlimeDetectionArea"]
+shape = SubResource("CircleShape2D_hwetx")
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 bus = &"SFX"
 
 [node name="SlimeTrailAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 z_index = 1
 shape = SubResource("CircleShape2D_tni1a")
 debug_color = Color(0.976471, 0.137255, 0.145098, 0.419608)
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="SplitCooldownTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+autostart = true
+
+[node name="StateManager" type="Node" parent="." node_paths=PackedStringArray("parent")]
+script = ExtResource("4_t08mx")
+initial_state = NodePath("IDLE")
+parent = NodePath("..")
+
+[node name="IDLE" type="Node" parent="StateManager"]
+script = ExtResource("5_0heq5")
+
+[node name="SLIMING" type="Node" parent="StateManager"]
+script = ExtResource("6_8dhtv")
+
+[node name="IMPACTING" type="Node" parent="StateManager"]
+script = ExtResource("7_834mo")
+
+[node name="DEBUGGING_STATE_LABEL" type="Label" parent="."]
+z_index = 5
+offset_left = -23.0
+offset_top = -66.0
+offset_right = 24.0
+offset_bottom = -43.0
+text = "STATE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="Node2D/SlimeDetectionArea" to="." method="_on_slime_detection_area_body_entered"]

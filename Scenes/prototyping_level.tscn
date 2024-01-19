@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=11 format=3 uid="uid://dxrmape6tjgn6"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
+[ext_resource type="PackedScene" uid="uid://psco1baapw31" path="res://Prefabs/custom_camera.tscn" id="2_k4vor"]
 [ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/score_ui.tscn" id="3_4ww4u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
@@ -41,14 +42,7 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_jvgl3")
 debug_color = Color(0, 1, 0.14902, 0.419608)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-process_callback = 0
-limit_left = -960
-limit_right = 960
-limit_smoothed = true
-position_smoothing_enabled = true
-editor_draw_limits = true
-editor_draw_drag_margin = true
+[node name="Camera2D" parent="." instance=ExtResource("2_k4vor")]
 
 [node name="StartLine" type="Node2D" parent="."]
 position = Vector2(-641, 0)
