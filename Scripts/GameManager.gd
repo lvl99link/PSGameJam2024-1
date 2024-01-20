@@ -18,6 +18,7 @@ var player_count: int = 2 		# Max static 2 for now
 var players: Array[Player]
 var turn: int = 1 				# Which player is currently going (Maybe change type to Player)
 var rounds_elapsed: int = 0
+var target_areas = []
 
 var launch_strength: float = 0.0 # Pct% value between 0 and 1
 var active_slime: Slime # Which slime is currently selected to be fired
@@ -35,13 +36,18 @@ func _ready() -> void:
 	initialize_players()
 	# Fill out each player's roster (hardcoded rn)
 	initialize_rosters()
+	
 	# Move camera to the current player's starting area
 	camera_target = player_start_areas[turn - 1]
 	
 	add_child(drag_line)
-	
+
+func _enter_tree() -> void:
+	print(get_tree().get_nodes_in_group("Targets"))
+
 func _process(_delta: float) -> void:
 	# Debugging:
+	
 	if Input.is_action_pressed("reset"): get_tree().reload_current_scene()
 	cursor_area.global_position = get_global_mouse_position()
 	# Check state of game
@@ -177,6 +183,7 @@ func swap_camera_to(target: Node2D = null):
 
 func next_turn() -> void:
 	print("Starting the next Turn")
+	calculate_scores()
 	players[turn - 1].remove_slime_from_roster(active_slime)
 	active_slime = null
 	
@@ -190,7 +197,6 @@ func next_turn() -> void:
 		return
 
 	swap_camera_to(player_start_areas[turn - 1])
-	calculate_scores()
 	state = ROUND.START
 
 func calculate_scores() -> void:
