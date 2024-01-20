@@ -45,6 +45,7 @@ texture = ExtResource("2_4y204")
 region_rect = Rect2(0, -2, 515, 514)
 
 [node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
+width = 80.0
 
 [node name="TrailDetectionArea" type="Area2D" parent="Node2D"]
 visible = false

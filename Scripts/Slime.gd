@@ -4,7 +4,12 @@ extends RigidBody2D
 const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Jam-A-Slime-A-Big.png")
 const RED_SLIME = preload("res://Assets/Art/Red_Slime.png")
 const slime_sprite_by_player: Array[Texture2D] = [JAM_A_SLIME_A_BIG, RED_SLIME]
-const slime_color_by_player: Array[Color] = [Color(0,1,0), Color(1,0,0), Color(0,0,1), Color(1,1,0)]
+const slime_color_by_player: Array[Color] = [ # Slime trail colors
+	Color(0,1,0,0.7), # Green
+	Color(1,0,0,0.7), # Red
+	Color(0,0,1,0.7), # Blue
+	Color(1,1,0,0.7)  # Yellow
+]
 
 #region IMPORT ALL SLIME SOUND RELATED AUDIO SFX
 const SLIME_A_IMPACT_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_A.ogg")
@@ -90,8 +95,11 @@ func handle_slime_trail_friction() -> void:
 	
 func calculate_score() -> int:
 	# Gets all the 'score areas' that the slime might be overlapping
+	# Really should offload this responsibility to the Target class.
 	var targets = score_detection_area.get_overlapping_areas()
 	if len(targets) > 0:
+		# Check if the slime is in a valid scoring area.
+		if multiplier not in (targets[0] as Target).allowed_multipliers: return 0
 		# TODO: Only gets the first overlapping area. Maybe better way to pick.
 		return (targets[0] as Target).value * multiplier
 	return 0
@@ -101,21 +109,30 @@ func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	# Resizes and adjusts properties before 'cloning' the instance
 	# Instance is instantiated with some repositioning based on the vector
 	# perpendicular to the direction it was hit from
-	# TODO: Apply impulse at an angle so they split away from each other for more
-	#		fun unpredictability. Currently they split and move in the same direction.
 	if multiplier <= 1: return
 	
 	child_container.scale *= 0.65
 	collider.scale *= 0.65
+	trail.width *= 0.65
 	mass /= 2
 	multiplier /= 2
 	can_split = false
+
+	trail.can_draw = false # Now that we're splitting, we don't want to keep drawing the original trail
+	var new_trail = trail.duplicate(4) as Trail # instantiate a new trail with the same properties as the old trail
+	new_trail.can_draw = true
+	new_trail.line = trail.line
+	
+	child_container.call_deferred("add_child", new_trail)
+	set_deferred("trail", new_trail)
 	
 	var perpendicular = Vector2(hit_vector.y, -hit_vector.x)
 	var height = collider.shape.get_rect().size.x/3
 	var new_slime = clone()
 	global_position += height * perpendicular
 	new_slime.global_position -= height * perpendicular
+	linear_velocity = linear_velocity.rotated(perpendicular.angle()/8)
+	new_slime.linear_velocity = new_slime.linear_velocity.rotated(-perpendicular.angle()/8)
 	call_deferred("spawn", new_slime)
 	
 	Globals.play_random_sfx(audio_player, slime_impacts)
@@ -135,7 +152,7 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	split(hit_vector)
 
 func clone() -> Slime:
-	# Function creates and returns a fully contstructed clone of the current instance of this slime
+	# Function creates and returns a fully constructed clone of the current instance of this slime
 	# It has to set each variable in this script manually, else it'll be null
 	# I'm honestly not sure which types of values *need* to be set. This seems to work fine for now.
 	var new_slime = duplicate(5) as Slime
@@ -143,6 +160,7 @@ func clone() -> Slime:
 	new_slime.multiplier = multiplier
 	new_slime.can_split = false
 	new_slime.trail = trail.duplicate(5) as Trail
+	new_slime.trail.width = trail.width
 	owned_by.slimes_on_field.append(new_slime)
 	
 	return new_slime

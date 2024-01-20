@@ -1,13 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbigstm4mqgeo"]
+[gd_scene load_steps=3 format=3 uid="uid://cbigstm4mqgeo"]
 
 [ext_resource type="Script" path="res://Scripts/Trail.gd" id="1_onm6i"]
+
+[sub_resource type="Curve" id="Curve_38xi5"]
+_data = [Vector2(0, 0.67033), 0.0, 0.0, 0, 0, Vector2(0.213592, 0.967033), 0.0, 0.0, 0, 0, Vector2(0.427184, 0.659341), 0.0, 0.0, 0, 0, Vector2(0.635922, 0.956044), 0.0, 0.0, 0, 0, Vector2(0.834952, 0.681319), 0.0, 0.0, 0, 0, Vector2(1, 0.934066), 0.0, 0.0, 0, 0]
+point_count = 6
 
 [node name="Trail" type="Node"]
 script = ExtResource("1_onm6i")
 
 [node name="TrailLine" type="Line2D" parent="."]
 top_level = true
-width = 30.0
+width_curve = SubResource("Curve_38xi5")
 default_color = Color(0.184314, 0.698039, 0.27451, 1)
 joint_mode = 2
 begin_cap_mode = 2

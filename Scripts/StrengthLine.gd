@@ -1,7 +1,7 @@
 class_name StrengthLine
 extends Line2D
 
-const MAX_LENGTH = 200 # Fine tune
+const MAX_LENGTH = 300 # Fine tune
 
 var current_length: float
 var strength: float = 0
@@ -24,6 +24,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if not visible: return
-	current_length = points[0].distance_to(points[1])
+	print(current_length)
+	current_length = clamp(points[0].distance_to(points[1]), 0, MAX_LENGTH)
 	strength = clamp(current_length / MAX_LENGTH, 0, 1)
 	default_color = Color(strength, 1 - strength, 0)
