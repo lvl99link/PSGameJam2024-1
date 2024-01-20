@@ -89,11 +89,8 @@ func handle_slime_trail_friction() -> void:
 	if len(trails) > 0:
 		for t in trails:
 			if t != trail.collision_area:
-<<<<<<< HEAD
-				linear_damp = Globals.FRICTION * 1
-=======
+
 				linear_damp = Globals.FRICTION * slime_friction
->>>>>>> 47fa60f4680d60a71520be9aa14e959d6ee4aad9
 	else:
 		linear_damp = Globals.FRICTION
 	
