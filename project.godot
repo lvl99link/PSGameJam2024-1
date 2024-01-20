@@ -28,6 +28,10 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/donut_collision_polygon2D/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
@@ -56,3 +60,4 @@ reset={
 2d_physics/layer_2="Trails"
 2d_physics/layer_3="Targets"
 2d_physics/layer_4="StartLine"
+2d_physics/layer_5="Walls/Obstacles"

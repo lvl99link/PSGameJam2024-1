@@ -1,6 +1,11 @@
 class_name Slime
 extends RigidBody2D
 
+const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Jam-A-Slime-A-Big.png")
+const RED_SLIME = preload("res://Assets/Art/Red_Slime.png")
+const slime_sprite_by_player: Array[Texture2D] = [JAM_A_SLIME_A_BIG, RED_SLIME]
+const slime_color_by_player: Array[Color] = [Color(0,1,0), Color(1,0,0), Color(0,0,1), Color(1,1,0)]
+
 #region IMPORT ALL SLIME SOUND RELATED AUDIO SFX
 const SLIME_A_IMPACT_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_A.ogg")
 const SLIME_A_IMPACT_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_B.ogg")
@@ -37,6 +42,7 @@ const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
 @onready var slime_audio_player: AudioStreamPlayer2D = $SlimeTrailAudioPlayer
 @onready var trail: Trail = $Node2D/Trail
 @onready var child_container: Node2D = $Node2D # Can't resize rigidbodies, so make a container to resize their children
+@onready var sprite: Sprite2D = $Node2D/Sprite2D
 @onready var split_cooldown_timer: Timer = $SplitCooldownTimer
 
 @onready var collider: CollisionShape2D = $CollisionShape2D
@@ -47,11 +53,13 @@ const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
 
 var owned_by: Player
 var multiplier: int = 4
-var slime_friction: float = 1.25
+var slime_friction: float = 1.4
 var can_split: bool = true
 
 func _ready() -> void:
 	linear_damp = Globals.FRICTION
+	sprite.texture = slime_sprite_by_player[owned_by.player_num - 1]
+	trail.line.default_color = slime_color_by_player[owned_by.player_num - 1]
 
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()

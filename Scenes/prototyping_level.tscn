@@ -1,27 +1,41 @@
-[gd_scene load_steps=11 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=17 format=3 uid="uid://dxrmape6tjgn6"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
 [ext_resource type="PackedScene" uid="uid://psco1baapw31" path="res://Prefabs/custom_camera.tscn" id="2_k4vor"]
 [ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/score_ui.tscn" id="3_4ww4u"]
+[ext_resource type="Script" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="4_b8j21"]
+[ext_resource type="Texture2D" uid="uid://3mcygeh82o2v" path="res://Assets/Art/Jam-A-Slime-Arena.png" id="5_pqtki"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
 radius = 8.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wi2tq"]
-size = Vector2(16, 1088)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m8b5i"]
+size = Vector2(2384, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kqtrp"]
+size = Vector2(2384, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1rik"]
+size = Vector2(28, 1106)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0gpou"]
+size = Vector2(28, 1106)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xwleo"]
+radius = 64.0312
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnrrt"]
 size = Vector2(314, 1088)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rc53a"]
-size = Vector2(17, 1088)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wi2tq"]
+size = Vector2(16, 1088)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjxsh"]
 size = Vector2(308, 1080)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xwleo"]
-radius = 296.108
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rc53a"]
+size = Vector2(17, 1088)
 
 [node name="PrototypingLevel" type="Node2D"]
 
@@ -29,13 +43,14 @@ radius = 296.108
 unique_name_in_owner = true
 script = ExtResource("1_2dkag")
 camera = NodePath("../Camera2D")
-player_start_areas = [NodePath("../Player1StartArea"), NodePath("../Player2StartArea")]
+player_start_areas = [NodePath("../Player 1 Start/Player1StartArea"), NodePath("../Player 2 Start/Player2StartArea")]
 score_ui = NodePath("../ScoreCanvas/ScoreUI")
 
 [node name="Timer" type="Timer" parent="GameManager"]
 one_shot = true
 
 [node name="CursorArea" type="Area2D" parent="GameManager"]
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameManager/CursorArea"]
@@ -43,96 +58,177 @@ shape = SubResource("CircleShape2D_jvgl3")
 debug_color = Color(0, 1, 0.14902, 0.419608)
 
 [node name="Camera2D" parent="." instance=ExtResource("2_k4vor")]
-
-[node name="StartLine" type="Node2D" parent="."]
-position = Vector2(-641, 0)
-
-[node name="Line2D" type="Line2D" parent="StartLine"]
-points = PackedVector2Array(0, -544, 0, 544)
-
-[node name="Area2D" type="Area2D" parent="StartLine"]
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StartLine/Area2D"]
-position = Vector2(-1, 0)
-shape = SubResource("RectangleShape2D_wi2tq")
-debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
-
-[node name="Player1StartArea" type="Area2D" parent="."]
-position = Vector2(-728, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player1StartArea"]
-position = Vector2(-75, 0)
-shape = SubResource("RectangleShape2D_hnrrt")
-
-[node name="StartPoint" type="Node2D" parent="Player1StartArea"]
-position = Vector2(86, 0)
-
-[node name="SpawnPoints" type="Node2D" parent="Player1StartArea"]
-
-[node name="Point1" type="Node2D" parent="Player1StartArea/SpawnPoints"]
-position = Vector2(-32, -320)
-
-[node name="Point2" type="Node2D" parent="Player1StartArea/SpawnPoints"]
-position = Vector2(-128, -104)
-
-[node name="Point3" type="Node2D" parent="Player1StartArea/SpawnPoints"]
-position = Vector2(-120, 168)
-
-[node name="Point4" type="Node2D" parent="Player1StartArea/SpawnPoints"]
-position = Vector2(-80, 440)
-
-[node name="StartLine2" type="Node2D" parent="."]
-position = Vector2(648, 0)
-
-[node name="Line2D" type="Line2D" parent="StartLine2"]
-points = PackedVector2Array(0, -544, 0, 536)
-
-[node name="Area2D" type="Area2D" parent="StartLine2"]
-collision_layer = 8
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StartLine2/Area2D"]
-position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_rc53a")
-debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
-
-[node name="Player2StartArea" type="Area2D" parent="."]
-position = Vector2(742, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2StartArea"]
-position = Vector2(64, 4)
-shape = SubResource("RectangleShape2D_tjxsh")
-
-[node name="StartPoint" type="Node2D" parent="Player2StartArea"]
-position = Vector2(-94, 0)
-
-[node name="SpawnPoints" type="Node2D" parent="Player2StartArea"]
-
-[node name="Point1" type="Node2D" parent="Player2StartArea/SpawnPoints"]
-position = Vector2(58, -368)
-
-[node name="Point2" type="Node2D" parent="Player2StartArea/SpawnPoints"]
-position = Vector2(98, -144)
-
-[node name="Point3" type="Node2D" parent="Player2StartArea/SpawnPoints"]
-position = Vector2(106, 152)
-
-[node name="Point4" type="Node2D" parent="Player2StartArea/SpawnPoints"]
-position = Vector2(18, 408)
-
-[node name="ScoreArea" type="Area2D" parent="."]
-collision_layer = 4
-script = ExtResource("2_30w6k")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreArea"]
-shape = SubResource("CircleShape2D_xwleo")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="ScoreArea"]
+limit_left = -1170
+limit_right = 1170
 
 [node name="ScoreCanvas" type="CanvasLayer" parent="."]
 
 [node name="ScoreUI" parent="ScoreCanvas" instance=ExtResource("3_4ww4u")]
 
-[connection signal="body_entered" from="ScoreArea" to="ScoreArea" method="_on_slime_entered"]
+[node name="Jam-a-slime-arena" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("5_pqtki")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Wall" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -544)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall"]
+shape = SubResource("RectangleShape2D_m8b5i")
+
+[node name="Wall2" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 544)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall2"]
+shape = SubResource("RectangleShape2D_kqtrp")
+
+[node name="Wall3" type="StaticBody2D" parent="Walls"]
+position = Vector2(-1176, 544)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall3"]
+position = Vector2(0, -543)
+shape = SubResource("RectangleShape2D_s1rik")
+
+[node name="Wall4" type="StaticBody2D" parent="Walls"]
+position = Vector2(1176, 544)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Wall4"]
+position = Vector2(0, -543)
+shape = SubResource("RectangleShape2D_0gpou")
+
+[node name="Scoring Regions" type="Node2D" parent="."]
+
+[node name="ScoreArea" type="Area2D" parent="Scoring Regions"]
+position = Vector2(1, -1)
+collision_layer = 4
+script = ExtResource("2_30w6k")
+value = 25
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/ScoreArea"]
+shape = SubResource("CircleShape2D_xwleo")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/ScoreArea"]
+
+[node name="ScoreArea2" type="Area2D" parent="Scoring Regions"]
+position = Vector2(1, -1)
+collision_layer = 4
+script = ExtResource("2_30w6k")
+
+[node name="DonutCollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/ScoreArea2"]
+polygon = PackedVector2Array(8.05179e-15, -131.5, 25.0914, -129.084, 49.2608, -121.925, 71.62, -110.285, 92.9845, -92.9845, 109.018, -73.5339, 121.046, -51.3811, 128.626, -27.3404, 131.5, 0, 129.084, 25.0914, 121.925, 49.2608, 110.285, 71.62, 92.9845, 92.9845, 73.5339, 109.018, 51.3811, 121.046, 27.3404, 128.626, 8.05179e-15, 131.5, -25.0914, 129.084, -49.2608, 121.925, -71.62, 110.285, -92.9845, 92.9845, -109.018, 73.5339, -121.046, 51.3811, -128.626, 27.3404, -131.5, 1.61036e-14, -129.084, -25.0914, -121.925, -49.2608, -110.285, -71.62, -92.9845, -92.9845, -73.5339, -109.018, -51.3811, -121.046, -27.3404, -128.626, -2.41554e-14, -131.5, -1.18481e-14, -64.5, -13.4103, -63.0905, -25.2022, -59.3726, -36.0679, -53.4729, -45.6084, -45.6084, -54.0942, -35.1292, -59.8034, -24.1621, -63.315, -12.3072, -64.5, 7.89871e-15, -63.0905, 13.4103, -59.3726, 25.2022, -53.4729, 36.0679, -45.6084, 45.6084, -35.1292, 54.0942, -24.1621, 59.8034, -12.3072, 63.315, 3.94936e-15, 64.5, 13.4103, 63.0905, 25.2022, 59.3726, 36.0679, 53.4729, 45.6084, 45.6084, 54.0942, 35.1292, 59.8034, 24.1621, 63.315, 12.3072, 64.5, 0, 63.0905, -13.4103, 59.3726, -25.2022, 53.4729, -36.0679, 45.6084, -45.6084, 35.1292, -54.0942, 24.1621, -59.8034, 12.3072, -63.315, 3.94936e-15, -64.5, 0.0001, -131.5)
+script = ExtResource("4_b8j21")
+radius = 98.0
+width = 67.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/ScoreArea2"]
+
+[node name="ScoreArea3" type="Area2D" parent="Scoring Regions"]
+position = Vector2(1, -1)
+collision_layer = 4
+script = ExtResource("2_30w6k")
+value = 5
+
+[node name="DonutCollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/ScoreArea3"]
+polygon = PackedVector2Array(1.65322e-14, -270, 51.5184, -265.039, 101.144, -250.34, 147.053, -226.441, 190.919, -190.919, 223.84, -150.982, 248.536, -105.497, 264.1, -56.1362, 270, 0, 265.039, 51.5184, 250.34, 101.144, 226.441, 147.053, 190.919, 190.919, 150.982, 223.84, 105.497, 248.536, 56.1362, 264.1, 1.65322e-14, 270, -51.5184, 265.039, -101.144, 250.34, -147.053, 226.441, -190.919, 190.919, -223.84, 150.982, -248.536, 105.497, -264.1, 56.1362, -270, 3.30644e-14, -265.039, -51.5184, -250.34, -101.144, -226.441, -147.053, -190.919, -190.919, -150.982, -223.84, -105.497, -248.536, -56.1362, -264.1, -4.95966e-14, -270, -2.42472e-14, -132, -27.4443, -129.115, -51.5765, -121.507, -73.8135, -109.433, -93.3381, -93.3381, -110.705, -71.8924, -122.388, -49.4481, -129.575, -25.1868, -132, 1.61648e-14, -129.115, 27.4443, -121.507, 51.5765, -109.433, 73.8135, -93.3381, 93.3381, -71.8924, 110.705, -49.4481, 122.388, -25.1868, 129.575, 8.0824e-15, 132, 27.4443, 129.115, 51.5765, 121.507, 73.8135, 109.433, 93.3381, 93.3381, 110.705, 71.8924, 122.388, 49.4481, 129.575, 25.1868, 132, 0, 129.115, -27.4443, 121.507, -51.5765, 109.433, -73.8135, 93.3381, -93.3381, 71.8924, -110.705, 49.4481, -122.388, 25.1868, -129.575, 8.0824e-15, -132, 0.0001, -270)
+script = ExtResource("4_b8j21")
+radius = 201.0
+width = 138.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/ScoreArea3"]
+
+[node name="Player 1 Start" type="Node2D" parent="."]
+
+[node name="Player1StartArea" type="Area2D" parent="Player 1 Start"]
+position = Vector2(-942, 0)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player 1 Start/Player1StartArea"]
+position = Vector2(-75, 0)
+shape = SubResource("RectangleShape2D_hnrrt")
+
+[node name="StartPoint" type="Node2D" parent="Player 1 Start/Player1StartArea"]
+position = Vector2(86, 0)
+
+[node name="SpawnPoints" type="Node2D" parent="Player 1 Start/Player1StartArea"]
+
+[node name="Point1" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-32, -320)
+
+[node name="Point2" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-128, -104)
+
+[node name="Point3" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-120, 168)
+
+[node name="Point4" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-80, 440)
+
+[node name="StartLine" type="Node2D" parent="Player 1 Start"]
+position = Vector2(-852, 0)
+
+[node name="Line2D" type="Line2D" parent="Player 1 Start/StartLine"]
+points = PackedVector2Array(0, -544, 0, 544)
+
+[node name="Area2D" type="Area2D" parent="Player 1 Start/StartLine"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player 1 Start/StartLine/Area2D"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_wi2tq")
+debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
+
+[node name="Player 2 Start" type="Node2D" parent="."]
+
+[node name="Player2StartArea" type="Area2D" parent="Player 2 Start"]
+position = Vector2(948, 0)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player 2 Start/Player2StartArea"]
+position = Vector2(64, 4)
+shape = SubResource("RectangleShape2D_tjxsh")
+
+[node name="StartPoint" type="Node2D" parent="Player 2 Start/Player2StartArea"]
+position = Vector2(-94, 0)
+
+[node name="SpawnPoints" type="Node2D" parent="Player 2 Start/Player2StartArea"]
+
+[node name="Point1" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(58, -368)
+
+[node name="Point2" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(98, -144)
+
+[node name="Point3" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(106, 152)
+
+[node name="Point4" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(18, 408)
+
+[node name="StartLine2" type="Node2D" parent="Player 2 Start"]
+position = Vector2(848, 0)
+
+[node name="Line2D" type="Line2D" parent="Player 2 Start/StartLine2"]
+points = PackedVector2Array(0, -544, 0, 536)
+
+[node name="Area2D" type="Area2D" parent="Player 2 Start/StartLine2"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player 2 Start/StartLine2/Area2D"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_rc53a")
+debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
+
+[connection signal="body_entered" from="Scoring Regions/ScoreArea" to="Scoring Regions/ScoreArea" method="_on_slime_entered"]
+[connection signal="body_entered" from="Scoring Regions/ScoreArea2" to="Scoring Regions/ScoreArea2" method="_on_slime_entered"]
+[connection signal="body_entered" from="Scoring Regions/ScoreArea3" to="Scoring Regions/ScoreArea3" method="_on_slime_entered"]

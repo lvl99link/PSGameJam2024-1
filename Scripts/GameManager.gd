@@ -2,7 +2,7 @@ class_name GameManager
 extends Node2D
 
 enum ROUND {START, SLIMING, ENDING}
-const MAX_SPEED = 1000 # Fine tune
+const MAX_SPEED = 1500 # Fine tune
 const MAX_SLIMES = 4
 
 @export var camera: CustomCamera ## Current scene's camera
@@ -64,7 +64,7 @@ func initialize_rosters() -> void:
 	for player in players:
 		# Hard coding filling out each player's roster for now
 		for i in MAX_SLIMES:
-			var slime = neutral_slime_prefab.instantiate() as Slime
+			var slime: Slime = neutral_slime_prefab.instantiate() as Slime
 			slime.owned_by = player
 			player.roster.append(slime)
 			player.available_roster.append(slime)
@@ -98,6 +98,7 @@ func handle_start_state() -> void:
 			held_slime = slime
 			last_valid_slime_pos = held_slime.global_position
 	if held_slime and Input.is_action_pressed("fire"):
+		held_slime.trail.can_draw = false
 		held_slime.global_position = get_global_mouse_position()
 	elif held_slime and Input.is_action_just_released("fire"):
 		# Check if the slime is over a starting line
@@ -124,6 +125,7 @@ func handle_start_state() -> void:
 		if cursor_area.has_overlapping_bodies() and cursor_area.get_overlapping_bodies()[0] == active_slime:
 			return
 		state = ROUND.SLIMING
+		timer.start(5)
 		active_slime.trail.can_draw = true
 		drag_line.visible = false
 		can_drag = false
@@ -140,15 +142,15 @@ func handle_start_state() -> void:
 	#endregion
 
 func handle_sliming_state() -> void:
-	# Start a timer. If the velocity is low enough for long enough, start the next turn
-	if active_slime.linear_velocity.x < 8 and timer.is_stopped():
-		timer.start(2)
-	await timer.timeout
-	if active_slime and abs(active_slime.linear_velocity.x) < 8:
-		Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_dizzys)
-		next_turn()
-	else:
-		return
+	# We start the next turn if all the slimes on the field are in the idle state
+	# We have a timer the starts when a slime is launched so that we have a minimum turn length
+	if not timer.is_stopped(): return
+	for player in players:
+		for slime in player.slimes_on_field:
+			if slime.state_manager.state.name != "IDLE":
+					return
+	Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_dizzys)
+	next_turn()
 
 func launch_slime() -> void:
 	# TODO:
@@ -187,7 +189,7 @@ func next_turn() -> void:
 		state = ROUND.ENDING
 		return
 
-	swap_camera_to(player_start_areas[0])
+	swap_camera_to(player_start_areas[turn - 1])
 	calculate_scores()
 	state = ROUND.START
 
@@ -197,6 +199,7 @@ func calculate_scores() -> void:
 		var temp_score = 0
 		for slime in player.slimes_on_field:
 			slime = slime as Slime
+			print("Slime for player ", player.player_num, " scored ", slime.calculate_score(), " points.")
 			temp_score += slime.calculate_score()
 		player.score = temp_score
 		score_ui.set_score(player.player_num, player.score)
