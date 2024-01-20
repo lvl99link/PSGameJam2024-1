@@ -24,7 +24,6 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if not visible: return
-	print(current_length)
 	current_length = clamp(points[0].distance_to(points[1]), 0, MAX_LENGTH)
 	strength = clamp(current_length / MAX_LENGTH, 0, 1)
 	default_color = Color(strength, 1 - strength, 0)

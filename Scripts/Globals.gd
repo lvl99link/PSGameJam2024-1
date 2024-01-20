@@ -1,7 +1,16 @@
 extends Node
 
+# Globally accessible singleton functions and variables should be set and defined here
+# Sure it's probably better to split responsibility into multiple but this is fine for now.
+
 var camera: CustomCamera = null
-var FRICTION = 1
+var FRICTION: float = 1
+var music_volume: float = 0.5
+var sfx_volume: float = 0.5
+
+func _ready() -> void:
+	set_volume("Music", music_volume)
+	set_volume("SFX", sfx_volume)
 
 # Maybe move this to a global audio manager autoload script
 func play_random_sfx(player: AudioStreamPlayer2D, sfx_arr: Array[AudioStreamOggVorbis]) -> void:
@@ -9,6 +18,22 @@ func play_random_sfx(player: AudioStreamPlayer2D, sfx_arr: Array[AudioStreamOggV
 	var idx = rng.randi_range(0, len(sfx_arr) - 1)
 	player.stream = sfx_arr[idx]
 	player.play()
+
+func play_audio(file: AudioStream, mixer: String = "SFX") -> void:
+	# given a preloaded soundfile, generate an audio stream player, spawn it
+	# load the file, play it, and then destroy the player.
+	var audio_player: AudioStreamPlayer = AudioStreamPlayer.new()
+	audio_player.stream = file
+	audio_player.bus = mixer
+	add_child(audio_player)
+	audio_player.play()
+	await audio_player.finished
+	remove_child(audio_player)
+	audio_player.queue_free()
+
+func set_volume(mixer: String, volume: float) -> void:
+	var bus_idx = AudioServer.get_bus_index(mixer)
+	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(volume))
 
 func shake(amount) -> void:
 	# Helper shake function that calls the camera's shake function
