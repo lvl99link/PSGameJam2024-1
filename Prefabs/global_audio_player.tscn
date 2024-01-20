@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4nsn6crfls86"]
+
+[ext_resource type="AudioStream" uid="uid://cidfvodkm670a" path="res://Assets/Music/placeholder_BGM_loop.ogg" id="1_yo7af"]
+
+[node name="GlobalAudioPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_yo7af")
+autoplay = true
+bus = &"Music"

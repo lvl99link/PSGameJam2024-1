@@ -1,0 +1,166 @@
+[gd_scene load_steps=15 format=3 uid="uid://dnv7wug6gtchg"]
+
+[ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_u258j"]
+[ext_resource type="FontFile" uid="uid://8wu6ev8gqxw7" path="res://Assets/RubikBubbles-Regular.ttf" id="2_avn28"]
+[ext_resource type="Texture2D" uid="uid://xx2wsg7vw6ic" path="res://Assets/icon.svg" id="3_wanca"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_05lyu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gmrbg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_psmvu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_txdlv"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_2xp0w"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_kmbxf"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_u6c8o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8mxh"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.388235, 0.839216, 0.180392, 0.74902)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5rt66"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.388235, 0.839216, 0.180392, 0.870588)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lrya"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.129412, 0.129412, 0.129412, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="Theme" id="Theme_qvqq5"]
+Button/colors/font_color = Color(0.14902, 0.733333, 0.145098, 1)
+Button/colors/font_disabled_color = Color(0.478431, 0.478431, 0.478431, 1)
+Button/colors/font_focus_color = Color(0.160784, 0.854902, 0.160784, 1)
+Button/colors/font_hover_color = Color(0.815686, 0.282353, 0.180392, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 0.917647)
+Button/colors/font_pressed_color = Color(0.815686, 0.282353, 0.180392, 0.85098)
+Button/constants/outline_size = 16
+Button/font_sizes/font_size = 64
+Button/fonts/font = ExtResource("2_avn28")
+Button/styles/focus = SubResource("StyleBoxEmpty_05lyu")
+Button/styles/hover = SubResource("StyleBoxEmpty_gmrbg")
+Button/styles/normal = SubResource("StyleBoxEmpty_psmvu")
+Button/styles/pressed = SubResource("StyleBoxEmpty_txdlv")
+HSlider/icons/grabber = SubResource("ImageTexture_2xp0w")
+HSlider/icons/grabber_disabled = SubResource("ImageTexture_kmbxf")
+HSlider/icons/grabber_highlight = SubResource("ImageTexture_u6c8o")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_q8mxh")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_5rt66")
+HSlider/styles/slider = SubResource("StyleBoxFlat_4lrya")
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u258j")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 512
+theme_override_constants/margin_right = 512
+theme_override_constants/margin_bottom = 256
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_qvqq5")
+theme_override_constants/separation = 42
+alignment = 1
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "Title!"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="SlidersGrid" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="Music" type="Label" parent="MarginContainer/VBoxContainer/SlidersGrid"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="MarginContainer/VBoxContainer/SlidersGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.05
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SlidersGrid"]
+layout_mode = 2
+text = "SFX"
+horizontal_alignment = 1
+
+[node name="SFXSlider" type="HSlider" parent="MarginContainer/VBoxContainer/SlidersGrid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.05
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/SlidersGrid"]
+visible = false
+layout_mode = 2
+texture = ExtResource("3_wanca")
+
+[node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Exit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/SlidersGrid/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/SlidersGrid/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

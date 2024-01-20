@@ -23,16 +23,16 @@ size = Vector2(28, 1106)
 size = Vector2(28, 1106)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ci4k8"]
-radius = 27.0185
+radius = 51.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7k7nw"]
-radius = 27.0185
+radius = 51.1566
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nhoup"]
-radius = 27.0185
+radius = 51.0392
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g660y"]
-radius = 27.0185
+radius = 52.0096
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xwleo"]
 radius = 64.0312
@@ -118,29 +118,24 @@ position = Vector2(0, -543)
 shape = SubResource("RectangleShape2D_0gpou")
 
 [node name="Scoring Regions" type="Node2D" parent="."]
+visible = false
 
 [node name="Jackpots" type="Node2D" parent="Scoring Regions"]
 
 [node name="JACKPOT1" type="Area2D" parent="Scoring Regions/Jackpots"]
-position = Vector2(-256, -230)
+position = Vector2(-287, -210)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
 allowed_multipliers = Array[int]([1])
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Jackpots/JACKPOT1"]
-position = Vector2(-8, -2)
-color = Color(0.890196, 0.231373, 0.231373, 1)
-polygon = PackedVector2Array(-11, -17, -6, -21, 1, -24, 8, -25, 15, -24, 22, -21, 27, -17, 31, -12, 34, -5, 35, 2, 34, 9, 31, 16, 27, 21, 22, 25, 16, 28, 8, 29, 1, 28, -6, 25, -11, 21, -15, 16, -18, 9, -19, 3, -18, -5, -16, -11)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT1"]
-visible = false
 shape = SubResource("CircleShape2D_ci4k8")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT1"]
 
 [node name="JACKPOT2" type="Area2D" parent="Scoring Regions/Jackpots"]
-position = Vector2(256, -230)
+position = Vector2(295, -213)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
@@ -151,13 +146,8 @@ shape = SubResource("CircleShape2D_7k7nw")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT2"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Jackpots/JACKPOT2"]
-position = Vector2(-8, -2)
-color = Color(0.890196, 0.231373, 0.231373, 1)
-polygon = PackedVector2Array(-11, -17, -6, -21, 1, -24, 8, -25, 15, -24, 22, -21, 27, -17, 31, -12, 34, -5, 35, 2, 34, 9, 31, 16, 27, 21, 22, 25, 16, 28, 8, 29, 1, 28, -6, 25, -11, 21, -15, 16, -18, 9, -19, 3, -18, -5, -16, -11)
-
 [node name="JACKPOT3" type="Area2D" parent="Scoring Regions/Jackpots"]
-position = Vector2(256, 230)
+position = Vector2(293, 211)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
@@ -168,13 +158,8 @@ shape = SubResource("CircleShape2D_nhoup")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT3"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Jackpots/JACKPOT3"]
-position = Vector2(-8, -2)
-color = Color(0.890196, 0.231373, 0.231373, 1)
-polygon = PackedVector2Array(-11, -17, -6, -21, 1, -24, 8, -25, 15, -24, 22, -21, 27, -17, 31, -12, 34, -5, 35, 2, 34, 9, 31, 16, 27, 21, 22, 25, 16, 28, 8, 29, 1, 28, -6, 25, -11, 21, -15, 16, -18, 9, -19, 3, -18, -5, -16, -11)
-
 [node name="JACKPOT4" type="Area2D" parent="Scoring Regions/Jackpots"]
-position = Vector2(-256, 230)
+position = Vector2(-287, 211)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
@@ -185,13 +170,7 @@ shape = SubResource("CircleShape2D_g660y")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT4"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Jackpots/JACKPOT4"]
-position = Vector2(-8, -2)
-color = Color(0.890196, 0.231373, 0.231373, 1)
-polygon = PackedVector2Array(-11, -17, -6, -21, 1, -24, 8, -25, 15, -24, 22, -21, 27, -17, 31, -12, 34, -5, 35, 2, 34, 9, 31, 16, 27, 21, 22, 25, 16, 28, 8, 29, 1, 28, -6, 25, -11, 21, -15, 16, -18, 9, -19, 3, -18, -5, -16, -11)
-
 [node name="Central" type="Node2D" parent="Scoring Regions"]
-visible = false
 
 [node name="ScoreArea" type="Area2D" parent="Scoring Regions/Central"]
 position = Vector2(1, -1)
@@ -242,13 +221,8 @@ allowed_multipliers = Array[int]([1, 2])
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea1"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Mediums/MediumArea1"]
-color = Color(0.8, 0.643137, 0.305882, 1)
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea1"]
-visible = false
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
+polygon = PackedVector2Array(1, 35, 25, 11, 49, 3, 73, 3, 105, 11, 145, -21, 185, -45, 241, -69, 289, -77, 289, -141, 57, -141, 17, -117, -23, -85, -55, -45, -87, 3, -87, 235, -70, 256, -7, 259, -7, 203, 25, 115, 1, 83)
 
 [node name="MediumArea2" type="Area2D" parent="Scoring Regions/Mediums"]
 position = Vector2(295, -325)
@@ -260,17 +234,12 @@ allowed_multipliers = Array[int]([1, 2])
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea2"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Mediums/MediumArea2"]
-color = Color(0.8, 0.643137, 0.305882, 1)
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea2"]
-visible = false
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
+polygon = PackedVector2Array(85, -57, 117, -65, 141, -57, 165, -33, 245, -65, 309, -73, 309, -129, 293, -145, 53, -145, 13, -121, -27, -89, -59, -57, -91, -0.999969, -91, 231, -27, 231, -3, 151, 21, 95, 61, 47, 53, 15, 53, -25)
 
 [node name="MediumArea3" type="Area2D" parent="Scoring Regions/Mediums"]
-position = Vector2(-295, 313)
-rotation = 4.71239
+position = Vector2(354, 274)
+rotation = 3.14159
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 25
@@ -278,17 +247,12 @@ allowed_multipliers = Array[int]([1, 2])
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea3"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Mediums/MediumArea3"]
-color = Color(0.8, 0.643137, 0.305882, 1)
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea3"]
-visible = false
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
+polygon = PackedVector2Array(1, 35, 25, 11, 49, 3, 73, 3, 105, 11, 145, -21, 185, -45, 241, -69, 289, -77, 289, -141, 57, -141, 17, -117, -23, -85, -55, -45, -87, 3, -87, 235, -70, 256, -7, 259, -7, 203, 25, 115, 1, 83)
 
 [node name="MediumArea4" type="Area2D" parent="Scoring Regions/Mediums"]
-position = Vector2(345, 263)
-rotation = 3.14159
+position = Vector2(-331, 308)
+rotation = -1.5708
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 25
@@ -296,13 +260,8 @@ allowed_multipliers = Array[int]([1, 2])
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea4"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Scoring Regions/Mediums/MediumArea4"]
-color = Color(0.8, 0.643137, 0.305882, 1)
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea4"]
-visible = false
-polygon = PackedVector2Array(25, 39, 89, -25, 281, -25, 281, -153, 25, -153, -103, -25, -103, 231, 25, 231)
+polygon = PackedVector2Array(44, 91, 36, 43, 52, 3, 92, -21, 124, -13, 148, 11, 212, -13, 292, -29, 292, -85, 276, -101, 44, -101, 4.00003, -77, -28, -53, -60, -29, -84, 2.99997, -108, 43, -108, 275, -44, 275, -12, 171)
 
 [node name="Player 1 Start" type="Node2D" parent="."]
 

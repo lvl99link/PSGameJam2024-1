@@ -18,6 +18,7 @@ config/icon="res://Assets/icon.svg"
 [autoload]
 
 Globals="*res://Scripts/Globals.gd"
+GlobalAudioPlayer="*res://Prefabs/global_audio_player.tscn"
 
 [display]
 

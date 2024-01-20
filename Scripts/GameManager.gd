@@ -47,7 +47,6 @@ func _enter_tree() -> void:
 
 func _process(_delta: float) -> void:
 	# Debugging:
-	
 	if Input.is_action_pressed("reset"): get_tree().reload_current_scene()
 	cursor_area.global_position = get_global_mouse_position()
 	# Check state of game
