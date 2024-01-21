@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=22 format=3 uid="uid://dxrmape6tjgn6"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/UI/score_ui.tscn" id="3_4ww4u"]
 [ext_resource type="Script" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="4_b8j21"]
 [ext_resource type="Texture2D" uid="uid://3mcygeh82o2v" path="res://Assets/Art/Maps/Jam-A-Slime-Arena.png" id="4_y73fv"]
+[ext_resource type="PackedScene" uid="uid://ipf8v4872t2r" path="res://Prefabs/UI/strength_bar.tscn" id="7_hwjxf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
 radius = 8.0
@@ -51,12 +52,13 @@ size = Vector2(17, 1088)
 
 [node name="PrototypingLevel" type="Node2D"]
 
-[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "player_start_areas", "score_ui") groups=["GameManager"]]
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "player_start_areas", "score_ui", "strength_bar_ui") groups=["GameManager"]]
 unique_name_in_owner = true
 script = ExtResource("1_2dkag")
 camera = NodePath("../Camera2D")
 player_start_areas = [NodePath("../Player 1 Start/Player1StartArea"), NodePath("../Player 2 Start/Player2StartArea")]
 score_ui = NodePath("../ScoreCanvas/ScoreUI")
+strength_bar_ui = NodePath("../ScoreCanvas/TextureProgressBar")
 
 [node name="Timer" type="Timer" parent="GameManager"]
 one_shot = true
@@ -76,6 +78,13 @@ limit_right = 1170
 [node name="ScoreCanvas" type="CanvasLayer" parent="."]
 
 [node name="ScoreUI" parent="ScoreCanvas" instance=ExtResource("3_4ww4u")]
+
+[node name="TextureProgressBar" parent="ScoreCanvas" instance=ExtResource("7_hwjxf")]
+offset_left = 9.0
+offset_top = 546.0
+offset_right = 109.0
+offset_bottom = 1046.0
+value = 0.0
 
 [node name="Jam-a-slime-arena" type="Sprite2D" parent="."]
 z_index = -1

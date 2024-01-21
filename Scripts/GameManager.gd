@@ -8,6 +8,7 @@ const MAX_SLIMES = 4
 @export var camera: CustomCamera ## Current scene's camera
 @export var player_start_areas: Array[Area2D] ## List of areas from the editor where players launch from
 @export var score_ui: ScoreUI ## UI Control node that has the score GUI
+@export var strength_bar_ui: TextureProgressBar ## Progress bar for strength line
 
 @onready var state: ROUND = ROUND.START
 @onready var timer: Timer = $Timer
@@ -46,6 +47,7 @@ func _process(_delta: float) -> void:
 	# Debugging:
 	if Input.is_action_pressed("reset"): get_tree().reload_current_scene()
 	cursor_area.global_position = get_global_mouse_position()
+	strength_bar_ui.value = drag_line.strength * 100
 	# Check state of game
 	if state == ROUND.START:
 		handle_start_state()
@@ -88,7 +90,6 @@ func handle_start_state() -> void:
 	var start_point = area.get_node("StartPoint") as Node2D
 	var collider: CollisionShape2D = area.get_node("CollisionShape2D") as CollisionShape2D
 	var shape: Rect2 = collider.shape.get_rect()
-	
 	#region HANDLING PICKING UP A SLIME IF THERE IS NO ACTIVE SLIME
 	# TODO: Clean up, refactor, and maybe extract
 	if not (active_slime or held_slime) and Input.is_action_just_pressed("fire"):
@@ -182,6 +183,7 @@ func next_turn() -> void:
 	calculate_scores()
 	players[turn - 1].remove_slime_from_roster(active_slime)
 	active_slime = null
+	
 	
 	turn += 1
 	if turn > player_count:
