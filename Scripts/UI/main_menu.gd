@@ -1,6 +1,7 @@
 extends Control
 
 const PREVIEW_SFX = preload("res://Assets/SFX/OGG/Buttons/button_A.ogg")
+const PROTOTYPING_LEVEL = preload("res://Scenes/prototyping_level.tscn") # change to main scene
 
 @onready var play_button: Button = %PlayButton
 @onready var exit_button: Button = %ExitButton
@@ -18,6 +19,7 @@ func _on_play_button_pressed() -> void:
 	# 2. Run animation (transition to)
 	# 3. Switch the scene
 	# 4. Once the scene is fully loaded, finish the animation (play transition_from)
+	SceneTransition.change_scene(PROTOTYPING_LEVEL)
 	pass
 
 func _on_exit_button_pressed() -> void:

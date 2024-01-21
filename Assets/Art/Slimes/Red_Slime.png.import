@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkcwmh2cj7ojd"
-path="res://.godot/imported/Red_Slime.png-9edaa8cf0845e5a06b6e1bcea3e0ef37.ctex"
+path="res://.godot/imported/Red_Slime.png-915ab6f0ff7cb75768b9101095714190.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Red_Slime.png"
-dest_files=["res://.godot/imported/Red_Slime.png-9edaa8cf0845e5a06b6e1bcea3e0ef37.ctex"]
+source_file="res://Assets/Art/Slimes/Red_Slime.png"
+dest_files=["res://.godot/imported/Red_Slime.png-915ab6f0ff7cb75768b9101095714190.ctex"]
 
 [params]
 

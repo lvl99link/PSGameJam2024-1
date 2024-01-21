@@ -17,8 +17,9 @@ config/icon="res://Assets/icon.svg"
 
 [autoload]
 
-Globals="*res://Scripts/Globals.gd"
-GlobalAudioPlayer="*res://Prefabs/global_audio_player.tscn"
+Globals="*res://Scripts/Autoloads/Globals.gd"
+GlobalAudioPlayer="*res://Scripts/Autoloads/global_audio_player.tscn"
+SceneTransition="*res://Scripts/Autoloads/scene_transition.tscn"
 
 [display]
 

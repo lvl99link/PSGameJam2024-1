@@ -1,8 +1,9 @@
 class_name Slime
 extends RigidBody2D
 
-const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Jam-A-Slime-A-Big.png")
-const RED_SLIME = preload("res://Assets/Art/Red_Slime.png")
+const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png")
+const RED_SLIME = preload("res://Assets/Art/Slimes/Red_Slime.png")
+
 const slime_sprite_by_player: Array[Texture2D] = [JAM_A_SLIME_A_BIG, RED_SLIME]
 const slime_color_by_player: Array[Color] = [ # Slime trail colors
 	Color(0,1,0,0.7), # Green
@@ -21,6 +22,7 @@ const SLIME_A_SELECT_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Select_B.o
 const SLIME_A_THROW_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Throw_A.ogg")
 const SLIME_A_DIZZY_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_A.ogg")
 const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
+const SLIME_IMPACT_SLAP = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_slap.ogg")
 #endregion
 
 #region CONSTRUCT SFX VARIANT ARRAYS
@@ -69,6 +71,7 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()
 	handle_sliming_audio()
+	#handle_show_outline()
 	# Resets the can_split once it's had a moment to settle down
 	if not can_split and linear_velocity.x < 10:
 		await get_tree().create_timer(1).timeout
@@ -103,6 +106,14 @@ func calculate_score() -> int:
 		# TODO: Only gets the first overlapping area. Maybe better way to pick.
 		return (targets[0] as Target).value * multiplier
 	return 0
+
+#func handle_show_outline() -> void:
+	#var targets = score_detection_area.get_overlapping_areas()
+	#if len(targets) > 0:
+		#if multiplier not in (targets[0] as Target).allowed_multipliers: 
+			#(sprite.material as ShaderMaterial).set_shader_parameter("width", 0)
+		#else:
+			#(sprite.material as ShaderMaterial).set_shader_parameter("width", 10)
 
 func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	# Function handles the 'splitting' of a slime when impacted by another
@@ -168,3 +179,10 @@ func clone() -> Slime:
 func spawn(new_slime: Slime) -> void:
 	get_parent().add_child(new_slime)
 	new_slime.trail.can_draw = true
+
+func _on_body_entered(body: Node) -> void:
+	var directional_v = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
+	if body is StaticBody2D and directional_v > 10:
+		# Enter impacting state
+		# Change the other state to splitting?
+		Globals.play_audio(SLIME_IMPACT_SLAP)

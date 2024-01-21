@@ -3,6 +3,7 @@
 [ext_resource type="AudioStream" uid="uid://cidfvodkm670a" path="res://Assets/Music/placeholder_BGM_loop.ogg" id="1_yo7af"]
 
 [node name="GlobalAudioPlayer" type="AudioStreamPlayer"]
+process_mode = 3
 stream = ExtResource("1_yo7af")
 autoplay = true
 bus = &"Music"

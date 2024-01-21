@@ -28,7 +28,7 @@ var last_valid_slime_pos: Vector2 # Variable to hold the last slime position in 
 var can_drag: bool # State to hold whether or not a prepped slime can be dragged back and launched
 
 # Import slime prefabs
-var neutral_slime_prefab = preload("res://Prefabs/slime.tscn")
+var slime_prefab = preload("res://Prefabs/slime.tscn")
 
 func _ready() -> void:
 	Globals.camera = camera
@@ -41,9 +41,6 @@ func _ready() -> void:
 	camera_target = player_start_areas[turn - 1]
 	
 	add_child(drag_line)
-
-func _enter_tree() -> void:
-	print(get_tree().get_nodes_in_group("Targets"))
 
 func _process(_delta: float) -> void:
 	# Debugging:
@@ -69,7 +66,7 @@ func initialize_rosters() -> void:
 	for player in players:
 		# Hard coding filling out each player's roster for now
 		for i in MAX_SLIMES:
-			var slime: Slime = neutral_slime_prefab.instantiate() as Slime
+			var slime: Slime = slime_prefab.instantiate() as Slime
 			slime.owned_by = player
 			player.roster.append(slime)
 			player.available_roster.append(slime)
