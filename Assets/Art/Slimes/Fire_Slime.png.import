@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7270h4f8lww6"
-path="res://.godot/imported/Fire_Slime.png-a14fc50ff9b62825271e497d349ecafb.ctex"
+path="res://.godot/imported/Fire_Slime.png-d7dd9b50225b375aaf5e2eefa21e1f8d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Fire_Slime.png"
-dest_files=["res://.godot/imported/Fire_Slime.png-a14fc50ff9b62825271e497d349ecafb.ctex"]
+source_file="res://Assets/Art/Slimes/Fire_Slime.png"
+dest_files=["res://.godot/imported/Fire_Slime.png-d7dd9b50225b375aaf5e2eefa21e1f8d.ctex"]
 
 [params]
 

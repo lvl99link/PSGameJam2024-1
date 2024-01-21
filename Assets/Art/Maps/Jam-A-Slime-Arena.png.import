@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://3mcygeh82o2v"
-path="res://.godot/imported/Jam-A-Slime-Arena.png-aea1491b784dd80cdd2e10de26a218b1.ctex"
+path="res://.godot/imported/Jam-A-Slime-Arena.png-8068d1ef443b1e9903b976e50e931e4e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Jam-A-Slime-Arena.png"
-dest_files=["res://.godot/imported/Jam-A-Slime-Arena.png-aea1491b784dd80cdd2e10de26a218b1.ctex"]
+source_file="res://Assets/Art/Maps/Jam-A-Slime-Arena.png"
+dest_files=["res://.godot/imported/Jam-A-Slime-Arena.png-8068d1ef443b1e9903b976e50e931e4e.ctex"]
 
 [params]
 

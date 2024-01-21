@@ -1,15 +1,29 @@
-[gd_scene load_steps=14 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=19 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
-[ext_resource type="Texture2D" uid="uid://crknk0f71tklh" path="res://Assets/Art/Jam-A-Slime-A-Big.png" id="2_4y204"]
+[ext_resource type="Texture2D" uid="uid://crknk0f71tklh" path="res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png" id="2_38la0"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
+[ext_resource type="Shader" path="res://Assets/Shaders/outline.gdshader" id="2_uljtn"]
 [ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="4_t08mx"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeIdleState.gd" id="5_0heq5"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeSlimingState.gd" id="6_8dhtv"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeImpactState.gd" id="7_834mo"]
+[ext_resource type="Script" path="res://Scripts/States/SlimeSplittingState.gd" id="9_yxkx5"]
+[ext_resource type="Script" path="res://Scripts/States/SlimeDizzyState.gd" id="10_un6tv"]
+[ext_resource type="Script" path="res://Scripts/States/SlimePacingState.gd" id="11_0cyjp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
 bounce = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5nb5l"]
+resource_local_to_scene = true
+shader = ExtResource("2_uljtn")
+shader_parameter/color = Color(0.854902, 0.85098, 0.219608, 1)
+shader_parameter/width = 0.0
+shader_parameter/pattern = 0
+shader_parameter/inside = true
+shader_parameter/add_margins = true
+shader_parameter/number_of_images = Vector2(1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bl807"]
 radius = 38.0132
@@ -21,10 +35,10 @@ radius = 11.0
 radius = 54.037
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hwetx"]
-radius = 41.0
+radius = 55.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tni1a"]
-radius = 39.0128
+radius = 52.0096
 
 [node name="Slime" type="RigidBody2D"]
 collision_mask = 31
@@ -40,8 +54,9 @@ script = ExtResource("1_ug4yn")
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D"]
 z_index = 1
+material = SubResource("ShaderMaterial_5nb5l")
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_4y204")
+texture = ExtResource("2_38la0")
 region_rect = Rect2(0, -2, 515, 514)
 
 [node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
@@ -73,7 +88,7 @@ collision_mask = 8
 shape = SubResource("CircleShape2D_e2ld6")
 
 [node name="SlimeDetectionArea" type="Area2D" parent="Node2D"]
-visible = false
+z_index = 1
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/SlimeDetectionArea"]
@@ -85,7 +100,6 @@ bus = &"SFX"
 [node name="SlimeTrailAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = 1
 shape = SubResource("CircleShape2D_tni1a")
 debug_color = Color(0.976471, 0.137255, 0.145098, 0.419608)
@@ -109,6 +123,15 @@ script = ExtResource("6_8dhtv")
 [node name="IMPACTING" type="Node" parent="StateManager"]
 script = ExtResource("7_834mo")
 
+[node name="SPLITTING" type="Node" parent="StateManager"]
+script = ExtResource("9_yxkx5")
+
+[node name="DIZZY" type="Node" parent="StateManager"]
+script = ExtResource("10_un6tv")
+
+[node name="PACING" type="Node" parent="StateManager"]
+script = ExtResource("11_0cyjp")
+
 [node name="DEBUGGING_STATE_LABEL" type="Label" parent="."]
 z_index = 5
 offset_left = -46.0
@@ -122,4 +145,5 @@ text = "STATE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="Node2D/SlimeDetectionArea" to="." method="_on_slime_detection_area_body_entered"]

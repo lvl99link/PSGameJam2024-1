@@ -37,6 +37,3 @@ func _physics_process(_delta: float) -> void:
 	segment.size = Vector2((length + resolution), width)
 	
 	new_shape.shape = segment
-
-# TODO:
-# FUNCTION TO LOOP THROUGH THE FINAL TRAIL AND GENERATE A PROPER COLLISION AREA FOR IT

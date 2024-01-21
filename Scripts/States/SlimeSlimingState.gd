@@ -19,6 +19,7 @@ func enter(_msg := {}) -> void:
 	# When we enter the sliming state (manually set after the launch function)
 	# Start playing the corresponding animations. Mainly the spinning loop.
 	# However we can maybe chain that to run after the initial getting flicked animation.
+	# Play dizzy sound effect here
 	pass
 
 func exit() -> void:
