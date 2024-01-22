@@ -35,10 +35,14 @@ func set_volume(mixer: String, volume: float) -> void:
 	var bus_idx = AudioServer.get_bus_index(mixer)
 	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(volume))
 
+func zoom(value: Vector2 = Vector2.ONE, zoom_time: float = 0.5):
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera, "zoom", value, zoom_time).set_ease(Tween.EASE_IN_OUT)
+
 func shake(amount) -> void:
 	# Helper shake function that calls the camera's shake function
 	# Not necessary but only doing this for autocomplete
-	# Suggested shake amount between 0.05 and 0.3. Get's really intense beyond that.
+	# Suggested shake amount between 0.2 and 0.3. Get's really intense beyond that.
 	camera.shake(amount)
 
 func freeze_frame(timescale: float, duration: float) -> void:

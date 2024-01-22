@@ -1,15 +1,19 @@
-[gd_scene load_steps=22 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=24 format=3 uid="uid://dxrmape6tjgn6"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
 [ext_resource type="PackedScene" uid="uid://psco1baapw31" path="res://Prefabs/custom_camera.tscn" id="2_k4vor"]
 [ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/UI/score_ui.tscn" id="3_4ww4u"]
 [ext_resource type="Script" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="4_b8j21"]
+[ext_resource type="PackedScene" uid="uid://j8dje6eh86el" path="res://Prefabs/UI/strength_bar.tscn" id="4_s24qq"]
 [ext_resource type="Texture2D" uid="uid://3mcygeh82o2v" path="res://Assets/Art/Maps/Jam-A-Slime-Arena.png" id="4_y73fv"]
-[ext_resource type="PackedScene" uid="uid://ipf8v4872t2r" path="res://Prefabs/UI/strength_bar.tscn" id="7_hwjxf"]
+[ext_resource type="PackedScene" uid="uid://dp3lkoqx5nigr" path="res://Prefabs/UI/victory_screen.tscn" id="5_qgvp8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
 radius = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eiugq"]
+size = Vector2(1086, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m8b5i"]
 size = Vector2(2384, 20)
@@ -52,13 +56,14 @@ size = Vector2(17, 1088)
 
 [node name="PrototypingLevel" type="Node2D"]
 
-[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "player_start_areas", "score_ui", "strength_bar_ui") groups=["GameManager"]]
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("camera", "player_start_areas", "score_ui", "victory_ui", "strength_bar_ui") groups=["GameManager"]]
 unique_name_in_owner = true
 script = ExtResource("1_2dkag")
 camera = NodePath("../Camera2D")
 player_start_areas = [NodePath("../Player 1 Start/Player1StartArea"), NodePath("../Player 2 Start/Player2StartArea")]
 score_ui = NodePath("../ScoreCanvas/ScoreUI")
-strength_bar_ui = NodePath("../ScoreCanvas/TextureProgressBar")
+victory_ui = NodePath("../ScoreCanvas/VictoryScreen")
+strength_bar_ui = NodePath("../StrengthBar")
 
 [node name="Timer" type="Timer" parent="GameManager"]
 one_shot = true
@@ -71,6 +76,10 @@ collision_layer = 0
 shape = SubResource("CircleShape2D_jvgl3")
 debug_color = Color(0, 1, 0.14902, 0.419608)
 
+[node name="StrengthBar" parent="." instance=ExtResource("4_s24qq")]
+visible = false
+scale = Vector2(0.4, 0.4)
+
 [node name="Camera2D" parent="." instance=ExtResource("2_k4vor")]
 limit_left = -1170
 limit_right = 1170
@@ -79,18 +88,37 @@ limit_right = 1170
 
 [node name="ScoreUI" parent="ScoreCanvas" instance=ExtResource("3_4ww4u")]
 
-[node name="TextureProgressBar" parent="ScoreCanvas" instance=ExtResource("7_hwjxf")]
-offset_left = 9.0
-offset_top = 546.0
-offset_right = 109.0
-offset_bottom = 1046.0
-value = 0.0
+[node name="VictoryScreen" parent="ScoreCanvas" instance=ExtResource("5_qgvp8")]
 
 [node name="Jam-a-slime-arena" type="Sprite2D" parent="."]
 z_index = -1
 texture = ExtResource("4_y73fv")
 
 [node name="Walls" type="Node2D" parent="."]
+
+[node name="StartWall1" type="StaticBody2D" parent="Walls"]
+position = Vector2(-856, 544)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StartWall1"]
+position = Vector2(0, -543)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_eiugq")
+one_way_collision = true
+one_way_collision_margin = 16.0
+
+[node name="StartWall2" type="StaticBody2D" parent="Walls"]
+position = Vector2(849, 544)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StartWall2"]
+position = Vector2(0, -543)
+rotation = -1.5708
+shape = SubResource("RectangleShape2D_eiugq")
+one_way_collision = true
+one_way_collision_margin = 16.0
 
 [node name="Wall" type="StaticBody2D" parent="Walls"]
 position = Vector2(0, -544)
@@ -205,6 +233,19 @@ radius = 196.99
 width = 138.81
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Central/ScoreArea2"]
+
+[node name="ScoreArea3" type="Area2D" parent="Scoring Regions/Central"]
+position = Vector2(1, -1)
+collision_layer = 4
+script = ExtResource("2_30w6k")
+
+[node name="DonutCollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Central/ScoreArea3"]
+polygon = PackedVector2Array(7.81039e-15, -127.558, 24.3391, -125.214, 47.7839, -118.269, 69.4728, -106.979, 90.1968, -90.1968, 105.75, -71.3292, 117.417, -49.8407, 124.77, -26.5207, 127.558, 0, 125.214, 24.3391, 118.269, 47.7839, 106.979, 69.4728, 90.1968, 90.1968, 71.3292, 105.75, 49.8407, 117.417, 26.5207, 124.77, 7.81039e-15, 127.558, -24.3391, 125.214, -47.7839, 118.269, -69.4728, 106.979, -90.1968, 90.1968, -105.75, 71.3292, -117.417, 49.8407, -124.77, 26.5207, -127.558, 1.56208e-14, -125.214, -24.3391, -118.269, -47.7839, -106.979, -69.4728, -90.1968, -90.1968, -71.3292, -105.75, -49.8407, -117.417, -26.5207, -124.77, -2.34312e-14, -127.558, -1.17328e-14, -63.8725, -13.2798, -62.4767, -24.957, -58.7949, -35.717, -52.9527, -45.1647, -45.1647, -53.568, -34.7875, -59.2216, -23.9271, -62.699, -12.1874, -63.8725, 7.82187e-15, -62.4767, 13.2798, -58.7949, 24.957, -52.9527, 35.717, -45.1647, 45.1647, -34.7875, 53.568, -23.9271, 59.2216, -12.1874, 62.699, 3.91093e-15, 63.8725, 13.2798, 62.4767, 24.957, 58.7949, 35.717, 52.9527, 45.1647, 45.1647, 53.568, 34.7875, 59.2216, 23.9271, 62.699, 12.1874, 63.8725, 0, 62.4767, -13.2798, 58.7949, -24.957, 52.9527, -35.717, 45.1647, -45.1647, 34.7875, -53.568, 23.9271, -59.2216, 12.1874, -62.699, 3.91093e-15, -63.8725, 0.0001, -127.557)
+script = ExtResource("4_b8j21")
+radius = 95.715
+width = 63.685
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Central/ScoreArea3"]
 
 [node name="Mediums" type="Node2D" parent="Scoring Regions"]
 
@@ -347,6 +388,7 @@ debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
 [connection signal="body_entered" from="Scoring Regions/Jackpots/JACKPOT4" to="Scoring Regions/Jackpots/JACKPOT4" method="_on_slime_entered"]
 [connection signal="body_entered" from="Scoring Regions/Central/ScoreArea" to="Scoring Regions/Central/ScoreArea" method="_on_slime_entered"]
 [connection signal="body_entered" from="Scoring Regions/Central/ScoreArea2" to="Scoring Regions/Central/ScoreArea2" method="_on_slime_entered"]
+[connection signal="body_entered" from="Scoring Regions/Central/ScoreArea3" to="Scoring Regions/Central/ScoreArea3" method="_on_slime_entered"]
 [connection signal="body_entered" from="Scoring Regions/Mediums/MediumArea1" to="Scoring Regions/Mediums/MediumArea1" method="_on_slime_entered"]
 [connection signal="body_entered" from="Scoring Regions/Mediums/MediumArea2" to="Scoring Regions/Mediums/MediumArea2" method="_on_slime_entered"]
 [connection signal="body_entered" from="Scoring Regions/Mediums/MediumArea3" to="Scoring Regions/Mediums/MediumArea3" method="_on_slime_entered"]

@@ -8,6 +8,7 @@ const MAX_SLIMES = 4
 @export var camera: CustomCamera ## Current scene's camera
 @export var player_start_areas: Array[Area2D] ## List of areas from the editor where players launch from
 @export var score_ui: ScoreUI ## UI Control node that has the score GUI
+@export var victory_ui: VictoryUI ## UI Control node that has the victory screen GUI
 @export var strength_bar_ui: TextureProgressBar ## Progress bar for strength line
 
 @onready var state: ROUND = ROUND.START
@@ -47,7 +48,6 @@ func _process(_delta: float) -> void:
 	# Debugging:
 	if Input.is_action_pressed("reset"): get_tree().reload_current_scene()
 	cursor_area.global_position = get_global_mouse_position()
-	strength_bar_ui.value = drag_line.strength * 100
 	# Check state of game
 	if state == ROUND.START:
 		handle_start_state()
@@ -90,6 +90,8 @@ func handle_start_state() -> void:
 	var start_point = area.get_node("StartPoint") as Node2D
 	var collider: CollisionShape2D = area.get_node("CollisionShape2D") as CollisionShape2D
 	var shape: Rect2 = collider.shape.get_rect()
+	var mouse_pos: Vector2 = get_global_mouse_position()
+	
 	#region HANDLING PICKING UP A SLIME IF THERE IS NO ACTIVE SLIME
 	# TODO: Clean up, refactor, and maybe extract
 	if not (active_slime or held_slime) and Input.is_action_just_pressed("fire"):
@@ -102,7 +104,7 @@ func handle_start_state() -> void:
 			last_valid_slime_pos = held_slime.global_position
 	if held_slime and Input.is_action_pressed("fire"):
 		held_slime.trail.can_draw = false
-		held_slime.global_position = get_global_mouse_position()
+		held_slime.global_position = mouse_pos
 	elif held_slime and Input.is_action_just_released("fire"):
 		# Check if the slime is over a starting line
 		if held_slime.start_detection_area.has_overlapping_areas():
@@ -116,6 +118,8 @@ func handle_start_state() -> void:
 	#endregion
 	
 	#region HANDLING FOR WHEN SLIME IS IN START LINE READY TO BE DRAGGED
+	if not Input.is_action_pressed("fire"):
+		strength_bar_ui.visible = false
 	if active_slime and Input.is_action_just_pressed("fire"):
 		var selected_slimes = cursor_area.get_overlapping_bodies()
 		if len(selected_slimes) > 0 and selected_slimes[0] != active_slime:
@@ -126,7 +130,7 @@ func handle_start_state() -> void:
 					cursor_area.get_overlapping_bodies()[0] == active_slime
 	if can_drag and active_slime and Input.is_action_just_released("fire"):
 		if cursor_area.has_overlapping_bodies() and cursor_area.get_overlapping_bodies()[0] == active_slime:
-			return
+			return # Cancel launch if mouse is still over the slime when let go
 		state = ROUND.SLIMING
 		timer.start(5)
 		active_slime.trail.can_draw = true
@@ -136,11 +140,19 @@ func handle_start_state() -> void:
 		return
 	if can_drag and active_slime and Input.is_action_pressed("fire"):
 		drag_line.visible = true
-		drag_line.points[0] = get_global_mouse_position()
+		drag_line.points[0] = Vector2(
+			clamp(mouse_pos.x, active_slime.global_position.x - drag_line.MAX_LENGTH, active_slime.global_position.x + drag_line.MAX_LENGTH),
+			clamp(mouse_pos.y, active_slime.global_position.y - drag_line.MAX_LENGTH, active_slime.global_position.y + drag_line.MAX_LENGTH)
+		) # A bit verbose but basically the drag line cant be longer than it's max length
 		drag_line.points[1] = active_slime.global_position
+		
+		# Also handle the 'power bar' asset's position, value, and visibility
+		strength_bar_ui.visible = true
+		strength_bar_ui.global_position = active_slime.global_position + Vector2(80,-80)
+		strength_bar_ui.value = drag_line.strength * 100
 	elif active_slime:
 		drag_line.visible = false
-		active_slime.global_position.y = clamp(get_global_mouse_position().y, shape.size.y * -1 / 2, shape.size.y / 2)
+		active_slime.global_position.y = clamp(mouse_pos.y, shape.size.y * -1 / 2, shape.size.y / 2)
 		active_slime.position.x = start_point.position.x
 	#endregion
 
@@ -159,6 +171,8 @@ func launch_slime() -> void:
 	# TODO:
 	# 1. Find way to prevent shooting into your own arena
 	launch_strength = drag_line.strength
+	Globals.shake(0.158)
+	Globals.zoom(Vector2(1.1,1.1))
 	var direction = 1 if get_global_mouse_position().x < active_slime.global_position.x else -1
 	var strength = launch_strength * MAX_SPEED
 	var angle = get_global_mouse_position().direction_to(active_slime.global_position)
@@ -166,7 +180,6 @@ func launch_slime() -> void:
 	var x = strength * abs(angle.x) * direction
 	var y = strength * angle.y
 	active_slime.apply_impulse(Vector2(x, y))
-	
 	players[turn - 1].slimes_on_field.append(active_slime)
 	swap_camera_to(active_slime)
 	
@@ -184,7 +197,6 @@ func next_turn() -> void:
 	players[turn - 1].remove_slime_from_roster(active_slime)
 	active_slime = null
 	
-	
 	turn += 1
 	if turn > player_count:
 		turn = 1
@@ -192,9 +204,13 @@ func next_turn() -> void:
 		print("Rounds elapsed ", rounds_elapsed)
 	if rounds_elapsed == MAX_SLIMES:
 		state = ROUND.ENDING
+		victory_ui.winner = get_winner()
+		victory_ui.scores = [players[0].score, players[1].score]
+		victory_ui.spawn_menu()
 		return
 
 	swap_camera_to(player_start_areas[turn - 1])
+	Globals.zoom() # reset zoom if not default	
 	state = ROUND.START
 
 func calculate_scores() -> void:
@@ -208,3 +224,12 @@ func calculate_scores() -> void:
 		player.score = temp_score
 		score_ui.set_score(player.player_num, player.score)
 		print("player ", player.player_num, " score = ", player.score)
+
+func get_winner() -> Player:
+	var current_winner: Player = players[0]
+	for player in players:
+		print(player.score)
+		if player.score > current_winner.score:
+			current_winner = player
+	print(current_winner)
+	return current_winner

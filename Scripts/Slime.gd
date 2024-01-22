@@ -95,7 +95,7 @@ func handle_slime_trail_friction() -> void:
 				linear_damp = Globals.FRICTION * slime_friction
 	else:
 		linear_damp = Globals.FRICTION
-	
+
 func calculate_score() -> int:
 	# Gets all the 'score areas' that the slime might be overlapping
 	# Really should offload this responsibility to the Target class.
@@ -186,3 +186,4 @@ func _on_body_entered(body: Node) -> void:
 		# Enter impacting state
 		# Change the other state to splitting?
 		Globals.play_audio(SLIME_IMPACT_SLAP)
+		Globals.shake(0.18)
