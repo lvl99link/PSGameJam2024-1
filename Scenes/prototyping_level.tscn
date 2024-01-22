@@ -127,6 +127,7 @@ position = Vector2(-280, -207)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
+allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT1"]
 shape = SubResource("CircleShape2D_ci4k8")
@@ -138,6 +139,7 @@ position = Vector2(289, -208)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
+allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT2"]
 shape = SubResource("CircleShape2D_7k7nw")
@@ -149,6 +151,7 @@ position = Vector2(287, 207)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
+allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT3"]
 shape = SubResource("CircleShape2D_nhoup")
@@ -160,6 +163,7 @@ position = Vector2(-283, 211)
 collision_layer = 4
 script = ExtResource("2_30w6k")
 value = 100
+allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT4"]
 shape = SubResource("CircleShape2D_g660y")
