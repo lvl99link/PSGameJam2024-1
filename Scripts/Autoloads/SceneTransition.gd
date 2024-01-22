@@ -7,3 +7,4 @@ func change_scene(target: PackedScene, animation: String = "Slide") -> void:
 	await animation_player.animation_finished
 	get_tree().change_scene_to_packed(target)
 	animation_player.play_backwards(animation)
+	await animation_player.animation_finished
