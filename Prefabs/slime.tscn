@@ -1,16 +1,22 @@
-[gd_scene load_steps=19 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=32 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
 [ext_resource type="Texture2D" uid="uid://crknk0f71tklh" path="res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png" id="2_38la0"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
 [ext_resource type="Shader" path="res://Assets/Shaders/outline.gdshader" id="2_uljtn"]
+[ext_resource type="Texture2D" uid="uid://6y0k33gg4r1" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0000.png" id="4_nahct"]
 [ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="4_t08mx"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeIdleState.gd" id="5_0heq5"]
+[ext_resource type="Texture2D" uid="uid://bcx1kcvaabvx2" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0001.png" id="5_r4wnj"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeSlimingState.gd" id="6_8dhtv"]
+[ext_resource type="Texture2D" uid="uid://vsiultvjw65m" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0002.png" id="6_uofd7"]
+[ext_resource type="Texture2D" uid="uid://bm7jce8jy2eu1" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0003.png" id="7_78jda"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeImpactState.gd" id="7_834mo"]
-[ext_resource type="Script" path="res://Scripts/States/SlimeSplittingState.gd" id="9_yxkx5"]
-[ext_resource type="Script" path="res://Scripts/States/SlimeDizzyState.gd" id="10_un6tv"]
+[ext_resource type="Texture2D" uid="uid://bo8cwk7lu3dng" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0004.png" id="8_x3e63"]
+[ext_resource type="Texture2D" uid="uid://c18k8lewi8u7o" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0005.png" id="9_2on5m"]
+[ext_resource type="Texture2D" uid="uid://b3rmg0beo247y" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0006.png" id="10_e0m8o"]
 [ext_resource type="Script" path="res://Scripts/States/SlimePacingState.gd" id="11_0cyjp"]
+[ext_resource type="Texture2D" uid="uid://cx2cp2ktlllxw" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0007.png" id="11_m6qyw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
 bounce = 0.5
@@ -24,6 +30,47 @@ shader_parameter/pattern = 0
 shader_parameter/inside = true
 shader_parameter/add_margins = true
 shader_parameter/number_of_images = Vector2(1, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q5qax"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_38la0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_nahct")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_r4wnj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uofd7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_78jda")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_x3e63")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_2on5m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_e0m8o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_m6qyw")
+}],
+"loop": true,
+"name": &"sliming",
+"speed": 24.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bl807"]
 radius = 38.0132
@@ -40,6 +87,30 @@ radius = 55.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_tni1a"]
 radius = 52.0096
 
+[sub_resource type="Animation" id="Animation_6yo1y"]
+resource_name = "Bounce"
+
+[sub_resource type="Animation" id="Animation_78kar"]
+resource_name = "Dizzy"
+
+[sub_resource type="Animation" id="Animation_r3ddn"]
+resource_name = "Hit"
+
+[sub_resource type="Animation" id="Animation_y4rnh"]
+resource_name = "Idle"
+
+[sub_resource type="Animation" id="Animation_0nndm"]
+resource_name = "Sliming"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m30x3"]
+_data = {
+"Bounce": SubResource("Animation_6yo1y"),
+"Dizzy": SubResource("Animation_78kar"),
+"Hit": SubResource("Animation_r3ddn"),
+"Idle": SubResource("Animation_y4rnh"),
+"Sliming": SubResource("Animation_0nndm")
+}
+
 [node name="Slime" type="RigidBody2D"]
 collision_mask = 31
 physics_material_override = SubResource("PhysicsMaterial_wy72i")
@@ -52,12 +123,14 @@ script = ExtResource("1_ug4yn")
 
 [node name="Node2D" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Node2D"]
 z_index = 1
 material = SubResource("ShaderMaterial_5nb5l")
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_38la0")
-region_rect = Rect2(0, -2, 515, 514)
+sprite_frames = SubResource("SpriteFrames_q5qax")
+animation = &"sliming"
+autoplay = "default"
+frame_progress = 0.296102
 
 [node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
 width = 80.0
@@ -100,8 +173,10 @@ bus = &"SFX"
 
 [node name="SlimeTrailAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 
+[node name="SlimeGroundAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+volume_db = -6.5
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = 1
 shape = SubResource("CircleShape2D_tni1a")
 debug_color = Color(0.976471, 0.137255, 0.145098, 0.419608)
@@ -111,10 +186,9 @@ wait_time = 0.25
 one_shot = true
 autostart = true
 
-[node name="StateManager" type="Node" parent="." node_paths=PackedStringArray("parent")]
+[node name="StateManager" type="Node" parent="."]
 script = ExtResource("4_t08mx")
 initial_state = NodePath("IDLE")
-parent = NodePath("..")
 
 [node name="IDLE" type="Node" parent="StateManager"]
 script = ExtResource("5_0heq5")
@@ -124,12 +198,6 @@ script = ExtResource("6_8dhtv")
 
 [node name="IMPACTING" type="Node" parent="StateManager"]
 script = ExtResource("7_834mo")
-
-[node name="SPLITTING" type="Node" parent="StateManager"]
-script = ExtResource("9_yxkx5")
-
-[node name="DIZZY" type="Node" parent="StateManager"]
-script = ExtResource("10_un6tv")
 
 [node name="PACING" type="Node" parent="StateManager"]
 script = ExtResource("11_0cyjp")
@@ -146,6 +214,11 @@ theme_override_font_sizes/font_size = 32
 text = "STATE"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_m30x3")
+}
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="Node2D/SlimeDetectionArea" to="." method="_on_slime_detection_area_body_entered"]

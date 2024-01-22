@@ -13,7 +13,10 @@ config_version=5
 config/name="Game Jam Project"
 run/main_scene="res://Scenes/prototyping_level.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/image="res://Assets/Art/JamSmall.png"
 config/icon="res://Assets/icon.svg"
+boot_splash/minimum_display_time=500
 
 [autoload]
 

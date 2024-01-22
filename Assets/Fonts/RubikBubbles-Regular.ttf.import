@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://8wu6ev8gqxw7"
-path="res://.godot/imported/RubikBubbles-Regular.ttf-df8a04a5c6e449b774493b52b23f4349.fontdata"
+path="res://.godot/imported/RubikBubbles-Regular.ttf-7289c298cb396eae87681ec18bf6b439.fontdata"
 
 [deps]
 
-source_file="res://Assets/RubikBubbles-Regular.ttf"
-dest_files=["res://.godot/imported/RubikBubbles-Regular.ttf-df8a04a5c6e449b774493b52b23f4349.fontdata"]
+source_file="res://Assets/Fonts/RubikBubbles-Regular.ttf"
+dest_files=["res://.godot/imported/RubikBubbles-Regular.ttf-7289c298cb396eae87681ec18bf6b439.fontdata"]
 
 [params]
 

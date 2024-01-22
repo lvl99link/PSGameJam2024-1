@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://dnv7wug6gtchg"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_y3b8d"]
-[ext_resource type="FontFile" uid="uid://8wu6ev8gqxw7" path="res://Assets/RubikBubbles-Regular.ttf" id="2_v0r6s"]
+[ext_resource type="FontFile" uid="uid://8wu6ev8gqxw7" path="res://Assets/Fonts/RubikBubbles-Regular.ttf" id="2_v0r6s"]
 [ext_resource type="Texture2D" uid="uid://xx2wsg7vw6ic" path="res://Assets/icon.svg" id="3_eosqj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_05lyu"]

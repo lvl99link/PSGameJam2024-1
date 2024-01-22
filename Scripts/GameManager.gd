@@ -112,7 +112,8 @@ func handle_start_state() -> void:
 			active_slime.global_position.x = start_point.global_position.x
 		# If it isn't a valid position (starting area) reset it's position
 		elif held_slime not in player_start_areas[turn - 1].get_overlapping_bodies():
-			held_slime.global_position = last_valid_slime_pos
+			var tween = get_tree().create_tween()
+			tween.tween_property(held_slime, "global_position", last_valid_slime_pos, 0.1)
 		held_slime = null
 		return
 	#endregion
@@ -123,7 +124,8 @@ func handle_start_state() -> void:
 	if active_slime and Input.is_action_just_pressed("fire"):
 		var selected_slimes = cursor_area.get_overlapping_bodies()
 		if len(selected_slimes) > 0 and selected_slimes[0] != active_slime:
-			active_slime.global_position = last_valid_slime_pos
+			var tween = get_tree().create_tween()
+			tween.tween_property(active_slime, "global_position", last_valid_slime_pos, 0.1)
 			active_slime = null
 			held_slime = selected_slimes[0]
 		can_drag =  cursor_area.has_overlapping_bodies() and\
@@ -228,8 +230,6 @@ func calculate_scores() -> void:
 func get_winner() -> Player:
 	var current_winner: Player = players[0]
 	for player in players:
-		print(player.score)
 		if player.score > current_winner.score:
 			current_winner = player
-	print(current_winner)
 	return current_winner

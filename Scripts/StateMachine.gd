@@ -20,7 +20,7 @@ signal transitioned(state_name)
 @export var initial_state := NodePath()
 
 # Manually import the Slime this machine belongs to. Yes this makes it less "generic", but that's a future problem.
-@export var parent: Slime
+@onready var parent: Slime = $"../"
 
 # The current active state. At the start of the game, we get the `initial_state`.
 @onready var state: State = get_node(initial_state)
