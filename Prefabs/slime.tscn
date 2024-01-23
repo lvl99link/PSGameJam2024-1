@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=34 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
 [ext_resource type="Texture2D" uid="uid://crknk0f71tklh" path="res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png" id="2_38la0"]
@@ -17,6 +17,8 @@
 [ext_resource type="Texture2D" uid="uid://b3rmg0beo247y" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0006.png" id="10_e0m8o"]
 [ext_resource type="Script" path="res://Scripts/States/SlimePacingState.gd" id="11_0cyjp"]
 [ext_resource type="Texture2D" uid="uid://cx2cp2ktlllxw" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0007.png" id="11_m6qyw"]
+[ext_resource type="PackedScene" uid="uid://cdqskstgkebpd" path="res://Prefabs/hit_particles.tscn" id="18_c244o"]
+[ext_resource type="PackedScene" uid="uid://bjeiiwo8yfqyl" path="res://Prefabs/sliming_particles.tscn" id="19_xaauk"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
 bounce = 0.5
@@ -219,6 +221,10 @@ vertical_alignment = 1
 libraries = {
 "": SubResource("AnimationLibrary_m30x3")
 }
+
+[node name="HitParticles" parent="." instance=ExtResource("18_c244o")]
+
+[node name="SlimingParticles" parent="." instance=ExtResource("19_xaauk")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="Node2D/SlimeDetectionArea" to="." method="_on_slime_detection_area_body_entered"]

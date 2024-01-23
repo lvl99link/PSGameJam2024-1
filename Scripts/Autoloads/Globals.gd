@@ -8,6 +8,8 @@ var FRICTION: float = 1
 var music_volume: float = 0.5
 var sfx_volume: float = 0.5
 
+var is_final_turn: bool = false # Don't really like this
+
 func _ready() -> void:
 	set_volume("Music", music_volume)
 	set_volume("SFX", sfx_volume)
@@ -36,6 +38,10 @@ func set_volume(mixer: String, volume: float) -> float:
 	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(volume))
 	return volume
 
+func toggle_audio_effect(mixer: String, effect_idx: int, enabled=true) -> void:
+	var bus_idx = AudioServer.get_bus_index(mixer)
+	AudioServer.set_bus_effect_enabled(bus_idx, effect_idx, enabled)
+
 func zoom(value: Vector2 = Vector2.ONE, zoom_time: float = 0.5):
 	var tween = get_tree().create_tween()
 	tween.tween_property(camera, "zoom", value, zoom_time).set_ease(Tween.EASE_IN_OUT)
@@ -52,7 +58,7 @@ func freeze_frame(timescale: float, duration: float) -> void:
 	# Duration is how long you want it to remain that way
 	# Note that timescale must be > 0, as time will never resume if the engine has stopped counting
 	Engine.time_scale = timescale
-	PhysicsServer2D.set_active(false)
+	#PhysicsServer2D.set_active(false)
 	await get_tree().create_timer(duration * timescale).timeout
 	Engine.time_scale = 1.0
-	PhysicsServer2D.set_active(true)
+	#PhysicsServer2D.set_active(true)

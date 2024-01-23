@@ -23,6 +23,7 @@ boot_splash/minimum_display_time=500
 Globals="*res://Scripts/Autoloads/Globals.gd"
 GlobalAudioPlayer="*res://Scripts/Autoloads/global_audio_player.tscn"
 SceneTransition="*res://Scripts/Autoloads/scene_transition.tscn"
+LoadButtons="*res://Scripts/Autoloads/LoadButtons.gd"
 
 [display]
 

@@ -1,6 +1,8 @@
 class_name Slime
 extends RigidBody2D
 
+signal slime_impacted(slime: Slime)
+
 const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png")
 const RED_SLIME = preload("res://Assets/Art/Slimes/Red_Slime.png")
 
@@ -58,6 +60,9 @@ const ICE_SLIDE_BASE = preload("res://Assets/SFX/OGG/ice_slide_BASE.ogg")
 @onready var sprite: AnimatedSprite2D = $Node2D/Sprite2D
 @onready var split_cooldown_timer: Timer = $SplitCooldownTimer
 
+@onready var hit_particles: CPUParticles2D = $HitParticles
+@onready var sliming_particles: CPUParticles2D = $SlimingParticles
+
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var trail_detection_area: Area2D = $Node2D/TrailDetectionArea
 @onready var score_detection_area: Area2D = $Node2D/ScoreDetectionArea
@@ -73,6 +78,8 @@ func _ready() -> void:
 	linear_damp = Globals.FRICTION
 	sprite.sprite_frames.set_frame("default", 0, slime_sprite_by_player[owned_by.player_num - 1])
 	trail.line.default_color = slime_color_by_player[owned_by.player_num - 1]
+	hit_particles.color = slime_color_by_player[owned_by.player_num - 1]
+	sliming_particles.color = slime_color_by_player[owned_by.player_num - 1]
 
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()
@@ -151,13 +158,17 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	if body == self: return
 	if multiplier <= 1: return
 	if not can_split: return 
-	
 	var directional_velocity = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
-	if abs(directional_velocity) < 300: return
-	Globals.freeze_frame(0.05, 0.15)
-	Globals.shake(0.2)
-
+	if abs(directional_velocity) < 10: return
 	state_manager.transition_to("IMPACTING")
+
+	slime_impacted.emit(self) # Probably should remove with rework of final slaunch
+
+	if abs(directional_velocity) / Engine.time_scale < 300: return
+	if not Globals.is_final_turn: # super hacky, probably remove
+		Globals.freeze_frame(0.1, 0.18)
+	Globals.shake(0.18)
+
 	var hit_vector = body.global_position.direction_to(global_position)
 	split(hit_vector)
 
@@ -189,3 +200,4 @@ func _on_body_entered(body: Node) -> void:
 		# Change the other state to splitting?
 		Globals.play_audio(SLIME_IMPACT_SLAP)
 		Globals.shake(0.18)
+		hit_particles.emitting = true
