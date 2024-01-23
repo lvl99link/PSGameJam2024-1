@@ -31,9 +31,10 @@ func play_audio(file: AudioStream, mixer: String = "SFX") -> void:
 	remove_child(audio_player)
 	audio_player.queue_free()
 
-func set_volume(mixer: String, volume: float) -> void:
+func set_volume(mixer: String, volume: float) -> float:
 	var bus_idx = AudioServer.get_bus_index(mixer)
 	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(volume))
+	return volume
 
 func zoom(value: Vector2 = Vector2.ONE, zoom_time: float = 0.5):
 	var tween = get_tree().create_tween()

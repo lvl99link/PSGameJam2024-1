@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://migapyftmni0"
-path="res://.godot/imported/RubikPuddles-Regular.ttf-11409565913fcc1ce7941fd6f6708817.fontdata"
+path="res://.godot/imported/RubikPuddles-Regular.ttf-d1e095a107abc7a6b9c0aa3c7deaf505.fontdata"
 
 [deps]
 
-source_file="res://Assets/RubikPuddles-Regular.ttf"
-dest_files=["res://.godot/imported/RubikPuddles-Regular.ttf-11409565913fcc1ce7941fd6f6708817.fontdata"]
+source_file="res://Assets/Fonts/RubikPuddles-Regular.ttf"
+dest_files=["res://.godot/imported/RubikPuddles-Regular.ttf-d1e095a107abc7a6b9c0aa3c7deaf505.fontdata"]
 
 [params]
 

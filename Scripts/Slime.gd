@@ -23,6 +23,7 @@ const SLIME_A_THROW_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Throw_A.ogg
 const SLIME_A_DIZZY_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_A.ogg")
 const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
 const SLIME_IMPACT_SLAP = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_slap.ogg")
+const ICE_SLIDE_BASE = preload("res://Assets/SFX/OGG/ice_slide_BASE.ogg")
 #endregion
 
 #region CONSTRUCT SFX VARIANT ARRAYS
@@ -37,7 +38,11 @@ const SLIME_IMPACT_SLAP = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_sla
 	SLIME_A_SELECT_B
 ]
 @onready var slime_throws: Array[AudioStreamOggVorbis] = [
-	SLIME_A_THROW_A
+	SLIME_A_THROW_A,
+	SLIME_A_IMPACT_A,
+	SLIME_A_IMPACT_B,
+	SLIME_A_IMPACT_C,
+	SLIME_A_IMPACT_D
 ]
 @onready var slime_dizzys: Array[AudioStreamOggVorbis] = [
 	SLIME_A_DIZZY_A
@@ -47,9 +52,10 @@ const SLIME_IMPACT_SLAP = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_sla
 @onready var state_manager: StateMachine = $StateManager
 @onready var audio_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var slime_audio_player: AudioStreamPlayer2D = $SlimeTrailAudioPlayer
+@onready var ground_audio_player: AudioStreamPlayer2D = $SlimeGroundAudioPlayer
 @onready var trail: Trail = $Node2D/Trail
 @onready var child_container: Node2D = $Node2D # Can't resize rigidbodies, so make a container to resize their children
-@onready var sprite: Sprite2D = $Node2D/Sprite2D
+@onready var sprite: AnimatedSprite2D = $Node2D/Sprite2D
 @onready var split_cooldown_timer: Timer = $SplitCooldownTimer
 
 @onready var collider: CollisionShape2D = $CollisionShape2D
@@ -65,24 +71,16 @@ var can_split: bool = true
 
 func _ready() -> void:
 	linear_damp = Globals.FRICTION
-	sprite.texture = slime_sprite_by_player[owned_by.player_num - 1]
+	sprite.sprite_frames.set_frame("default", 0, slime_sprite_by_player[owned_by.player_num - 1])
 	trail.line.default_color = slime_color_by_player[owned_by.player_num - 1]
 
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()
-	handle_sliming_audio()
 	#handle_show_outline()
 	# Resets the can_split once it's had a moment to settle down
 	if not can_split and linear_velocity.x < 10:
 		await get_tree().create_timer(1).timeout
 		if linear_velocity.x < 10: can_split = true
-
-func handle_sliming_audio() -> void:
-	if linear_velocity.x > 5 and not slime_audio_player.playing:
-		slime_audio_player.stream = SLIME_SLIDE_BASE
-		slime_audio_player.play()
-	elif linear_velocity.x <=5 and slime_audio_player.playing:
-		slime_audio_player.stop()
 
 func handle_slime_trail_friction() -> void:
 	# Applies greater friction if the given slime is overlapping a slime trail
@@ -174,12 +172,15 @@ func clone() -> Slime:
 	new_slime.trail = trail.duplicate(5) as Trail
 	new_slime.trail.width = trail.width
 	owned_by.slimes_on_field.append(new_slime)
+	new_slime.sprite = sprite.duplicate(5)
+	# I think we need to set the initial state, somehow
 	
 	return new_slime
 
 func spawn(new_slime: Slime) -> void:
 	get_parent().add_child(new_slime)
 	new_slime.trail.can_draw = true
+	new_slime.state_manager.transition_to("IMPACTING")
 
 func _on_body_entered(body: Node) -> void:
 	var directional_v = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))

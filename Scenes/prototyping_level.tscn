@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=25 format=3 uid="uid://cvbfu4iw0f8c3"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
@@ -8,12 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://j8dje6eh86el" path="res://Prefabs/UI/strength_bar.tscn" id="4_s24qq"]
 [ext_resource type="Texture2D" uid="uid://3mcygeh82o2v" path="res://Assets/Art/Maps/Jam-A-Slime-Arena.png" id="4_y73fv"]
 [ext_resource type="PackedScene" uid="uid://dp3lkoqx5nigr" path="res://Prefabs/UI/victory_screen.tscn" id="5_qgvp8"]
+[ext_resource type="PackedScene" uid="uid://b1xgqwhsvt638" path="res://Prefabs/UI/pause_menu.tscn" id="6_lfnx2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
 radius = 8.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eiugq"]
-size = Vector2(1086, 30)
+size = Vector2(1086, 8.00098)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m8b5i"]
 size = Vector2(2384, 20)
@@ -90,6 +91,8 @@ limit_right = 1170
 
 [node name="VictoryScreen" parent="ScoreCanvas" instance=ExtResource("5_qgvp8")]
 
+[node name="PauseMenu" parent="ScoreCanvas" instance=ExtResource("6_lfnx2")]
+
 [node name="Jam-a-slime-arena" type="Sprite2D" parent="."]
 z_index = -1
 texture = ExtResource("4_y73fv")
@@ -97,24 +100,24 @@ texture = ExtResource("4_y73fv")
 [node name="Walls" type="Node2D" parent="."]
 
 [node name="StartWall1" type="StaticBody2D" parent="Walls"]
-position = Vector2(-856, 544)
+position = Vector2(-849, 543)
 collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StartWall1"]
-position = Vector2(0, -543)
+position = Vector2(10.001, -543)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_eiugq")
 one_way_collision = true
 one_way_collision_margin = 16.0
 
 [node name="StartWall2" type="StaticBody2D" parent="Walls"]
-position = Vector2(849, 544)
+position = Vector2(834, 543)
 collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StartWall2"]
-position = Vector2(0, -543)
+position = Vector2(0.998535, -543)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_eiugq")
 one_way_collision = true
