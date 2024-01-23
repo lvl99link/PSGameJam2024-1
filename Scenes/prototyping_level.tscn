@@ -14,7 +14,7 @@
 radius = 8.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eiugq"]
-size = Vector2(1086, 8.00098)
+size = Vector2(1088, 1.99951)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m8b5i"]
 size = Vector2(2384, 20)
@@ -100,19 +100,18 @@ texture = ExtResource("4_y73fv")
 [node name="Walls" type="Node2D" parent="."]
 
 [node name="StartWall1" type="StaticBody2D" parent="Walls"]
-position = Vector2(-849, 543)
+position = Vector2(-814, 543)
 collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StartWall1"]
-position = Vector2(10.001, -543)
+position = Vector2(13.0017, -542)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_eiugq")
 one_way_collision = true
-one_way_collision_margin = 16.0
 
 [node name="StartWall2" type="StaticBody2D" parent="Walls"]
-position = Vector2(834, 543)
+position = Vector2(795, 543)
 collision_layer = 8
 collision_mask = 0
 
@@ -121,7 +120,6 @@ position = Vector2(0.998535, -543)
 rotation = -1.5708
 shape = SubResource("RectangleShape2D_eiugq")
 one_way_collision = true
-one_way_collision_margin = 16.0
 
 [node name="Wall" type="StaticBody2D" parent="Walls"]
 position = Vector2(0, -544)
@@ -306,6 +304,7 @@ position = Vector2(-942, 0)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player 1 Start/Player1StartArea"]
+visible = false
 position = Vector2(-75, 0)
 shape = SubResource("RectangleShape2D_hnrrt")
 
@@ -327,7 +326,7 @@ position = Vector2(-120, 168)
 position = Vector2(-80, 440)
 
 [node name="StartLine" type="Node2D" parent="Player 1 Start"]
-position = Vector2(-852, 0)
+position = Vector2(-873, -1)
 
 [node name="Line2D" type="Line2D" parent="Player 1 Start/StartLine"]
 visible = false
@@ -349,6 +348,7 @@ position = Vector2(948, 0)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player 2 Start/Player2StartArea"]
+visible = false
 position = Vector2(64, 4)
 shape = SubResource("RectangleShape2D_tjxsh")
 
@@ -370,7 +370,7 @@ position = Vector2(106, 152)
 position = Vector2(18, 408)
 
 [node name="StartLine2" type="Node2D" parent="Player 2 Start"]
-position = Vector2(848, 0)
+position = Vector2(870, -1)
 
 [node name="Line2D" type="Line2D" parent="Player 2 Start/StartLine2"]
 visible = false
