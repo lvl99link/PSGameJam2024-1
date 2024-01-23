@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dxrmape6tjgn6"]
+[gd_scene load_steps=25 format=3 uid="uid://cvbfu4iw0f8c3"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://j8dje6eh86el" path="res://Prefabs/UI/strength_bar.tscn" id="4_s24qq"]
 [ext_resource type="Texture2D" uid="uid://3mcygeh82o2v" path="res://Assets/Art/Maps/Jam-A-Slime-Arena.png" id="4_y73fv"]
 [ext_resource type="PackedScene" uid="uid://dp3lkoqx5nigr" path="res://Prefabs/UI/victory_screen.tscn" id="5_qgvp8"]
+[ext_resource type="PackedScene" uid="uid://b1xgqwhsvt638" path="res://Prefabs/UI/pause_menu.tscn" id="6_lfnx2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
 radius = 8.0
@@ -89,6 +90,8 @@ limit_right = 1170
 [node name="ScoreUI" parent="ScoreCanvas" instance=ExtResource("3_4ww4u")]
 
 [node name="VictoryScreen" parent="ScoreCanvas" instance=ExtResource("5_qgvp8")]
+
+[node name="PauseMenu" parent="ScoreCanvas" instance=ExtResource("6_lfnx2")]
 
 [node name="Jam-a-slime-arena" type="Sprite2D" parent="."]
 z_index = -1

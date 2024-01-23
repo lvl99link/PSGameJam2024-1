@@ -173,7 +173,7 @@ func launch_slime() -> void:
 	# TODO:
 	# 1. Find way to prevent shooting into your own arena
 	launch_strength = drag_line.strength
-	Globals.shake(0.158)
+	Globals.shake(0.19)
 	Globals.zoom(Vector2(1.1,1.1))
 	var direction = 1 if get_global_mouse_position().x < active_slime.global_position.x else -1
 	var strength = launch_strength * MAX_SPEED

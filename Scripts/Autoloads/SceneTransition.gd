@@ -8,3 +8,4 @@ func change_scene(target: PackedScene, animation: String = "Slide") -> void:
 	get_tree().change_scene_to_packed(target)
 	animation_player.play_backwards(animation)
 	await animation_player.animation_finished
+	get_tree().paused = false # In case the game was unintentionally put in the pause state
