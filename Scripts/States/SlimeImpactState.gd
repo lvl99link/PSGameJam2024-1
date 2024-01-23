@@ -13,6 +13,8 @@ func enter(_msg := {}) -> void:
 	# Simply play the impacted animation 
 	# We can move sound effects in here as well.
 	# Then transition back to the previous state.
+	var slime = state_machine.parent as Slime
+	slime.hit_particles.emitting = true
 	await get_tree().create_timer(0.3).timeout # in place of waiting for the animation until we get them
 	state_machine.transition_to("SLIMING")
 
