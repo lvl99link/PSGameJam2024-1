@@ -18,10 +18,12 @@ func toggle_paused() -> void:
 	if is_paused:
 		visible = true
 		animation_player.play("enter")
+		Globals.toggle_audio_effect("Music", 0, true)
 	else:
 		animation_player.play_backwards("enter")
 		await animation_player.animation_finished
 		visible = false
+		Globals.toggle_audio_effect("Music", 0, false)
 
 func _on_resume_pressed() -> void:
 	# Play the exit animation, then destroy the scene (or set invsibile)

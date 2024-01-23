@@ -29,6 +29,7 @@ func _ready() -> void:
 func spawn_menu() -> void:
 	show_map.visible = false
 	visible = true
+	Globals.toggle_audio_effect("Music", 0, true)
 	var color: Color = winner.color_by_player_num[winner.player_num - 1]
 	if scores[0] == scores[1]:
 		color = Color.DIM_GRAY
@@ -48,9 +49,11 @@ func spawn_menu() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _on_menu_pressed() -> void:
+	Globals.toggle_audio_effect("Music", 0, false)
 	SceneTransition.change_scene(MAIN_MENU)
 
 func _on_rematch_pressed() -> void:
+	Globals.toggle_audio_effect("Music", 0, false)
 	var PROTOTYPING_LEVEL = load("res://Scenes/prototyping_level.tscn") # change to main scene
 	SceneTransition.change_scene(PROTOTYPING_LEVEL)
 
@@ -60,8 +63,10 @@ func _on_exit_pressed() -> void:
 func _on_show_pressed() -> void:
 	hide_banner = not hide_banner
 	if hide_banner:
+		Globals.toggle_audio_effect("Music", 0, false)
 		show_map.text = "Back"
 		animation_player.play_backwards("Intro")
 	else:
+		Globals.toggle_audio_effect("Music", 0, true)
 		show_map.text = "Show Map"
 		animation_player.play("Intro")

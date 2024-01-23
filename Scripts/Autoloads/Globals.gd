@@ -38,6 +38,10 @@ func set_volume(mixer: String, volume: float) -> float:
 	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(volume))
 	return volume
 
+func toggle_audio_effect(mixer: String, effect_idx: int, enabled=true) -> void:
+	var bus_idx = AudioServer.get_bus_index(mixer)
+	AudioServer.set_bus_effect_enabled(bus_idx, effect_idx, enabled)
+
 func zoom(value: Vector2 = Vector2.ONE, zoom_time: float = 0.5):
 	var tween = get_tree().create_tween()
 	tween.tween_property(camera, "zoom", value, zoom_time).set_ease(Tween.EASE_IN_OUT)
