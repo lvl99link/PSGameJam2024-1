@@ -1,6 +1,8 @@
 class_name Slime
 extends RigidBody2D
 
+signal slime_impacted(slime: Slime)
+
 const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png")
 const RED_SLIME = preload("res://Assets/Art/Slimes/Red_Slime.png")
 
@@ -158,10 +160,13 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	var directional_velocity = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
 	if abs(directional_velocity) < 10: return
 	state_manager.transition_to("IMPACTING")
-	
-	if abs(directional_velocity) < 300: return
-	Globals.freeze_frame(0.05, 0.15)
-	Globals.shake(0.2)
+
+	slime_impacted.emit(self) # Probably should remove with rework of final slaunch
+
+	if abs(directional_velocity) / Engine.time_scale < 300: return
+	if not Globals.is_final_turn: # super hacky, probably remove
+		Globals.freeze_frame(0.1, 0.18)
+	Globals.shake(0.18)
 
 	var hit_vector = body.global_position.direction_to(global_position)
 	split(hit_vector)

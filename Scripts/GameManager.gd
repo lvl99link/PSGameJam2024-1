@@ -3,7 +3,7 @@ extends Node2D
 
 enum ROUND {START, SLIMING, ENDING}
 const MAX_SPEED = 1500 # Fine tune
-const MAX_SLIMES = 1
+const MAX_SLIMES = 2
 
 @export var camera: CustomCamera ## Current scene's camera
 @export var player_start_areas: Array[Area2D] ## List of areas from the editor where players launch from
@@ -72,6 +72,7 @@ func initialize_rosters() -> void:
 			slime.owned_by = player
 			player.roster.append(slime)
 			player.available_roster.append(slime)
+			slime.slime_impacted.connect(on_slime_impact) # NOTE to delete this if scrapping final slaunch
 			
 			# TODO: Select the next available spawn point instead of rng.
 			var area: Area2D = player_start_areas[player.player_num - 1]
@@ -174,7 +175,7 @@ func launch_slime() -> void:
 	# 1. Find way to prevent shooting into your own arena
 	launch_strength = drag_line.strength
 	Globals.shake(0.19)
-	Globals.zoom(Vector2(1.1,1.1))
+	Globals.zoom(Vector2(1.1,1.1), 0.3)
 	var direction = 1 if get_global_mouse_position().x < active_slime.global_position.x else -1
 	var strength = launch_strength * MAX_SPEED
 	var angle = get_global_mouse_position().direction_to(active_slime.global_position)
@@ -210,7 +211,7 @@ func next_turn() -> void:
 		victory_ui.scores = [players[0].score, players[1].score]
 		victory_ui.spawn_menu()
 		return
-
+	Globals.is_final_turn = rounds_elapsed == MAX_SLIMES - 1 and turn == player_count
 	swap_camera_to(player_start_areas[turn - 1])
 	Globals.zoom() # reset zoom if not default	
 	state = ROUND.START
@@ -233,3 +234,18 @@ func get_winner() -> Player:
 		if player.score > current_winner.score:
 			current_winner = player
 	return current_winner
+
+func on_slime_impact(slime: Slime) -> void:
+	# TODO: Rethink how to do this cleanly or remove
+	# Currently runs when a slime hits another slime and we check if it's
+	# the last throw of the game to do a dramatic time slow on impact.
+	# The issues arising being concurrent freeze frames/zooms interact with each other
+	# as well as not great ways of communicating between nodes.
+
+	if slime != active_slime: return
+	if not (rounds_elapsed == MAX_SLIMES - 1 and turn == player_count): return
+
+	Globals.zoom(Vector2(1.4, 1.4), 0.20)
+	Globals.freeze_frame(0.25, 1)
+	await get_tree().create_timer(0.5).timeout
+	Globals.zoom(Vector2(1.1,1.1), 0.2)

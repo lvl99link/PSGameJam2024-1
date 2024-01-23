@@ -158,6 +158,7 @@ position = Vector2(0, -543)
 shape = SubResource("RectangleShape2D_0gpou")
 
 [node name="Scoring Regions" type="Node2D" parent="."]
+visible = false
 
 [node name="Jackpots" type="Node2D" parent="Scoring Regions"]
 

@@ -317,6 +317,7 @@ _data = {
 
 [node name="VictoryScreen" type="Control"]
 process_mode = 3
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -359,9 +360,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -1920.0
-offset_top = -87.5
-offset_right = -1920.0
-offset_bottom = 87.5
+offset_top = 452.5
+offset_right = -1052.0
+offset_bottom = 627.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.415686, 0.839216, 0.235294, 1)
@@ -378,9 +379,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = 3960.0
-offset_top = 47.0
-offset_right = 3960.0
-offset_bottom = 135.0
+offset_top = 587.0
+offset_right = 4089.0
+offset_bottom = 675.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.415686, 0.839216, 0.235294, 1)
@@ -436,6 +437,7 @@ autoplay = "RESET"
 
 [node name="Show" type="Button" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
