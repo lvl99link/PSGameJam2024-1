@@ -13,3 +13,4 @@ when all that is finalized.
 ## Credits
 <Put the way you'd like to be credited here>
 - Fresh
+- Cosu

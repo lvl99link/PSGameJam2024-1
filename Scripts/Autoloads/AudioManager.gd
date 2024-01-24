@@ -46,10 +46,10 @@ func on_scene_changed() -> void:
 	# Automatically handle audio shifting based on the current scene
 	var tween = get_tree().create_tween().set_parallel()
 	if get_tree().current_scene.name == "MainMenu":
-		tween.tween_property(game_music_player, "volume_db", -72, 4) # Fade out the game
-		tween.tween_property(menu_music_player, "volume_db", 0, 1) # Fade in the menu
+		tween.tween_property(game_music_player, "volume_db", -72, 2) # Fade out the game
+		tween.tween_property(menu_music_player, "volume_db", 0, .25) # Fade in the menu
 		current_player = menu_music_player
 	else:
-		tween.tween_property(menu_music_player, "volume_db", -72, 4) # Fade out the menu
-		tween.tween_property(game_music_player, "volume_db", 0, 1) # Fade in the game
+		tween.tween_property(menu_music_player, "volume_db", -72, 2) # Fade out the menu
+		tween.tween_property(game_music_player, "volume_db", 0, .25) # Fade in the game
 		current_player = game_music_player
