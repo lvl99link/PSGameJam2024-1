@@ -23,7 +23,7 @@ func _on_node_added(node:Node) -> void:
 
 func _play_hover() -> void:
 	var sound = BUTTON_HOVERS[randi() % BUTTON_HOVERS.size()]
-	Globals.play_audio(sound)
+	Globals.play_audio(sound, "SFX", 0.25)
 
 func _play_pressed() -> void:
 	var sound = BUTTON_CLICKS[randi() % BUTTON_CLICKS.size()]
