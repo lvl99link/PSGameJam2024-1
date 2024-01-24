@@ -1,7 +1,6 @@
-[gd_scene load_steps=25 format=3 uid="uid://cvbfu4iw0f8c3"]
+[gd_scene load_steps=22 format=3 uid="uid://cvbfu4iw0f8c3"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
-[ext_resource type="Script" path="res://Scripts/Target.gd" id="2_30w6k"]
 [ext_resource type="PackedScene" uid="uid://psco1baapw31" path="res://Prefabs/custom_camera.tscn" id="2_k4vor"]
 [ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/UI/score_ui.tscn" id="3_4ww4u"]
 [ext_resource type="Script" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="4_b8j21"]
@@ -9,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://3mcygeh82o2v" path="res://Assets/Art/Maps/Jam-A-Slime-Arena.png" id="4_y73fv"]
 [ext_resource type="PackedScene" uid="uid://dp3lkoqx5nigr" path="res://Prefabs/UI/victory_screen.tscn" id="5_qgvp8"]
 [ext_resource type="PackedScene" uid="uid://b1xgqwhsvt638" path="res://Prefabs/UI/pause_menu.tscn" id="6_lfnx2"]
+[ext_resource type="PackedScene" uid="uid://cpw7a2j0x3alc" path="res://Prefabs/score_area.tscn" id="8_7supw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
 radius = 8.0
@@ -29,15 +29,6 @@ size = Vector2(28, 1106)
 size = Vector2(28, 1106)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ci4k8"]
-radius = 42.0119
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_7k7nw"]
-radius = 42.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_nhoup"]
-radius = 42.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_g660y"]
 radius = 42.0119
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xwleo"]
@@ -156,145 +147,100 @@ position = Vector2(0, -543)
 shape = SubResource("RectangleShape2D_0gpou")
 
 [node name="Scoring Regions" type="Node2D" parent="."]
-visible = false
 
 [node name="Jackpots" type="Node2D" parent="Scoring Regions"]
 
-[node name="JACKPOT1" type="Area2D" parent="Scoring Regions/Jackpots"]
+[node name="JACKPOT1" parent="Scoring Regions/Jackpots" instance=ExtResource("8_7supw")]
 position = Vector2(-280, -207)
-collision_layer = 4
-script = ExtResource("2_30w6k")
 value = 100
 allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT1"]
 shape = SubResource("CircleShape2D_ci4k8")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT1"]
-
-[node name="JACKPOT2" type="Area2D" parent="Scoring Regions/Jackpots"]
-position = Vector2(289, -208)
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="JACKPOT2" parent="Scoring Regions/Jackpots" instance=ExtResource("8_7supw")]
+position = Vector2(290, -207)
 value = 100
 allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT2"]
-shape = SubResource("CircleShape2D_7k7nw")
+shape = SubResource("CircleShape2D_ci4k8")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT2"]
-
-[node name="JACKPOT3" type="Area2D" parent="Scoring Regions/Jackpots"]
-position = Vector2(287, 207)
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="JACKPOT3" parent="Scoring Regions/Jackpots" instance=ExtResource("8_7supw")]
+position = Vector2(-283, 211)
 value = 100
 allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT3"]
-shape = SubResource("CircleShape2D_nhoup")
+shape = SubResource("CircleShape2D_ci4k8")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT3"]
-
-[node name="JACKPOT4" type="Area2D" parent="Scoring Regions/Jackpots"]
-position = Vector2(-283, 211)
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="JACKPOT4" parent="Scoring Regions/Jackpots" instance=ExtResource("8_7supw")]
+position = Vector2(287, 207)
 value = 100
 allowed_multipliers = Array[int]([1, 2])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Jackpots/JACKPOT4"]
-shape = SubResource("CircleShape2D_g660y")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Jackpots/JACKPOT4"]
+shape = SubResource("CircleShape2D_ci4k8")
 
 [node name="Central" type="Node2D" parent="Scoring Regions"]
 
-[node name="ScoreArea" type="Area2D" parent="Scoring Regions/Central"]
-position = Vector2(1, -1)
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="TargetArea" parent="Scoring Regions/Central" instance=ExtResource("8_7supw")]
 value = 25
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Central/ScoreArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Scoring Regions/Central/TargetArea"]
+position = Vector2(1, -1)
 shape = SubResource("CircleShape2D_xwleo")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Central/ScoreArea"]
+[node name="TargetArea2" parent="Scoring Regions/Central" instance=ExtResource("8_7supw")]
 
-[node name="ScoreArea2" type="Area2D" parent="Scoring Regions/Central"]
+[node name="DonutCollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Central/TargetArea2"]
 position = Vector2(1, -1)
-collision_layer = 4
-script = ExtResource("2_30w6k")
-value = 5
-
-[node name="DonutCollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Central/ScoreArea2"]
-polygon = PackedVector2Array(1.63114e-14, -266.395, 50.8306, -261.501, 99.7933, -246.997, 145.089, -223.418, 188.37, -188.37, 220.851, -148.966, 245.218, -104.089, 260.574, -55.3866, 266.395, 0, 261.501, 50.8306, 246.997, 99.7933, 223.418, 145.089, 188.37, 188.37, 148.966, 220.851, 104.089, 245.218, 55.3866, 260.574, 1.63114e-14, 266.395, -50.8306, 261.501, -99.7933, 246.997, -145.089, 223.418, -188.37, 188.37, -220.851, 148.966, -245.218, 104.089, -260.574, 55.3866, -266.395, 3.26229e-14, -261.501, -50.8306, -246.997, -99.7933, -223.418, -145.089, -188.37, -188.37, -148.966, -220.851, -104.089, -245.218, -55.3866, -260.574, -4.89344e-14, -266.395, -2.34362e-14, -127.585, -26.5264, -124.797, -49.8514, -117.443, -71.3446, -105.773, -90.2162, -90.2162, -107.002, -69.4878, -118.295, -47.7942, -125.241, -24.3444, -127.585, 1.56241e-14, -124.797, 26.5264, -117.443, 49.8514, -105.773, 71.3446, -90.2162, 90.2162, -69.4878, 107.002, -47.7942, 118.295, -24.3444, 125.241, 7.81207e-15, 127.585, 26.5264, 124.797, 49.8514, 117.443, 71.3446, 105.773, 90.2162, 90.2162, 107.002, 69.4878, 118.295, 47.7942, 125.241, 24.3444, 127.585, 0, 124.797, -26.5264, 117.443, -49.8514, 105.773, -71.3446, 90.2162, -90.2162, 69.4878, -107.002, 47.7942, -118.295, 24.3444, -125.241, 7.81207e-15, -127.585, 0.0001, -266.395)
-script = ExtResource("4_b8j21")
-radius = 196.99
-width = 138.81
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Central/ScoreArea2"]
-
-[node name="ScoreArea3" type="Area2D" parent="Scoring Regions/Central"]
-position = Vector2(1, -1)
-collision_layer = 4
-script = ExtResource("2_30w6k")
-
-[node name="DonutCollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Central/ScoreArea3"]
 polygon = PackedVector2Array(7.81039e-15, -127.558, 24.3391, -125.214, 47.7839, -118.269, 69.4728, -106.979, 90.1968, -90.1968, 105.75, -71.3292, 117.417, -49.8407, 124.77, -26.5207, 127.558, 0, 125.214, 24.3391, 118.269, 47.7839, 106.979, 69.4728, 90.1968, 90.1968, 71.3292, 105.75, 49.8407, 117.417, 26.5207, 124.77, 7.81039e-15, 127.558, -24.3391, 125.214, -47.7839, 118.269, -69.4728, 106.979, -90.1968, 90.1968, -105.75, 71.3292, -117.417, 49.8407, -124.77, 26.5207, -127.558, 1.56208e-14, -125.214, -24.3391, -118.269, -47.7839, -106.979, -69.4728, -90.1968, -90.1968, -71.3292, -105.75, -49.8407, -117.417, -26.5207, -124.77, -2.34312e-14, -127.558, -1.17328e-14, -63.8725, -13.2798, -62.4767, -24.957, -58.7949, -35.717, -52.9527, -45.1647, -45.1647, -53.568, -34.7875, -59.2216, -23.9271, -62.699, -12.1874, -63.8725, 7.82187e-15, -62.4767, 13.2798, -58.7949, 24.957, -52.9527, 35.717, -45.1647, 45.1647, -34.7875, 53.568, -23.9271, 59.2216, -12.1874, 62.699, 3.91093e-15, 63.8725, 13.2798, 62.4767, 24.957, 58.7949, 35.717, 52.9527, 45.1647, 45.1647, 53.568, 34.7875, 59.2216, 23.9271, 62.699, 12.1874, 63.8725, 0, 62.4767, -13.2798, 58.7949, -24.957, 52.9527, -35.717, 45.1647, -45.1647, 34.7875, -53.568, 23.9271, -59.2216, 12.1874, -62.699, 3.91093e-15, -63.8725, 0.0001, -127.557)
 script = ExtResource("4_b8j21")
 radius = 95.715
 width = 63.685
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Central/ScoreArea3"]
+[node name="TargetArea3" parent="Scoring Regions/Central" instance=ExtResource("8_7supw")]
+value = 5
+
+[node name="DonutCollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Central/TargetArea3"]
+position = Vector2(1, -1)
+polygon = PackedVector2Array(1.63114e-14, -266.395, 50.8306, -261.501, 99.7933, -246.997, 145.089, -223.418, 188.37, -188.37, 220.851, -148.966, 245.218, -104.089, 260.574, -55.3866, 266.395, 0, 261.501, 50.8306, 246.997, 99.7933, 223.418, 145.089, 188.37, 188.37, 148.966, 220.851, 104.089, 245.218, 55.3866, 260.574, 1.63114e-14, 266.395, -50.8306, 261.501, -99.7933, 246.997, -145.089, 223.418, -188.37, 188.37, -220.851, 148.966, -245.218, 104.089, -260.574, 55.3866, -266.395, 3.26229e-14, -261.501, -50.8306, -246.997, -99.7933, -223.418, -145.089, -188.37, -188.37, -148.966, -220.851, -104.089, -245.218, -55.3866, -260.574, -4.89344e-14, -266.395, -2.34362e-14, -127.585, -26.5264, -124.797, -49.8514, -117.443, -71.3446, -105.773, -90.2162, -90.2162, -107.002, -69.4878, -118.295, -47.7942, -125.241, -24.3444, -127.585, 1.56241e-14, -124.797, 26.5264, -117.443, 49.8514, -105.773, 71.3446, -90.2162, 90.2162, -69.4878, 107.002, -47.7942, 118.295, -24.3444, 125.241, 7.81207e-15, 127.585, 26.5264, 124.797, 49.8514, 117.443, 71.3446, 105.773, 90.2162, 90.2162, 107.002, 69.4878, 118.295, 47.7942, 125.241, 24.3444, 127.585, 0, 124.797, -26.5264, 117.443, -49.8514, 105.773, -71.3446, 90.2162, -90.2162, 69.4878, -107.002, 47.7942, -118.295, 24.3444, -125.241, 7.81207e-15, -127.585, 0.0001, -266.395)
+script = ExtResource("4_b8j21")
+radius = 196.99
+width = 138.81
 
 [node name="Mediums" type="Node2D" parent="Scoring Regions"]
 
-[node name="MediumArea1" type="Area2D" parent="Scoring Regions/Mediums"]
-position = Vector2(-345, -275)
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="MediumArea1" parent="Scoring Regions/Mediums" instance=ExtResource("8_7supw")]
 allowed_multipliers = Array[int]([1, 2])
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea1"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea1"]
+position = Vector2(-345, -275)
 polygon = PackedVector2Array(1, 35, 25, 11, 49, 3, 73, 3, 105, 11, 145, -21, 185, -45, 241, -69, 289, -77, 289, -141, 57, -141, 17, -117, -23, -85, -55, -45, -87, 3, -87, 235, -70, 256, -7, 259, -7, 203, 25, 115, 1, 83)
 
-[node name="MediumArea2" type="Area2D" parent="Scoring Regions/Mediums"]
-position = Vector2(295, -325)
-rotation = 1.5708
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="MediumArea2" parent="Scoring Regions/Mediums" instance=ExtResource("8_7supw")]
 allowed_multipliers = Array[int]([1, 2])
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea2"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea2"]
+position = Vector2(295, -325)
+rotation = 1.5708
 polygon = PackedVector2Array(85, -57, 117, -65, 141, -57, 165, -33, 245, -65, 309, -73, 309, -129, 293, -145, 53, -145, 13, -121, -27, -89, -59, -57, -91, -0.999969, -91, 231, -27, 231, -3, 151, 21, 95, 61, 47, 53, 15, 53, -25)
 
-[node name="MediumArea3" type="Area2D" parent="Scoring Regions/Mediums"]
-position = Vector2(354, 274)
-rotation = 3.14159
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="MediumArea3" parent="Scoring Regions/Mediums" instance=ExtResource("8_7supw")]
 allowed_multipliers = Array[int]([1, 2])
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea3"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea3"]
+position = Vector2(354, 274)
+rotation = 3.14159
 polygon = PackedVector2Array(1, 35, 25, 11, 49, 3, 73, 3, 105, 11, 145, -21, 185, -45, 241, -69, 289, -77, 289, -141, 57, -141, 17, -117, -23, -85, -55, -45, -87, 3, -87, 235, -70, 256, -7, 259, -7, 203, 25, 115, 1, 83)
 
-[node name="MediumArea4" type="Area2D" parent="Scoring Regions/Mediums"]
-position = Vector2(-331, 308)
-rotation = -1.5708
-collision_layer = 4
-script = ExtResource("2_30w6k")
+[node name="MediumArea4" parent="Scoring Regions/Mediums" instance=ExtResource("8_7supw")]
 allowed_multipliers = Array[int]([1, 2])
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Scoring Regions/Mediums/MediumArea4"]
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Scoring Regions/Mediums/MediumArea4"]
+position = Vector2(-331, 308)
+rotation = -1.5708
 polygon = PackedVector2Array(44, 91, 36, 43, 52, 3, 92, -21, 124, -13, 148, 11, 212, -13, 292, -29, 292, -85, 276, -101, 44, -101, 4.00003, -77, -28, -53, -60, -29, -84, 2.99997, -108, 43, -108, 275, -44, 275, -12, 171)
 
 [node name="Player 1 Start" type="Node2D" parent="."]
@@ -406,15 +352,3 @@ collision_mask = 0
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_rc53a")
 debug_color = Color(0.937255, 0.145098, 0.501961, 0.419608)
-
-[connection signal="body_entered" from="Scoring Regions/Jackpots/JACKPOT1" to="Scoring Regions/Jackpots/JACKPOT1" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Jackpots/JACKPOT2" to="Scoring Regions/Jackpots/JACKPOT2" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Jackpots/JACKPOT3" to="Scoring Regions/Jackpots/JACKPOT3" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Jackpots/JACKPOT4" to="Scoring Regions/Jackpots/JACKPOT4" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Central/ScoreArea" to="Scoring Regions/Central/ScoreArea" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Central/ScoreArea2" to="Scoring Regions/Central/ScoreArea2" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Central/ScoreArea3" to="Scoring Regions/Central/ScoreArea3" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Mediums/MediumArea1" to="Scoring Regions/Mediums/MediumArea1" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Mediums/MediumArea2" to="Scoring Regions/Mediums/MediumArea2" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Mediums/MediumArea3" to="Scoring Regions/Mediums/MediumArea3" method="_on_slime_entered"]
-[connection signal="body_entered" from="Scoring Regions/Mediums/MediumArea4" to="Scoring Regions/Mediums/MediumArea4" method="_on_slime_entered"]

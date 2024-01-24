@@ -227,4 +227,6 @@ libraries = {
 [node name="SlimingParticles" parent="." instance=ExtResource("19_xaauk")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="Node2D/ScoreDetectionArea" to="." method="_on_score_detection_area_area_entered"]
+[connection signal="area_exited" from="Node2D/ScoreDetectionArea" to="." method="_on_score_detection_area_area_exited"]
 [connection signal="body_entered" from="Node2D/SlimeDetectionArea" to="." method="_on_slime_detection_area_body_entered"]

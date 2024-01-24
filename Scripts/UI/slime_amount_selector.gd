@@ -7,7 +7,7 @@ const MIN = 3
 @onready var slime_count_label: Label = %SlimeCountLabel
 @onready var add_button: Button = %AddButton
 
-var selected_number: int = 4
+var selected_number: int = Globals.slime_count
 
 func _ready() -> void:
 	slime_count_label.text = str(selected_number)

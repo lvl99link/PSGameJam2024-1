@@ -17,6 +17,7 @@ var MAX_SLIMES = Globals.slime_count
 @onready var drag_line: StrengthLine = StrengthLine.new() # The 'strength indicator and angle' line
 
 const FLICK_A_WET = preload("res://Assets/SFX/OGG/Impacts/flick_A_WET.ogg")
+const SLIME_IMPACT_SLOWDOWN = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_slowdown.ogg")
 
 var player_count: int = 2 		# Max static 2 for now
 var players: Array[Player]
@@ -245,7 +246,7 @@ func on_slime_impact(slime: Slime) -> void:
 
 	if slime != active_slime: return
 	if not (rounds_elapsed == MAX_SLIMES - 1 and turn == player_count): return
-
+	Globals.play_audio(SLIME_IMPACT_SLOWDOWN)
 	Globals.zoom(Vector2(1.4, 1.4), 0.20)
 	Globals.freeze_frame(0.25, 1)
 	await get_tree().create_timer(0.5).timeout

@@ -83,7 +83,6 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()
-	#handle_show_outline()
 	# Resets the can_split once it's had a moment to settle down
 	if not can_split and linear_velocity.x < 10:
 		await get_tree().create_timer(1).timeout
@@ -112,13 +111,9 @@ func calculate_score() -> int:
 		return (targets[0] as Target).value * multiplier
 	return 0
 
-#func handle_show_outline() -> void:
-	#var targets = score_detection_area.get_overlapping_areas()
-	#if len(targets) > 0:
-		#if multiplier not in (targets[0] as Target).allowed_multipliers: 
-			#(sprite.material as ShaderMaterial).set_shader_parameter("width", 0)
-		#else:
-			#(sprite.material as ShaderMaterial).set_shader_parameter("width", 10)
+func set_outline(color: Color, width: float) -> void:
+	(sprite.material as ShaderMaterial).set_shader_parameter("width", width)
+	(sprite.material as ShaderMaterial).set_shader_parameter("color", color)
 
 func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	# Function handles the 'splitting' of a slime when impacted by another
@@ -182,21 +177,41 @@ func clone() -> Slime:
 	new_slime.trail = trail.duplicate(5) as Trail
 	new_slime.trail.width = trail.width
 	owned_by.slimes_on_field.append(new_slime)
-	new_slime.sprite = sprite.duplicate(5)
+	#new_slime.sprite = sprite.duplicate(5)
 	# I think we need to set the initial state, somehow
 	
 	return new_slime
 
 func spawn(new_slime: Slime) -> void:
 	get_parent().add_child(new_slime)
+	new_slime.sprite.material = sprite.material.duplicate()
 	new_slime.trail.can_draw = true
 	new_slime.state_manager.transition_to("IMPACTING")
 
 func _on_body_entered(body: Node) -> void:
+	# Whenever we hit another physics body
 	var directional_v = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
-	if body is StaticBody2D and directional_v > 10:
+	if body is StaticBody2D and directional_v > 10: # Only reading walls
 		# Enter impacting state
 		# Change the other state to splitting?
 		Globals.play_audio(SLIME_IMPACT_SLAP)
 		Globals.shake(0.18)
 		hit_particles.emitting = true
+
+func _on_score_detection_area_area_entered(target: Target) -> void:
+	if multiplier not in target.allowed_multipliers: return
+	if not score_detection_area.has_overlapping_areas(): return
+	if target.value < 10: 
+		Globals.play_audio(target.SCORING_NOTE_BLUE)
+		set_outline(Color(0,0,1), 20)
+	elif target.value < 25: 
+		Globals.play_audio(target.SCORING_NOTE_YELLOW)
+		set_outline(Color(1,1,0), 20)
+	elif target.value >= 25: 
+		Globals.play_audio(target.SCORING_NOTE_RED)
+		set_outline(Color(1,0,0), 20)
+
+func _on_score_detection_area_area_exited(target: Target) -> void:
+	if multiplier not in target.allowed_multipliers: return
+	if score_detection_area.has_overlapping_areas(): return
+	set_outline(Color(0,0,0), 0)

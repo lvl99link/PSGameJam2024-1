@@ -1,7 +1,55 @@
-[gd_scene load_steps=8 format=3 uid="uid://dp3lkoqx5nigr"]
+[gd_scene load_steps=19 format=3 uid="uid://dp3lkoqx5nigr"]
 
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="1_2kmyx"]
 [ext_resource type="Script" path="res://Scripts/UI/victory_screen.gd" id="1_7og72"]
+[ext_resource type="Texture2D" uid="uid://c36d6j8mcl052" path="res://Assets/Art/UI/back_to_menu_icon_1.png" id="3_pjhk5"]
+[ext_resource type="Texture2D" uid="uid://6lejr22inj8y" path="res://Assets/Art/UI/back_to_menu_icon_2.png" id="4_kdhym"]
+[ext_resource type="Texture2D" uid="uid://b0turybonow44" path="res://Assets/Art/UI/quit_icon_1.png" id="5_y00p0"]
+[ext_resource type="Texture2D" uid="uid://ricex8070y77" path="res://Assets/Art/UI/quit_icon_2.png" id="6_irqai"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4mm5c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_naxyl"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.117647, 0.345098, 0.0392157, 0.670588)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8c7ia"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0745098, 0.243137, 0.0196078, 0.537255)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njlku"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.231373, 0.623529, 0.0941176, 0.752941)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="Theme" id="Theme_2hyyx"]
+Button/styles/focus = SubResource("StyleBoxEmpty_4mm5c")
+Button/styles/hover = SubResource("StyleBoxFlat_naxyl")
+Button/styles/normal = SubResource("StyleBoxFlat_8c7ia")
+Button/styles/pressed = SubResource("StyleBoxFlat_njlku")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dvjue"]
 shader = ExtResource("1_2kmyx")
@@ -9,6 +57,19 @@ shader_parameter/lod = 0.0
 
 [sub_resource type="Theme" id="Theme_gow0p"]
 Button/font_sizes/font_size = 32
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_lnguk"]
+frames = 2
+frame_0/texture = ExtResource("3_pjhk5")
+frame_1/texture = ExtResource("4_kdhym")
+frame_1/duration = 1.0
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_81htk"]
+frames = 2
+speed_scale = 0.5
+frame_0/texture = ExtResource("5_y00p0")
+frame_1/texture = ExtResource("6_irqai")
+frame_1/duration = 1.0
 
 [sub_resource type="Animation" id="Animation_1iayk"]
 resource_name = "Intro"
@@ -324,6 +385,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_2hyyx")
 script = ExtResource("1_7og72")
 
 [node name="BlurredBackground" type="ColorRect" parent="."]
@@ -360,9 +422,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -1920.0
-offset_top = 452.5
-offset_right = -1052.0
-offset_bottom = 627.5
+offset_top = -87.5
+offset_right = -1920.0
+offset_bottom = 87.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.415686, 0.839216, 0.235294, 1)
@@ -379,9 +441,9 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = 3960.0
-offset_top = 587.0
-offset_right = 4089.0
-offset_bottom = 675.0
+offset_top = 47.0
+offset_right = 3960.0
+offset_bottom = 135.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.415686, 0.839216, 0.235294, 1)
@@ -411,7 +473,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-text = "Menu"
+icon = SubResource("AnimatedTexture_lnguk")
 
 [node name="Rematch" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -425,7 +487,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-text = "Quit"
+icon = SubResource("AnimatedTexture_81htk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
