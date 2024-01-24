@@ -10,20 +10,22 @@ config_version=5
 
 [application]
 
-config/name="Game Jam Project"
-run/main_scene="res://Scenes/main_menu.tscn"
+config/name="Gelatoss!"
+config/version="0.1"
+run/main_scene="res://Scenes/prototyping_level.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://Assets/Art/JamSmall.png"
-config/icon="res://Assets/icon.svg"
+config/icon="res://slime_icon.png"
+config/windows_native_icon="res://icon.ico"
 boot_splash/minimum_display_time=500
 
 [autoload]
 
 Globals="*res://Scripts/Autoloads/Globals.gd"
-GlobalAudioPlayer="*res://Scripts/Autoloads/global_audio_player.tscn"
-SceneTransition="*res://Scripts/Autoloads/scene_transition.tscn"
 LoadButtons="*res://Scripts/Autoloads/LoadButtons.gd"
+SceneTransition="*res://Scripts/Autoloads/scene_transition.tscn"
+AudioManager="*res://Scripts/Autoloads/AudioManager.gd"
 
 [display]
 
@@ -72,3 +74,7 @@ pause={
 2d_physics/layer_3="Targets"
 2d_physics/layer_4="StartLine"
 2d_physics/layer_5="Walls/Obstacles"
+
+[physics]
+
+2d/default_angular_damp=0.5

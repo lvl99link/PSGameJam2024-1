@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dnv7wug6gtchg"]
+[gd_scene load_steps=5 format=3 uid="uid://dnv7wug6gtchg"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_y3b8d"]
 [ext_resource type="Theme" uid="uid://guaqrfny00d3" path="res://Assets/Themes/ui_theme.tres" id="2_vl0x8"]
 [ext_resource type="PackedScene" uid="uid://dnxmef5rt333h" path="res://Prefabs/UI/audio_sliders.tscn" id="3_0v46y"]
+[ext_resource type="PackedScene" uid="uid://b7ebcew0fme12" path="res://Prefabs/UI/slime_amount_selector.tscn" id="3_vrrq8"]
 
 [node name="MainMenu" type="Control"]
 process_mode = 3
@@ -28,7 +29,7 @@ theme_override_constants/margin_bottom = 256
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme = ExtResource("2_vl0x8")
-theme_override_constants/separation = 42
+theme_override_constants/separation = 32
 alignment = 1
 
 [node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
@@ -41,6 +42,9 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Play"
+
+[node name="SlimeAmountSelector" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_vrrq8")]
+layout_mode = 2
 
 [node name="AudioSliders" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_0v46y")]
 layout_mode = 2

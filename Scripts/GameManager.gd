@@ -3,7 +3,7 @@ extends Node2D
 
 enum ROUND {START, SLIMING, ENDING}
 const MAX_SPEED = 1500 # Fine tune
-const MAX_SLIMES = 4
+var MAX_SLIMES = Globals.slime_count
 
 @export var camera: CustomCamera ## Current scene's camera
 @export var player_start_areas: Array[Area2D] ## List of areas from the editor where players launch from
