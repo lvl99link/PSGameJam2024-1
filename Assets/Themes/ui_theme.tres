@@ -1,6 +1,8 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://guaqrfny00d3"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://guaqrfny00d3"]
 
 [ext_resource type="FontFile" uid="uid://8wu6ev8gqxw7" path="res://Assets/Fonts/RubikBubbles-Regular.ttf" id="1_j7nv7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_illg4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_05lyu"]
 
@@ -68,6 +70,7 @@ Button/colors/font_pressed_color = Color(0.815686, 0.282353, 0.180392, 0.85098)
 Button/constants/outline_size = 16
 Button/font_sizes/font_size = 64
 Button/fonts/font = ExtResource("1_j7nv7")
+Button/styles/disabled = SubResource("StyleBoxEmpty_illg4")
 Button/styles/focus = SubResource("StyleBoxEmpty_05lyu")
 Button/styles/hover = SubResource("StyleBoxEmpty_gmrbg")
 Button/styles/normal = SubResource("StyleBoxEmpty_psmvu")
