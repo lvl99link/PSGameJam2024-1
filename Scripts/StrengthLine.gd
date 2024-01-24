@@ -1,7 +1,7 @@
 class_name StrengthLine
 extends Line2D
 
-const MAX_LENGTH = 300 # Fine tune
+const MAX_LENGTH = 400 # Fine tune
 
 var current_length: float
 var strength: float = 0
