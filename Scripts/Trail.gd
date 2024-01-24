@@ -11,7 +11,6 @@ const MAX_WIDTH = 80
 @onready var line: Line2D = $TrailLine
 @onready var collision_area: Area2D = $TrailLine/Area2D
 
-#var test_width: float = 80
 var can_draw: bool = false
 
 func _ready() -> void:

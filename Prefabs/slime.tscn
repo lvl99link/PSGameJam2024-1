@@ -21,7 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://bjeiiwo8yfqyl" path="res://Prefabs/sliming_particles.tscn" id="19_xaauk"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wy72i"]
-bounce = 0.5
+friction = 0.0
+bounce = 0.65
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5nb5l"]
 resource_local_to_scene = true
@@ -118,7 +119,6 @@ collision_mask = 31
 physics_material_override = SubResource("PhysicsMaterial_wy72i")
 gravity_scale = 0.0
 lock_rotation = true
-continuous_cd = 2
 max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource("1_ug4yn")

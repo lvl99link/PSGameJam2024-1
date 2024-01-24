@@ -5,7 +5,7 @@ extends Node
 
 var camera: CustomCamera = null
 var FRICTION: float = 1
-var slime_count = 3
+var slime_count = 4
 
 var music_volume: float = 0.5
 var sfx_volume: float = 0.5

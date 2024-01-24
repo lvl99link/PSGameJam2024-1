@@ -25,17 +25,23 @@ theme_override_constants/separation = 16
 [node name="MinusButton" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 text = "-"
 
 [node name="SlimeCountLabel" type="Label" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.14902, 0.733333, 0.145098, 1)
+theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 64
 text = "3"
 
 [node name="AddButton" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 text = "+"
 
 [connection signal="pressed" from="HBoxContainer/MinusButton" to="." method="_on_minus_button_pressed"]

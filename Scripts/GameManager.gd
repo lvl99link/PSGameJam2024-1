@@ -16,6 +16,8 @@ var MAX_SLIMES = Globals.slime_count
 @onready var cursor_area: Area2D = $CursorArea # Used for detecting slimes under our cursor
 @onready var drag_line: StrengthLine = StrengthLine.new() # The 'strength indicator and angle' line
 
+const FLICK_A_WET = preload("res://Assets/SFX/OGG/Impacts/flick_A_WET.ogg")
+
 var player_count: int = 2 		# Max static 2 for now
 var players: Array[Player]
 var turn: int = 1 				# Which player is currently going (Maybe change type to Player)
@@ -65,7 +67,10 @@ func initialize_players() -> void:
 		players.append(new_player)
 
 func initialize_rosters() -> void:
+	
 	for player in players:
+		var area: Area2D = player_start_areas[player.player_num - 1]
+		var spawn_points = area.get_node("SpawnPoints").get_children()
 		# Hard coding filling out each player's roster for now
 		for i in MAX_SLIMES:
 			var slime: Slime = slime_prefab.instantiate() as Slime
@@ -73,12 +78,7 @@ func initialize_rosters() -> void:
 			player.roster.append(slime)
 			player.available_roster.append(slime)
 			slime.slime_impacted.connect(on_slime_impact) # NOTE to delete this if scrapping final slaunch
-			
-			# TODO: Select the next available spawn point instead of rng.
-			var area: Area2D = player_start_areas[player.player_num - 1]
-			var spawn_points = area.get_node("SpawnPoints").get_children()
-			var rng = RandomNumberGenerator.new()
-			slime.position = spawn_points[rng.randi_range(0, len(spawn_points) - 1)].position
+			slime.position = spawn_points[i].position
 			
 			area.add_child(slime)
 
@@ -173,6 +173,7 @@ func handle_sliming_state() -> void:
 func launch_slime() -> void:
 	# TODO:
 	# 1. Find way to prevent shooting into your own arena
+	Globals.play_audio(FLICK_A_WET)
 	launch_strength = drag_line.strength
 	Globals.shake(0.19)
 	Globals.zoom(Vector2(1.1,1.1), 0.3)

@@ -44,13 +44,13 @@ radius = 42.0119
 radius = 64.0312
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnrrt"]
-size = Vector2(314, 1088)
+size = Vector2(292, 1088)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wi2tq"]
 size = Vector2(16, 1088)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjxsh"]
-size = Vector2(308, 1080)
+size = Vector2(288, 1080)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rc53a"]
 size = Vector2(17, 1088)
@@ -304,8 +304,7 @@ position = Vector2(-942, 0)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player 1 Start/Player1StartArea"]
-visible = false
-position = Vector2(-75, 0)
+position = Vector2(-86, 0)
 shape = SubResource("RectangleShape2D_hnrrt")
 
 [node name="StartPoint" type="Node2D" parent="Player 1 Start/Player1StartArea"]
@@ -314,16 +313,28 @@ position = Vector2(86, 0)
 [node name="SpawnPoints" type="Node2D" parent="Player 1 Start/Player1StartArea"]
 
 [node name="Point1" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
-position = Vector2(-32, -320)
+position = Vector2(-72, -320)
 
 [node name="Point2" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
-position = Vector2(-128, -104)
+position = Vector2(-88, -72)
 
 [node name="Point3" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
-position = Vector2(-120, 168)
+position = Vector2(-107, 89)
 
 [node name="Point4" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
 position = Vector2(-80, 440)
+
+[node name="Point5" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-18, 203)
+
+[node name="Point6" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-126, -418)
+
+[node name="Point7" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-37, -199)
+
+[node name="Point8" type="Node2D" parent="Player 1 Start/Player1StartArea/SpawnPoints"]
+position = Vector2(-116, 313)
 
 [node name="StartLine" type="Node2D" parent="Player 1 Start"]
 position = Vector2(-873, -1)
@@ -348,8 +359,7 @@ position = Vector2(948, 0)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player 2 Start/Player2StartArea"]
-visible = false
-position = Vector2(64, 4)
+position = Vector2(74, 4)
 shape = SubResource("RectangleShape2D_tjxsh")
 
 [node name="StartPoint" type="Node2D" parent="Player 2 Start/Player2StartArea"]
@@ -358,16 +368,28 @@ position = Vector2(-94, 0)
 [node name="SpawnPoints" type="Node2D" parent="Player 2 Start/Player2StartArea"]
 
 [node name="Point1" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
-position = Vector2(58, -368)
+position = Vector2(23, -429)
 
 [node name="Point2" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
-position = Vector2(98, -144)
+position = Vector2(53, -189)
 
 [node name="Point3" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
-position = Vector2(106, 152)
+position = Vector2(98, 78)
 
 [node name="Point4" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
-position = Vector2(18, 408)
+position = Vector2(38, 363)
+
+[node name="Point5" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(107, -334)
+
+[node name="Point6" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(137, -73)
+
+[node name="Point7" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(47, 213)
+
+[node name="Point8" type="Node2D" parent="Player 2 Start/Player2StartArea/SpawnPoints"]
+position = Vector2(126, 428)
 
 [node name="StartLine2" type="Node2D" parent="Player 2 Start"]
 position = Vector2(870, -1)
