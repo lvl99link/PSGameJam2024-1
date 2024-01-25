@@ -111,10 +111,10 @@ radius = 11.0
 radius = 54.037
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hwetx"]
-radius = 55.0
+radius = 43.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tni1a"]
-radius = 52.0096
+radius = 41.0488
 
 [sub_resource type="Animation" id="Animation_6yo1y"]
 resource_name = "Bounce"
@@ -171,6 +171,7 @@ z_index = 1
 shape = SubResource("CircleShape2D_bl807")
 
 [node name="ScoreDetectionArea" type="Area2D" parent="Node2D"]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
@@ -187,7 +188,6 @@ collision_mask = 8
 shape = SubResource("CircleShape2D_e2ld6")
 
 [node name="SlimeDetectionArea" type="Area2D" parent="Node2D"]
-visible = false
 z_index = 1
 collision_layer = 0
 
@@ -202,7 +202,6 @@ volume_db = -6.5
 bus = &"SFX"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = 1
 shape = SubResource("CircleShape2D_tni1a")
 debug_color = Color(0.976471, 0.137255, 0.145098, 0.419608)

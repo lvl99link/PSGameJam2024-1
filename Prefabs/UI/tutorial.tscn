@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfpbdqk8pa4ti"]
+
+[ext_resource type="Script" path="res://Scripts/UI/tutorial.gd" id="1_fjp1n"]
+[ext_resource type="Texture2D" uid="uid://o72vcxwsbvd5" path="res://Assets/Tutorial/tutorial_1.png" id="2_j2w5b"]
+
+[node name="Tutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fjp1n")
+
+[node name="TutorialImage" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_j2w5b")
+
+[node name="Next" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -45.0
+offset_bottom = 31.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 48
+text = "Next"
+
+[node name="Previous" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 75.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 48
+text = "Previous"
+
+[node name="Close" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -65.5
+offset_top = -75.0
+offset_right = 65.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Close"
+
+[connection signal="pressed" from="Next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="Previous" to="." method="_on_previous_pressed"]
+[connection signal="pressed" from="Close" to="." method="_on_close_pressed"]

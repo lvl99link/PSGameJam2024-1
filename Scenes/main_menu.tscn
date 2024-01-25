@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dnv7wug6gtchg"]
+[gd_scene load_steps=27 format=3 uid="uid://dnv7wug6gtchg"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_y3b8d"]
 [ext_resource type="Theme" uid="uid://guaqrfny00d3" path="res://Assets/Themes/ui_theme.tres" id="2_vl0x8"]
@@ -6,12 +6,50 @@
 [ext_resource type="PackedScene" uid="uid://dnxmef5rt333h" path="res://Prefabs/UI/audio_sliders.tscn" id="3_0v46y"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="3_ap54u"]
 [ext_resource type="PackedScene" uid="uid://b7ebcew0fme12" path="res://Prefabs/UI/slime_amount_selector.tscn" id="3_vrrq8"]
+[ext_resource type="Texture2D" uid="uid://c2fc1uy3g6ade" path="res://Assets/Art/UI/help_1.png" id="4_4gohp"]
+[ext_resource type="Texture2D" uid="uid://cm7vlh7bgvwdf" path="res://Assets/Art/UI/full_screen_set_1.png" id="4_hcgi3"]
+[ext_resource type="Texture2D" uid="uid://c3wktwgtkohd0" path="res://Assets/Art/UI/help_2.png" id="5_1cdea"]
 [ext_resource type="Texture2D" uid="uid://j2wcuiqcftda" path="res://Assets/Art/UI/logo-frame-1.png" id="5_5qbl0"]
+[ext_resource type="Texture2D" uid="uid://111cct5megnu" path="res://Assets/Art/UI/full_screen_set_2.png" id="5_hgc2i"]
 [ext_resource type="Texture2D" uid="uid://76g6wgcqonve" path="res://Assets/Art/UI/logo-frame-2.png" id="6_idl38"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_unhmg"]
 shader = ExtResource("3_ap54u")
-shader_parameter/lod = 1.0
+shader_parameter/lod = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgokv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7krxa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1hltk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6t4oy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ilim8"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_aahyj"]
+frames = 2
+frame_0/texture = ExtResource("4_4gohp")
+frame_0/duration = 0.5
+frame_1/texture = ExtResource("5_1cdea")
+frame_1/duration = 0.5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oqbhf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pi16k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3y5ed"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hkh3w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0pbuk"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_gjksl"]
+frames = 2
+frame_0/texture = ExtResource("4_hcgi3")
+frame_0/duration = 0.5
+frame_1/texture = ExtResource("5_hgc2i")
+frame_1/duration = 0.5
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_roj41"]
 frames = 2
@@ -31,7 +69,7 @@ grow_vertical = 2
 script = ExtResource("1_y3b8d")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
-modulate = Color(0.878431, 0.878431, 0.878431, 1)
+modulate = Color(0.929412, 0.929412, 0.929412, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,6 +91,42 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HelpButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fgokv")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_7krxa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_1hltk")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_6t4oy")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ilim8")
+icon = SubResource("AnimatedTexture_aahyj")
+vertical_icon_alignment = 2
+
+[node name="FullScreenButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oqbhf")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pi16k")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3y5ed")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hkh3w")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0pbuk")
+icon = SubResource("AnimatedTexture_gjksl")
+icon_alignment = 2
+vertical_icon_alignment = 2
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -60,6 +134,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 512
 theme_override_constants/margin_right = 512
 
@@ -93,5 +168,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Exit"
 
+[connection signal="pressed" from="VBoxContainer/HelpButton" to="." method="_on_help_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/FullScreenButton" to="." method="_on_full_screen_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

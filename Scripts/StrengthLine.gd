@@ -1,7 +1,7 @@
 class_name StrengthLine
 extends Line2D
 
-const MAX_LENGTH = 350 # Fine tune
+const MAX_LENGTH = 325 # Fine tune
 
 const SLIME_STRETCH_1 = preload("res://Assets/SFX/OGG/Slime_Stretch_1.ogg")
 

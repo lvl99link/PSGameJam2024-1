@@ -73,8 +73,8 @@ visible = false
 scale = Vector2(0.4, 0.4)
 
 [node name="Camera2D" parent="." instance=ExtResource("2_k4vor")]
-limit_left = -1170
-limit_right = 1170
+limit_left = -1210
+limit_right = 1210
 
 [node name="ScoreCanvas" type="CanvasLayer" parent="."]
 
