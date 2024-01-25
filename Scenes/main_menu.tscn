@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://dnv7wug6gtchg"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_y3b8d"]
-[ext_resource type="VideoStream" path="res://Assets/Videos/Sample-main-menu-scene_test.ogv" id="2_8dqu6"]
 [ext_resource type="Theme" uid="uid://guaqrfny00d3" path="res://Assets/Themes/ui_theme.tres" id="2_vl0x8"]
+[ext_resource type="VideoStream" path="res://Assets/Videos/Menu_Background1.ogv" id="2_yqcbg"]
 [ext_resource type="PackedScene" uid="uid://dnxmef5rt333h" path="res://Prefabs/UI/audio_sliders.tscn" id="3_0v46y"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="3_ap54u"]
 [ext_resource type="PackedScene" uid="uid://b7ebcew0fme12" path="res://Prefabs/UI/slime_amount_selector.tscn" id="3_vrrq8"]
@@ -38,7 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-stream = ExtResource("2_8dqu6")
+stream = ExtResource("2_yqcbg")
 autoplay = true
 expand = true
 loop = true
