@@ -16,8 +16,14 @@ var MAX_SLIMES = Globals.slime_count
 @onready var cursor_area: Area2D = $CursorArea # Used for detecting slimes under our cursor
 @onready var drag_line: StrengthLine = StrengthLine.new() # The 'strength indicator and angle' line
 
+# I think move these to a global audio manager.
+# SFX are loaded that do not necessarily need to play 'from' a specific slime
+# since they happen individually, one at a time.
 const FLICK_A_WET = preload("res://Assets/SFX/OGG/Impacts/flick_A_WET.ogg")
+const SMACK_NO_WOBBLE = preload("res://Assets/SFX/OGG/Impacts/smack_NO_WOBBLE.ogg")
 const SLIME_IMPACT_SLOWDOWN = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_slowdown.ogg")
+const SLIME_PICKUP = preload("res://Assets/SFX/OGG/Impacts/Slime_Pickup.ogg")
+const SLIME_PLACE = preload("res://Assets/SFX/OGG/Impacts/Slime_Place.ogg")
 
 var player_count: int = 2 		# Max static 2 for now
 var players: Array[Player]
@@ -68,7 +74,6 @@ func initialize_players() -> void:
 		players.append(new_player)
 
 func initialize_rosters() -> void:
-	
 	for player in players:
 		var area: Area2D = player_start_areas[player.player_num - 1]
 		var spawn_points = area.get_node("SpawnPoints").get_children()
@@ -102,7 +107,7 @@ func handle_start_state() -> void:
 			# We only want to be able to pick up slimes that are in the active player's starting area
 			if slime not in player_start_areas[turn - 1].get_overlapping_bodies():
 				return 
-			held_slime = slime
+			set_held_slime(slime)
 			last_valid_slime_pos = held_slime.global_position
 	if held_slime and Input.is_action_pressed("fire"):
 		held_slime.trail.can_draw = false
@@ -116,7 +121,7 @@ func handle_start_state() -> void:
 		elif held_slime not in player_start_areas[turn - 1].get_overlapping_bodies():
 			var tween = get_tree().create_tween()
 			tween.tween_property(held_slime, "global_position", last_valid_slime_pos, 0.1)
-		held_slime = null
+		set_held_slime(null)
 		return
 	#endregion
 	
@@ -129,7 +134,7 @@ func handle_start_state() -> void:
 			var tween = get_tree().create_tween()
 			tween.tween_property(active_slime, "global_position", last_valid_slime_pos, 0.1)
 			active_slime = null
-			held_slime = selected_slimes[0]
+			set_held_slime(selected_slimes[0])
 		can_drag =  cursor_area.has_overlapping_bodies() and\
 					cursor_area.get_overlapping_bodies()[0] == active_slime
 	if can_drag and active_slime and Input.is_action_just_released("fire"):
@@ -168,14 +173,22 @@ func handle_sliming_state() -> void:
 		for slime in player.slimes_on_field:
 			if slime.state_manager.state.name != "IDLE":
 					return
-	Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_dizzys)
 	next_turn()
+
+func set_held_slime(slime: Slime) -> void:
+	if slime == null:
+		Globals.play_random_sfx(held_slime.slime_surprised)
+		Globals.play_audio(SLIME_PLACE)
+	else:
+		Globals.play_random_sfx(slime.slime_selects)
+		Globals.play_audio(SLIME_PICKUP)
+	held_slime = slime
 
 func launch_slime() -> void:
 	# TODO:
 	# 1. Find way to prevent shooting into your own arena
-	Globals.play_audio(FLICK_A_WET)
 	launch_strength = drag_line.strength
+	Globals.play_audio(FLICK_A_WET if launch_strength >= .75 else SMACK_NO_WOBBLE)
 	Globals.shake(0.19)
 	Globals.zoom(Vector2(1.1,1.1), 0.3)
 	var direction = 1 if get_global_mouse_position().x < active_slime.global_position.x else -1
@@ -188,7 +201,7 @@ func launch_slime() -> void:
 	players[turn - 1].slimes_on_field.append(active_slime)
 	swap_camera_to(active_slime)
 	
-	Globals.play_random_sfx(active_slime.audio_player, active_slime.slime_throws)
+	Globals.play_random_sfx(active_slime.slime_throws)
 
 func swap_camera_to(target: Node2D = null):
 	if target == null:

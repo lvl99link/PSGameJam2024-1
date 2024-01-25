@@ -47,5 +47,6 @@ func exit() -> void:
 	slime.sliming_particles.amount = 50
 	slime.slime_audio_player.stop()
 	slime.ground_audio_player.stop()
+	Globals.play_random_sfx(slime.slime_dizzys)
 	# go to dizzy or just play dizzy animation and noise here.
 

@@ -19,10 +19,21 @@ const SLIME_A_IMPACT_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_A.o
 const SLIME_A_IMPACT_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_B.ogg")
 const SLIME_A_IMPACT_C = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_C.ogg")
 const SLIME_A_IMPACT_D = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_D.ogg")
+
 const SLIME_A_SELECT_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Select_A.ogg")
 const SLIME_A_SELECT_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Select_B.ogg")
+
 const SLIME_A_THROW_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Throw_A.ogg")
+
 const SLIME_A_DIZZY_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_A.ogg")
+const SLIME_A_DIZZY_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_B.ogg")
+const SLIME_A_DIZZY_C = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_C.ogg")
+
+const SLIME_A_HAHA = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Haha.ogg")
+const SLIME_A_SURPRISE_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_A.ogg")
+const SLIME_A_SURPRISE_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_B.ogg")
+const SLIME_A_SURPRISE_C = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_C.ogg")
+
 const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
 const SLIME_IMPACT_SLAP = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_slap.ogg")
 const ICE_SLIDE_BASE = preload("res://Assets/SFX/OGG/ice_slide_BASE.ogg")
@@ -47,12 +58,18 @@ const ICE_SLIDE_BASE = preload("res://Assets/SFX/OGG/ice_slide_BASE.ogg")
 	SLIME_A_IMPACT_D
 ]
 @onready var slime_dizzys: Array[AudioStreamOggVorbis] = [
-	SLIME_A_DIZZY_A
+	SLIME_A_DIZZY_A,
+	SLIME_A_DIZZY_B,
+	SLIME_A_DIZZY_C
+]
+@onready var slime_surprised: Array[AudioStreamOggVorbis] = [
+	SLIME_A_SURPRISE_A,
+	SLIME_A_SURPRISE_B,
+	SLIME_A_SURPRISE_C
 ]
 #endregion
 
 @onready var state_manager: StateMachine = $StateManager
-@onready var audio_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var slime_audio_player: AudioStreamPlayer2D = $SlimeTrailAudioPlayer
 @onready var ground_audio_player: AudioStreamPlayer2D = $SlimeGroundAudioPlayer
 @onready var trail: Trail = $Node2D/Trail
@@ -105,15 +122,29 @@ func calculate_score() -> int:
 	# Really should offload this responsibility to the Target class.
 	var targets = score_detection_area.get_overlapping_areas()
 	if len(targets) > 0:
-		# Check if the slime is in a valid scoring area.
-		if multiplier not in (targets[0] as Target).allowed_multipliers: return 0
-		# TODO: Only gets the first overlapping area. Maybe better way to pick.
-		return (targets[0] as Target).value * multiplier
+		# Check if the slime is in a valid scoring area. Get's the latest touched overlapping area.
+		var target: Target = targets[len(targets) - 1] as Target
+		if multiplier not in target.allowed_multipliers: return 0
+		set_outline_by_target(target, false) # Changes the outline just in case they're out of sync
+		return target.value * multiplier
 	return 0
 
 func set_outline(color: Color, width: float) -> void:
 	(sprite.material as ShaderMaterial).set_shader_parameter("width", width)
 	(sprite.material as ShaderMaterial).set_shader_parameter("color", color)
+
+func set_outline_by_target(target: Target, play_audio: bool = true) -> void:
+	var audio_to_play = null
+	if target.value < 10: 
+		audio_to_play = target.SCORING_NOTE_BLUE
+		set_outline(Color(0,0,1), 20)
+	elif target.value < 25: 
+		audio_to_play = target.SCORING_NOTE_YELLOW
+		set_outline(Color(1,1,0), 20)
+	elif target.value >= 25: 
+		audio_to_play = target.SCORING_NOTE_RED
+		set_outline(Color(1,0,0), 20)
+	if play_audio: Globals.play_audio(audio_to_play)
 
 func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	# Function handles the 'splitting' of a slime when impacted by another
@@ -146,7 +177,7 @@ func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	new_slime.linear_velocity = new_slime.linear_velocity.rotated(-perpendicular.angle()/8)
 	call_deferred("spawn", new_slime)
 	
-	Globals.play_random_sfx(audio_player, slime_impacts)
+	Globals.play_random_sfx(slime_impacts)
 
 func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	if body == self: return
@@ -201,15 +232,7 @@ func _on_body_entered(body: Node) -> void:
 func _on_score_detection_area_area_entered(target: Target) -> void:
 	if multiplier not in target.allowed_multipliers: return
 	if not score_detection_area.has_overlapping_areas(): return
-	if target.value < 10: 
-		Globals.play_audio(target.SCORING_NOTE_BLUE)
-		set_outline(Color(0,0,1), 20)
-	elif target.value < 25: 
-		Globals.play_audio(target.SCORING_NOTE_YELLOW)
-		set_outline(Color(1,1,0), 20)
-	elif target.value >= 25: 
-		Globals.play_audio(target.SCORING_NOTE_RED)
-		set_outline(Color(1,0,0), 20)
+	set_outline_by_target(target)
 
 func _on_score_detection_area_area_exited(target: Target) -> void:
 	if multiplier not in target.allowed_multipliers: return
