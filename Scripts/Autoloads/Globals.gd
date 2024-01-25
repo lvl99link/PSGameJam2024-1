@@ -21,8 +21,6 @@ func play_random_sfx(sfx_arr: Array[AudioStreamOggVorbis]) -> void:
 	var rng = RandomNumberGenerator.new()
 	var idx = rng.randi_range(0, len(sfx_arr) - 1)
 	play_audio(sfx_arr[idx])
-	#player.stream = sfx_arr[idx]
-	#player.play()
 
 func play_audio(file: AudioStream, mixer: String = "SFX", volume: float = 1) -> void:
 	# given a preloaded soundfile, generate an audio stream player, spawn it

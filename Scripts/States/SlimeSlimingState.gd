@@ -1,5 +1,7 @@
 extends State
 
+var can_dizzy: bool = false
+
 func handle_input(_event: InputEvent) -> void:
 	pass
 
@@ -20,6 +22,7 @@ func physics_update(_delta: float) -> void:
 		await get_tree().create_timer(1).timeout
 		if speed < 10:
 			state_machine.transition_to("IDLE")
+			
 	
 	if speed < 100: # start fading out the audio to match the slime slowing down
 		var tween = get_tree().create_tween()
@@ -28,11 +31,14 @@ func physics_update(_delta: float) -> void:
 		tween2.tween_property(slime.slime_audio_player, "volume_db", -25, 3)
 		await tween.finished
 		slime.ground_audio_player.stop()
+	if speed > 600:
+		can_dizzy = true
 
 func enter(_msg := {}) -> void:
 	# When we enter the sliming state (manually set after the launch function)
 	# Start playing the corresponding animations. Mainly the spinning loop.
 	# However we can maybe chain that to run after the initial getting flicked animation.
+	can_dizzy = false
 	var slime = state_machine.parent as Slime
 	slime.sliming_particles.emitting = true
 	slime.sprite.play("sliming")
@@ -47,6 +53,7 @@ func exit() -> void:
 	slime.sliming_particles.amount = 50
 	slime.slime_audio_player.stop()
 	slime.ground_audio_player.stop()
-	Globals.play_random_sfx(slime.slime_dizzys)
+	if can_dizzy:
+		Globals.play_random_sfx(slime.slime_dizzys)
 	# go to dizzy or just play dizzy animation and noise here.
 

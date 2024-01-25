@@ -1,4 +1,4 @@
-extends GridContainer
+extends Control
 
 const PREVIEW_SFX = preload("res://Assets/SFX/OGG/Buttons/button_A.ogg")
 

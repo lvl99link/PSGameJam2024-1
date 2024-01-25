@@ -222,6 +222,7 @@ func next_turn() -> void:
 		print("Rounds elapsed ", rounds_elapsed)
 	if rounds_elapsed == MAX_SLIMES:
 		state = ROUND.ENDING
+		swap_camera_to(self)
 		victory_ui.winner = get_winner()
 		victory_ui.scores = [players[0].score, players[1].score]
 		victory_ui.spawn_menu()
