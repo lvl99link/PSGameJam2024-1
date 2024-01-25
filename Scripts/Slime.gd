@@ -177,18 +177,21 @@ func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	call_deferred("spawn", new_slime)
 	
 	Globals.play_random_sfx(slime_impacts)
+	Globals.play_audio(SLIME_IMPACT_SLAP)
 
 func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	if body == self: return
 	if multiplier <= 1: return
 	if not can_split: return 
 	var directional_velocity = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
+	print(linear_velocity, " ", body.linear_velocity)
+	print(directional_velocity, " ", Engine.time_scale)
 	if abs(directional_velocity) < 10: return
 	state_manager.transition_to("IMPACTING")
 
 	slime_impacted.emit(self) # Probably should remove with rework of final slaunch
 
-	if abs(directional_velocity) / Engine.time_scale < 300: return
+	if abs(directional_velocity) < 300: return
 	if not Globals.is_final_turn: # super hacky, probably remove
 		Globals.freeze_frame(0.1, 0.18)
 	Globals.shake(0.18)

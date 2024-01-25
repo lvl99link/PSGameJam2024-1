@@ -111,10 +111,10 @@ radius = 11.0
 radius = 54.037
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hwetx"]
-radius = 43.0
+radius = 44.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tni1a"]
-radius = 41.0488
+radius = 43.0
 
 [sub_resource type="Animation" id="Animation_6yo1y"]
 resource_name = "Bounce"
