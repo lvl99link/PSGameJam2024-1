@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dnv7wug6gtchg"]
+[gd_scene load_steps=8 format=3 uid="uid://dnv7wug6gtchg"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_y3b8d"]
+[ext_resource type="VideoStream" path="res://Assets/Videos/Sample-main-menu-scene_test.ogv" id="2_8dqu6"]
 [ext_resource type="Theme" uid="uid://guaqrfny00d3" path="res://Assets/Themes/ui_theme.tres" id="2_vl0x8"]
 [ext_resource type="PackedScene" uid="uid://dnxmef5rt333h" path="res://Prefabs/UI/audio_sliders.tscn" id="3_0v46y"]
+[ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="3_ap54u"]
 [ext_resource type="PackedScene" uid="uid://b7ebcew0fme12" path="res://Prefabs/UI/slime_amount_selector.tscn" id="3_vrrq8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_unhmg"]
+shader = ExtResource("3_ap54u")
+shader_parameter/lod = 1.0
 
 [node name="MainMenu" type="Control"]
 process_mode = 3
@@ -14,6 +20,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_y3b8d")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+modulate = Color(0.878431, 0.878431, 0.878431, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_8dqu6")
+autoplay = true
+expand = true
+loop = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_unhmg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -41,6 +70,7 @@ horizontal_alignment = 1
 [node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 96
 text = "Play"
 
 [node name="SlimeAmountSelector" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_vrrq8")]

@@ -229,6 +229,7 @@ script = ExtResource("7_834mo")
 script = ExtResource("11_0cyjp")
 
 [node name="DEBUGGING_STATE_LABEL" type="Label" parent="."]
+visible = false
 z_index = 5
 offset_left = -46.0
 offset_top = -99.0
