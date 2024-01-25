@@ -35,6 +35,7 @@ func crossfade(new_player: AudioStreamPlayer, fade_in_t: float = 1, fade_out_t: 
 	# Accept a new music player to start playing
 	# Fade out the current player
 	# Fade in the new player
+	if new_player == current_player: return
 	var tween = get_tree().create_tween().set_parallel()
 	new_player.stream_paused = false
 	tween.tween_property(current_player, "volume_db", -72, fade_out_t)
