@@ -10,6 +10,7 @@ var strength: float = 0
 var can_play_stretch: bool = true 
 
 func _ready() -> void:
+	z_index = 1
 	add_point(Vector2.ZERO)
 	add_point(Vector2.ZERO)
 

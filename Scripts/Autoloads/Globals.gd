@@ -5,12 +5,28 @@ extends Node
 
 var camera: CustomCamera = null
 var FRICTION: float = 1
+
+var player_count = 2
 var slime_count = 4
 
 var music_volume: float = 0.5
 var sfx_volume: float = 0.5
 
 var is_final_turn: bool = false # Don't really like this
+
+const slime_color_by_player: Array[Color] = [ # Slime sprite modulation colors
+	Color(0.38, 0.74, 0.29, 0.7), # Green
+	Color(0.88, 0.282, 0.282, 0.7), # Red
+	Color(0, 0, 1, 0.7), # Blue
+	Color(1, 1, 0, 0.7)  # Yellow
+]
+
+const trail_color_by_player: Array[Color] = [ # Slime trail colors
+	Color(0, 1, 0, 0.7), # Green
+	Color(1, 0, 0, 0.7), # Red
+	Color(0, 0, 1, 0.7), # Blue
+	Color(1, 1, 0, 0.7)  # Yellow
+]
 
 func _ready() -> void:
 	set_volume("Music", music_volume)

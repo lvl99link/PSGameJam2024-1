@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnv7wug6gtchg"]
+[gd_scene load_steps=11 format=3 uid="uid://dnv7wug6gtchg"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_y3b8d"]
 [ext_resource type="VideoStream" path="res://Assets/Videos/Sample-main-menu-scene_test.ogv" id="2_8dqu6"]
@@ -6,10 +6,19 @@
 [ext_resource type="PackedScene" uid="uid://dnxmef5rt333h" path="res://Prefabs/UI/audio_sliders.tscn" id="3_0v46y"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="3_ap54u"]
 [ext_resource type="PackedScene" uid="uid://b7ebcew0fme12" path="res://Prefabs/UI/slime_amount_selector.tscn" id="3_vrrq8"]
+[ext_resource type="Texture2D" uid="uid://j2wcuiqcftda" path="res://Assets/Art/UI/logo-frame-1.png" id="5_5qbl0"]
+[ext_resource type="Texture2D" uid="uid://76g6wgcqonve" path="res://Assets/Art/UI/logo-frame-2.png" id="6_idl38"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_unhmg"]
 shader = ExtResource("3_ap54u")
 shader_parameter/lod = 1.0
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_roj41"]
+frames = 2
+frame_0/texture = ExtResource("5_5qbl0")
+frame_0/duration = 0.5
+frame_1/texture = ExtResource("6_idl38")
+frame_1/duration = 0.5
 
 [node name="MainMenu" type="Control"]
 process_mode = 3
@@ -53,7 +62,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 512
 theme_override_constants/margin_right = 512
-theme_override_constants/margin_bottom = 256
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -61,11 +69,12 @@ theme = ExtResource("2_vl0x8")
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="Title" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Title" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(100, 310)
 layout_mode = 2
-theme_override_font_sizes/font_size = 128
-text = "Title!"
-horizontal_alignment = 1
+texture = SubResource("AnimatedTexture_roj41")
+expand_mode = 1
 
 [node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

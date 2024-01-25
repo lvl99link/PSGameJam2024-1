@@ -202,6 +202,7 @@ func launch_slime() -> void:
 	swap_camera_to(active_slime)
 	
 	Globals.play_random_sfx(active_slime.slime_throws)
+	score_ui.set_throws_remaining(players[turn - 1].player_num, len(players[turn-1].available_roster) - 1)
 
 func swap_camera_to(target: Node2D = null):
 	if target == null:

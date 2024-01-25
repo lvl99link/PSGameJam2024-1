@@ -7,18 +7,7 @@ signal slime_impacted(slime: Slime)
 #const RED_SLIME = preload("res://Assets/Art/Slimes/Red_Slime.png")
 
 #const slime_sprite_by_player: Array[Texture2D] = [JAM_A_SLIME_A_BIG, RED_SLIME]
-const slime_color_by_player: Array[Color] = [ # Slime sprite modulation colors
-	Color(0.32, 1, 0.23, 0.7), # Green
-	Color(1, 0.24, 0.24, 0.7), # Red
-	Color(0, 0, 1, 0.7), # Blue
-	Color(1, 1, 0, 0.7)  # Yellow
-]
-const trail_color_by_player: Array[Color] = [ # Slime trail colors
-	Color(0, 1, 0, 0.7), # Green
-	Color(1, 0, 0, 0.7), # Red
-	Color(0, 0, 1, 0.7), # Blue
-	Color(1, 1, 0, 0.7)  # Yellow
-]
+
 
 #region IMPORT ALL SLIME SOUND RELATED AUDIO SFX
 const SLIME_A_IMPACT_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_A.ogg")
@@ -100,13 +89,13 @@ var can_split: bool = true
 func _ready() -> void:
 	linear_damp = Globals.FRICTION
 	#sprite.sprite_frames.set_frame("default", 0, slime_sprite_by_player[owned_by.player_num - 1])
-	var color = slime_color_by_player[owned_by.player_num - 1]
+	var color = Globals.slime_color_by_player[owned_by.player_num - 1]
 	color.a = 1
 	sprite.material.set_shader_parameter("modulate_color", color)
 	
-	trail.line.default_color = trail_color_by_player[owned_by.player_num - 1]
-	hit_particles.color = slime_color_by_player[owned_by.player_num - 1]
-	sliming_particles.color = slime_color_by_player[owned_by.player_num - 1]
+	trail.line.default_color = Globals.trail_color_by_player[owned_by.player_num - 1]
+	hit_particles.color = Globals.slime_color_by_player[owned_by.player_num - 1]
+	sliming_particles.color = Globals.slime_color_by_player[owned_by.player_num - 1]
 
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()

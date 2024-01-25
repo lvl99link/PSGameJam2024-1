@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bni4y4hkpbnl3" path="res://Assets/Art/Entities/Jam_Jar_FULL.png" id="3_5xh8g"]
 
 [node name="StrengthBar" type="TextureProgressBar"]
+z_index = 2
 offset_top = -250.0
 offset_right = 100.0
 offset_bottom = 250.0
