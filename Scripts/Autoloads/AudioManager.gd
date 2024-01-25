@@ -23,7 +23,7 @@ func _ready() -> void:
 		current_player = menu_music_player
 	else:
 		current_player = game_music_player
-	current_player.stream_paused = false
+	#current_player.stream_paused = false
 	current_player.volume_db = 0 # 0db = full volume
 
 func initialize_player(stream: Resource) -> AudioStreamPlayer:
@@ -32,7 +32,7 @@ func initialize_player(stream: Resource) -> AudioStreamPlayer:
 	player.stream = stream
 	player.volume_db = -72
 	player.autoplay = true
-	player.stream_paused = true
+	#player.stream_paused = true
 	add_child(player)
 	return player
 
@@ -42,11 +42,11 @@ func crossfade(new_player: AudioStreamPlayer, fade_in_t: float = 1, fade_out_t: 
 	# Fade in the new player
 	if new_player == current_player: return
 	var tween = get_tree().create_tween().set_parallel()
-	new_player.stream_paused = false
+	#new_player.stream_paused = false
 	tween.tween_property(current_player, "volume_db", -72, fade_out_t)
 	tween.tween_property(new_player, "volume_db", 0, fade_in_t)
 	await tween.finished
-	current_player.stream_paused = true
+	#current_player.stream_paused = true
 	current_player = new_player
 
 func play(player: AudioStreamPlayer, fade_in_t: float = 1) -> void:
@@ -54,7 +54,7 @@ func play(player: AudioStreamPlayer, fade_in_t: float = 1) -> void:
 	# Does not add to or overwrite the main 'current player'
 	# Only meant to play atop existing elements.
 	var tween = get_tree().create_tween()
-	player.stream_paused = false
+	#player.stream_paused = false
 	tween.tween_property(player, "volume_db", 0, fade_in_t)
 
 func stop(player: AudioStreamPlayer, fade_out_t: float = 1) -> void:
@@ -62,7 +62,7 @@ func stop(player: AudioStreamPlayer, fade_out_t: float = 1) -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(player, "volume_db", -72, fade_out_t)
 	await tween.finished
-	player.stream_paused = true
+	#player.stream_paused = true
 
 func on_scene_changed() -> void:
 	# Automatically handle audio shifting based on the current scene

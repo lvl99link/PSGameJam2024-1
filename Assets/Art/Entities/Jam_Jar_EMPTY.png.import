@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp61se60076kk"
-path="res://.godot/imported/Slime fill.png-3c7a0d3879428175251cd56b9e456db0.ctex"
+uid="uid://xijtx5vxyu23"
+path="res://.godot/imported/Jam_Jar_EMPTY.png-67d1b72dceae22b9d291885223b7d1e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/Power Bar and Texture Map/Slime fill.png"
-dest_files=["res://.godot/imported/Slime fill.png-3c7a0d3879428175251cd56b9e456db0.ctex"]
+source_file="res://Assets/Art/Entities/Jam_Jar_EMPTY.png"
+dest_files=["res://.godot/imported/Jam_Jar_EMPTY.png-67d1b72dceae22b9d291885223b7d1e9.ctex"]
 
 [params]
 
