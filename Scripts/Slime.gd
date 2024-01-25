@@ -190,8 +190,9 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	state_manager.transition_to("IMPACTING")
 
 	slime_impacted.emit(self) # Probably should remove with rework of final slaunch
-
-	if abs(directional_velocity) < 250: return
+	# Make it more likely to combo slime splits during hit stop frames
+	var combo_mod = clamp(Engine.time_scale, 0.5, 1) 
+	if abs(directional_velocity) < 250 * combo_mod: return
 	if not Globals.is_final_turn: # super hacky, probably remove
 		Globals.freeze_frame(0.1, 0.18)
 	Globals.shake(0.18)
@@ -223,6 +224,8 @@ func spawn(new_slime: Slime) -> void:
 
 func _on_body_entered(body: Node) -> void:
 	# Whenever we hit another physics body
+	Globals.play_audio(SLIME_IMPACT_SLAP)
+	
 	var directional_v = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
 	if body is StaticBody2D and directional_v > 10: # Only reading walls
 		# Enter impacting state

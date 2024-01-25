@@ -27,7 +27,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
-		queue_free()
+		get_parent().queue_free()
 
 func change_slide(amount: int):
 	if current_slide + amount < 0 or current_slide + amount > len(slides) - 1:
@@ -42,4 +42,4 @@ func _on_previous_pressed() -> void:
 	change_slide(-1)
 
 func _on_close_pressed() -> void:
-	queue_free()
+	get_parent().queue_free() # Delete the canvas item

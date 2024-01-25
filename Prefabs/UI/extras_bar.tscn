@@ -1,0 +1,81 @@
+[gd_scene load_steps=18 format=3 uid="uid://7n2ofqo0tfhx"]
+
+[ext_resource type="Script" path="res://Scripts/UI/extras_bar.gd" id="1_btowi"]
+[ext_resource type="Texture2D" uid="uid://c2fc1uy3g6ade" path="res://Assets/Art/UI/help_1.png" id="2_oqrw2"]
+[ext_resource type="Texture2D" uid="uid://c3wktwgtkohd0" path="res://Assets/Art/UI/help_2.png" id="3_4q6qi"]
+[ext_resource type="Texture2D" uid="uid://cm7vlh7bgvwdf" path="res://Assets/Art/UI/full_screen_set_1.png" id="4_kbc2i"]
+[ext_resource type="Texture2D" uid="uid://111cct5megnu" path="res://Assets/Art/UI/full_screen_set_2.png" id="5_8xy20"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgokv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7krxa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1hltk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6t4oy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ilim8"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_aahyj"]
+frames = 2
+frame_0/texture = ExtResource("2_oqrw2")
+frame_0/duration = 0.5
+frame_1/texture = ExtResource("3_4q6qi")
+frame_1/duration = 0.5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oqbhf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pi16k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3y5ed"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hkh3w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0pbuk"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_gjksl"]
+frames = 2
+frame_0/texture = ExtResource("4_kbc2i")
+frame_0/duration = 0.5
+frame_1/texture = ExtResource("5_8xy20")
+frame_1/duration = 0.5
+
+[node name="ExtrasBar" type="HBoxContainer"]
+process_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_btowi")
+
+[node name="HelpButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fgokv")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_7krxa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_1hltk")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_6t4oy")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ilim8")
+icon = SubResource("AnimatedTexture_aahyj")
+vertical_icon_alignment = 2
+
+[node name="FullScreenButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oqbhf")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pi16k")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3y5ed")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hkh3w")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0pbuk")
+icon = SubResource("AnimatedTexture_gjksl")
+icon_alignment = 2
+vertical_icon_alignment = 2
+
+[connection signal="pressed" from="HelpButton" to="." method="_on_help_button_pressed"]
+[connection signal="pressed" from="FullScreenButton" to="." method="_on_full_screen_button_pressed"]

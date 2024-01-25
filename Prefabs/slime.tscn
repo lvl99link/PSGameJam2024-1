@@ -155,8 +155,8 @@ script = ExtResource("1_ug4yn")
 z_index = 1
 material = SubResource("ShaderMaterial_lytkl")
 sprite_frames = SubResource("SpriteFrames_q5qax")
+animation = &"sliming"
 autoplay = "default"
-frame_progress = 0.480315
 
 [node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
 width = 80.0

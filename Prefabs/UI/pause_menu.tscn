@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://b1xgqwhsvt638"]
+[gd_scene load_steps=12 format=3 uid="uid://b1xgqwhsvt638"]
 
 [ext_resource type="Script" path="res://Scripts/UI/pause_menu.gd" id="1_7in0l"]
 [ext_resource type="PackedScene" uid="uid://dnxmef5rt333h" path="res://Prefabs/UI/audio_sliders.tscn" id="2_c1tve"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="2_itsfm"]
 [ext_resource type="Theme" uid="uid://guaqrfny00d3" path="res://Assets/Themes/ui_theme.tres" id="3_0s7a3"]
 [ext_resource type="FontFile" uid="uid://8wu6ev8gqxw7" path="res://Assets/Fonts/RubikBubbles-Regular.ttf" id="3_3yawt"]
+[ext_resource type="PackedScene" uid="uid://7n2ofqo0tfhx" path="res://Prefabs/UI/extras_bar.tscn" id="3_ip2hj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_porp7"]
 shader = ExtResource("2_itsfm")
@@ -102,11 +103,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = SubResource("Theme_4vk2j")
 theme_override_constants/margin_left = 512
-theme_override_constants/margin_top = 256
+theme_override_constants/margin_top = 128
 theme_override_constants/margin_right = 512
-theme_override_constants/margin_bottom = 256
+theme_override_constants/margin_bottom = 128
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -136,6 +138,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Quit to Menu"
+
+[node name="ExtrasBar" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_ip2hj")]
+layout_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
