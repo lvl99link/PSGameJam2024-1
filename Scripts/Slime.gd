@@ -191,7 +191,7 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 
 	slime_impacted.emit(self) # Probably should remove with rework of final slaunch
 
-	if abs(directional_velocity) < 300: return
+	if abs(directional_velocity) < 250: return
 	if not Globals.is_final_turn: # super hacky, probably remove
 		Globals.freeze_frame(0.1, 0.18)
 	Globals.shake(0.18)

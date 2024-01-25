@@ -6,11 +6,11 @@ extends Control
 @onready var previous: Button = %Previous
 @onready var close: Button = %Close
 
-const TUTORIAL_1 = preload("res://Assets/Tutorial/tutorial_1.png")
-const TUTORIAL_2 = preload("res://Assets/Tutorial/tutorial_2.png")
-const TUTORIAL_3 = preload("res://Assets/Tutorial/tutorial_3.png")
-const TUTORIAL_4 = preload("res://Assets/Tutorial/tutorial_4.png")
-const TUTORIAL_5 = preload("res://Assets/Tutorial/tutorial_5.png")
+const TUTORIAL_1 = preload("res://Assets/Tutorial/tutorial_1.svg")
+const TUTORIAL_2 = preload("res://Assets/Tutorial/tutorial_2.svg")
+const TUTORIAL_3 = preload("res://Assets/Tutorial/tutorial_3.svg")
+const TUTORIAL_4 = preload("res://Assets/Tutorial/tutorial_4.svg")
+const TUTORIAL_5 = preload("res://Assets/Tutorial/tutorial_5.svg")
 
 var slides = [
 	TUTORIAL_1,
