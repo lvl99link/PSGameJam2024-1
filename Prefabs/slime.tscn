@@ -1,22 +1,15 @@
-[gd_scene load_steps=34 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=35 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
-[ext_resource type="Texture2D" uid="uid://crknk0f71tklh" path="res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png" id="2_38la0"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
 [ext_resource type="Shader" path="res://Assets/Shaders/outline.gdshader" id="2_uljtn"]
-[ext_resource type="Texture2D" uid="uid://6y0k33gg4r1" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0000.png" id="4_nahct"]
+[ext_resource type="Texture2D" uid="uid://7turikd1h6fb" path="res://Assets/Art/Slimes/Jam-A-Slime-A-Big-Grayscale.png" id="3_eqy35"]
+[ext_resource type="Texture2D" uid="uid://b524wnhkh36p0" path="res://Assets/Art/Slimes/Spritesheets/slide_spritesheet_gray.png" id="4_0jo7i"]
 [ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="4_t08mx"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeIdleState.gd" id="5_0heq5"]
-[ext_resource type="Texture2D" uid="uid://bcx1kcvaabvx2" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0001.png" id="5_r4wnj"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeSlimingState.gd" id="6_8dhtv"]
-[ext_resource type="Texture2D" uid="uid://vsiultvjw65m" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0002.png" id="6_uofd7"]
-[ext_resource type="Texture2D" uid="uid://bm7jce8jy2eu1" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0003.png" id="7_78jda"]
 [ext_resource type="Script" path="res://Scripts/States/SlimeImpactState.gd" id="7_834mo"]
-[ext_resource type="Texture2D" uid="uid://bo8cwk7lu3dng" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0004.png" id="8_x3e63"]
-[ext_resource type="Texture2D" uid="uid://c18k8lewi8u7o" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0005.png" id="9_2on5m"]
-[ext_resource type="Texture2D" uid="uid://b3rmg0beo247y" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0006.png" id="10_e0m8o"]
 [ext_resource type="Script" path="res://Scripts/States/SlimePacingState.gd" id="11_0cyjp"]
-[ext_resource type="Texture2D" uid="uid://cx2cp2ktlllxw" path="res://Assets/Art/Slimes/Spritesheets/Timeline 4_0007.png" id="11_m6qyw"]
 [ext_resource type="PackedScene" uid="uid://cdqskstgkebpd" path="res://Prefabs/hit_particles.tscn" id="18_c244o"]
 [ext_resource type="PackedScene" uid="uid://bjeiiwo8yfqyl" path="res://Prefabs/sliming_particles.tscn" id="19_xaauk"]
 
@@ -24,22 +17,55 @@
 friction = 0.0
 bounce = 0.65
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5nb5l"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lytkl"]
 resource_local_to_scene = true
 shader = ExtResource("2_uljtn")
-shader_parameter/color = Color(0.854902, 0.85098, 0.219608, 1)
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/modulate_color = Color(1, 0.36, 0.36, 1)
 shader_parameter/width = 0.0
-shader_parameter/pattern = 0
+shader_parameter/pattern = 2
 shader_parameter/inside = true
-shader_parameter/add_margins = true
+shader_parameter/add_margins = false
 shader_parameter/number_of_images = Vector2(1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkbkp"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(0, 0, 175, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n61mm"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(175, 0, 175, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7g2f"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(350, 0, 175, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aiyuf"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(525, 0, 175, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahpjy"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(700, 0, 175, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sph43"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(875, 0, 175, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gems8"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(1050, 0, 175, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w43el"]
+atlas = ExtResource("4_0jo7i")
+region = Rect2(1225, 0, 175, 125)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q5qax"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_38la0")
+"texture": ExtResource("3_eqy35")
 }],
 "loop": true,
 "name": &"default",
@@ -47,28 +73,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_nahct")
+"texture": SubResource("AtlasTexture_jkbkp")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_r4wnj")
+"texture": SubResource("AtlasTexture_n61mm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_uofd7")
+"texture": SubResource("AtlasTexture_q7g2f")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_78jda")
+"texture": SubResource("AtlasTexture_aiyuf")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_x3e63")
+"texture": SubResource("AtlasTexture_ahpjy")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_2on5m")
+"texture": SubResource("AtlasTexture_sph43")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_e0m8o")
+"texture": SubResource("AtlasTexture_gems8")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_m6qyw")
+"texture": SubResource("AtlasTexture_w43el")
 }],
 "loop": true,
 "name": &"sliming",
@@ -127,12 +153,10 @@ script = ExtResource("1_ug4yn")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Node2D"]
 z_index = 1
-material = SubResource("ShaderMaterial_5nb5l")
-scale = Vector2(0.25, 0.25)
+material = SubResource("ShaderMaterial_lytkl")
 sprite_frames = SubResource("SpriteFrames_q5qax")
-animation = &"sliming"
 autoplay = "default"
-frame_progress = 0.296102
+frame_progress = 0.480315
 
 [node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
 width = 80.0
@@ -178,6 +202,7 @@ volume_db = -6.5
 bus = &"SFX"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 z_index = 1
 shape = SubResource("CircleShape2D_tni1a")
 debug_color = Color(0.976471, 0.137255, 0.145098, 0.419608)

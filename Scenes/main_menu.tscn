@@ -22,6 +22,7 @@ grow_vertical = 2
 script = ExtResource("1_y3b8d")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+modulate = Color(0.878431, 0.878431, 0.878431, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -61,15 +61,16 @@ Button/font_sizes/font_size = 32
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_lnguk"]
 frames = 2
 frame_0/texture = ExtResource("3_pjhk5")
+frame_0/duration = 0.5
 frame_1/texture = ExtResource("4_kdhym")
-frame_1/duration = 1.0
+frame_1/duration = 0.5
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_81htk"]
 frames = 2
-speed_scale = 0.5
 frame_0/texture = ExtResource("5_y00p0")
+frame_0/duration = 0.5
 frame_1/texture = ExtResource("6_irqai")
-frame_1/duration = 1.0
+frame_1/duration = 0.5
 
 [sub_resource type="Animation" id="Animation_1iayk"]
 resource_name = "Intro"

@@ -24,26 +24,27 @@ func physics_update(_delta: float) -> void:
 		return
 	
 	# Randomly 'pace' in a random direction if idle and the slime is not on the field
-	if timer.is_stopped() and slime not in slime.owned_by.slimes_on_field:
-		var roll = randi_range(0, 10)
-		if roll:
-			slime.apply_impulse(Vector2(randi_range(-PACE_FORCE, PACE_FORCE), randi_range(-PACE_FORCE, PACE_FORCE)))
-		timer.start(5)
+	#if timer.is_stopped() and slime not in slime.owned_by.slimes_on_field:
+		#var roll = randi_range(0, 10)
+		#if roll:
+			#slime.apply_impulse(Vector2(randi_range(-PACE_FORCE, PACE_FORCE), randi_range(-PACE_FORCE, PACE_FORCE)))
+		#timer.start(5)
 		# Transition to pacing state
 		# For now we can just play the pacing animation + sound since it's pretty simple
 
 func enter(_msg := {}) -> void:
 	# When we enter the idle state
 	# Play (and loop) the idle animation when idling.
-	timer = Timer.new()
-	timer.one_shot = true
-	add_child(timer)
-	timer.start(5)
+	#timer = Timer.new()
+	#timer.one_shot = true
+	#add_child(timer)
+	#timer.start(5)
 	
 	if state_machine.parent.sprite:
 		state_machine.parent.sprite.play("default")
 
 func exit() -> void:
-	timer.stop()
-	remove_child(timer)
-	timer.queue_free()
+	#timer.stop()
+	#remove_child(timer)
+	#timer.queue_free()
+	pass

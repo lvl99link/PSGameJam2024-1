@@ -3,15 +3,21 @@ extends RigidBody2D
 
 signal slime_impacted(slime: Slime)
 
-const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png")
-const RED_SLIME = preload("res://Assets/Art/Slimes/Red_Slime.png")
+#const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png")
+#const RED_SLIME = preload("res://Assets/Art/Slimes/Red_Slime.png")
 
-const slime_sprite_by_player: Array[Texture2D] = [JAM_A_SLIME_A_BIG, RED_SLIME]
-const slime_color_by_player: Array[Color] = [ # Slime trail colors
-	Color(0,1,0,0.7), # Green
-	Color(1,0,0,0.7), # Red
-	Color(0,0,1,0.7), # Blue
-	Color(1,1,0,0.7)  # Yellow
+#const slime_sprite_by_player: Array[Texture2D] = [JAM_A_SLIME_A_BIG, RED_SLIME]
+const slime_color_by_player: Array[Color] = [ # Slime sprite modulation colors
+	Color(0.32, 1, 0.23, 0.7), # Green
+	Color(1, 0.24, 0.24, 0.7), # Red
+	Color(0, 0, 1, 0.7), # Blue
+	Color(1, 1, 0, 0.7)  # Yellow
+]
+const trail_color_by_player: Array[Color] = [ # Slime trail colors
+	Color(0, 1, 0, 0.7), # Green
+	Color(1, 0, 0, 0.7), # Red
+	Color(0, 0, 1, 0.7), # Blue
+	Color(1, 1, 0, 0.7)  # Yellow
 ]
 
 #region IMPORT ALL SLIME SOUND RELATED AUDIO SFX
@@ -93,8 +99,12 @@ var can_split: bool = true
 
 func _ready() -> void:
 	linear_damp = Globals.FRICTION
-	sprite.sprite_frames.set_frame("default", 0, slime_sprite_by_player[owned_by.player_num - 1])
-	trail.line.default_color = slime_color_by_player[owned_by.player_num - 1]
+	#sprite.sprite_frames.set_frame("default", 0, slime_sprite_by_player[owned_by.player_num - 1])
+	var color = slime_color_by_player[owned_by.player_num - 1]
+	color.a = 1
+	sprite.material.set_shader_parameter("modulate_color", color)
+	
+	trail.line.default_color = trail_color_by_player[owned_by.player_num - 1]
 	hit_particles.color = slime_color_by_player[owned_by.player_num - 1]
 	sliming_particles.color = slime_color_by_player[owned_by.player_num - 1]
 
@@ -137,13 +147,13 @@ func set_outline_by_target(target: Target, play_audio: bool = true) -> void:
 	var audio_to_play = null
 	if target.value < 10: 
 		audio_to_play = target.SCORING_NOTE_BLUE
-		set_outline(Color(0,0,1), 20)
+		set_outline(Color(0,0,1), 3)
 	elif target.value < 25: 
 		audio_to_play = target.SCORING_NOTE_YELLOW
-		set_outline(Color(1,1,0), 20)
+		set_outline(Color(1,1,0), 3)
 	elif target.value >= 25: 
 		audio_to_play = target.SCORING_NOTE_RED
-		set_outline(Color(1,0,0), 20)
+		set_outline(Color(1,0,0), 3)
 	if play_audio: Globals.play_audio(audio_to_play)
 
 func split(hit_vector: Vector2 = Vector2.ZERO) -> void:

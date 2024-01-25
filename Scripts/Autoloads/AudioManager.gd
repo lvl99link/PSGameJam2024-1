@@ -3,6 +3,7 @@ extends Node
 const OST_BGM_0_DAWN = preload("res://Assets/Music/OST_BGM_0_DAWN.ogg")
 const OST_BGM_1_RIME = preload("res://Assets/Music/OST_BGM_1_RIME.ogg")
 const OST_BGM_PAUSE = preload("res://Assets/Music/OST_BGM_PAUSE.ogg")
+const OST_BGM_MATCH_END = preload("res://Assets/Music/OST_BGM_MATCH_END.ogg")
 
 var menu_music_player: AudioStreamPlayer
 var game_music_player: AudioStreamPlayer
@@ -16,7 +17,7 @@ func _ready() -> void:
 	
 	menu_music_player = initialize_player(OST_BGM_0_DAWN)
 	game_music_player = initialize_player(OST_BGM_1_RIME)
-	victory_music_player = initialize_player(OST_BGM_PAUSE)
+	victory_music_player = initialize_player(OST_BGM_MATCH_END)
 	
 	if get_tree().current_scene.name == "MainMenu":
 		current_player = menu_music_player
@@ -66,10 +67,10 @@ func stop(player: AudioStreamPlayer, fade_out_t: float = 1) -> void:
 func on_scene_changed() -> void:
 	# Automatically handle audio shifting based on the current scene
 	if get_tree().current_scene.name == "MainMenu":
-		crossfade(menu_music_player, 0.25, 2)
-		# If we're going to the main menu, stop all streams except for the menu track
-		for node in get_children():
-			if node is AudioStreamPlayer and node != menu_music_player:
-				stop(node)
+		await crossfade(menu_music_player, 0.25, 2)
 	else:
-		crossfade(game_music_player, 0.25, 2)
+		await crossfade(game_music_player, 0.25, 2)
+	# If we're going to the main menu, stop all streams except for the menu track
+	for node in get_children():
+		if node is AudioStreamPlayer and node != current_player:
+			stop(node)
