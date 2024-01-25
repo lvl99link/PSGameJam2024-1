@@ -6,6 +6,7 @@ const OST_BGM_PAUSE = preload("res://Assets/Music/OST_BGM_PAUSE.ogg")
 
 var menu_music_player: AudioStreamPlayer
 var game_music_player: AudioStreamPlayer
+var victory_music_player: AudioStreamPlayer
 
 var current_player: AudioStreamPlayer = null
 
@@ -15,11 +16,13 @@ func _ready() -> void:
 	
 	menu_music_player = initialize_player(OST_BGM_0_DAWN)
 	game_music_player = initialize_player(OST_BGM_1_RIME)
+	victory_music_player = initialize_player(OST_BGM_PAUSE)
 	
 	if get_tree().current_scene.name == "MainMenu":
 		current_player = menu_music_player
 	else:
 		current_player = game_music_player
+	current_player.stream_paused = false
 	current_player.volume_db = 0 # 0db = full volume
 
 func initialize_player(stream: Resource) -> AudioStreamPlayer:
@@ -28,6 +31,7 @@ func initialize_player(stream: Resource) -> AudioStreamPlayer:
 	player.stream = stream
 	player.volume_db = -72
 	player.autoplay = true
+	player.stream_paused = true
 	add_child(player)
 	return player
 
@@ -44,9 +48,28 @@ func crossfade(new_player: AudioStreamPlayer, fade_in_t: float = 1, fade_out_t: 
 	current_player.stream_paused = true
 	current_player = new_player
 
+func play(player: AudioStreamPlayer, fade_in_t: float = 1) -> void:
+	# Start an existing audio player (from the paused state)
+	# Does not add to or overwrite the main 'current player'
+	# Only meant to play atop existing elements.
+	var tween = get_tree().create_tween()
+	player.stream_paused = false
+	tween.tween_property(player, "volume_db", 0, fade_in_t)
+
+func stop(player: AudioStreamPlayer, fade_out_t: float = 1) -> void:
+	# Stop a specific existing audio player (pauses)
+	var tween = get_tree().create_tween()
+	tween.tween_property(player, "volume_db", -72, fade_out_t)
+	await tween.finished
+	player.stream_paused = true
+
 func on_scene_changed() -> void:
 	# Automatically handle audio shifting based on the current scene
 	if get_tree().current_scene.name == "MainMenu":
 		crossfade(menu_music_player, 0.25, 2)
+		# If we're going to the main menu, stop all streams except for the menu track
+		for node in get_children():
+			if node is AudioStreamPlayer and node != menu_music_player:
+				stop(node)
 	else:
 		crossfade(game_music_player, 0.25, 2)

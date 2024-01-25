@@ -30,6 +30,7 @@ func spawn_menu() -> void:
 	show_map.visible = false
 	visible = true
 	Globals.toggle_audio_effect("Music", 0, true)
+	AudioManager.play(AudioManager.victory_music_player, 0.25)
 	var color: Color = winner.color_by_player_num[winner.player_num - 1]
 	if scores[0] == scores[1]:
 		color = Color.DIM_GRAY
