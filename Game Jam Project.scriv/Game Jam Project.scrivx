@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrivenerProject Template="No" Version="1.5" Creator="SCRWIN-1.9.16.0" Device="DESKTOP-J23IU6M" Modified="2024-01-12 02:28:20 -0600" ModID="AAE2A555-6AE4-4579-AB6B-34458DC56CC2">
+<ScrivenerProject Template="No" Version="1.5" Creator="SCRWIN-1.9.16.0" Device="DESKTOP-J23IU6M" Modified="2024-01-25 04:55:40 -0600" ModID="01DC3F7A-57E8-4812-AE47-35ED20131E5C">
     <Binder>
         <BinderItem ID="0" UUID="73309B62-A304-4ECD-A4D3-01428DFE696A" Created="2024-01-12 02:28:20 -0600" Modified="2024-01-12 02:28:20 -0600" Type="DraftFolder">
             <Title>Draft</Title>
@@ -7,12 +7,13 @@
                 <IncludeInCompile>Yes</IncludeInCompile>
             </MetaData>
             <Children>
-                <BinderItem ID="3" UUID="2F35BC83-5140-401D-8C0C-F883EC48B0C1" Created="2024-01-12 02:28:20 -0600" Modified="2024-01-12 02:28:20 -0600" Type="Text">
-                    <Title></Title>
+                <BinderItem ID="3" UUID="2F35BC83-5140-401D-8C0C-F883EC48B0C1" Created="2024-01-12 02:28:20 -0600" Modified="2024-01-25 04:11:28 -0600" Type="Text">
+                    <Title>Welcome to</Title>
                     <MetaData>
                         <IncludeInCompile>Yes</IncludeInCompile>
                     </MetaData>
                     <TextSettings>
+                        <TextSelection>1803,181</TextSelection>
                         <Target Type="Words">0</Target>
                     </TextSettings>
                 </BinderItem>
@@ -56,7 +57,7 @@
     <ProjectTargets>
         <DraftTarget Type="Words" CountIncludedOnly="No" CurrentCompileGroupOnly="No">0</DraftTarget>
         <SessionTarget Type="Words" CountDraftOnly="No" AllowNegatives="No" ResetType="Midnight" DeterminedFromDeadline="No" CanWriteOnDeadlineDate="Yes" WritingDays="">0</SessionTarget>
-        <PreviousSession Words="0" Characters="0"/>
+        <PreviousSession Words="377" Characters="1984" Date="2024-01-25 03:44:18 -0600"/>
     </ProjectTargets>
     <Collections>
         <Collection Type="Binder" ID="EA686959-472B-4EB0-8151-DB3BFB7319F1" Color="0.901961 0.917647 0.933333">

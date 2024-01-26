@@ -14,3 +14,4 @@ when all that is finalized.
 <Put the way you'd like to be credited here>
 - Fresh
 - Cosu
+- Zheis/lvl99link: Project Manager/Developer

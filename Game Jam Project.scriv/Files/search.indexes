@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SearchIndexes Version="1.0">
     <Documents>
-        <Document ID="3"/>
+        <Document ID="3">
+            <Title>Welcome to</Title>
+            <Text>Welcome to Gelatoss, The slime throwing sport where you and your friends compete to see who can get the slimiest scores!
+
+To start select the amount of slimes you and your opponent will toss, then press play!
+
+When you start the game, simply click and hold on a slime to select it and drag it to the line separating your slimes from the arena. From there, you simply need to click on the slime, drag it back to give it launching power, and release! Soon you will have slimes sliding all over the place and SLAMMING into each other!
+
+“That’s all fun and well, but how do I beat my opponent?” I hear you ask. It’s easy! The markers on the ground show you areas you can score in. Simply have your slime positioned on one of those markers at the end of the game, and you score points for it. Here’s a handy tip for the scoring panels.
+
+ Slimes have multipliers and come in different slizes. 
+The one you start with is the largest and has a 4x multiplier. We call this a full slime.
+After it splits it will create two slimes each with a 2x multiplier. We call this a half slime.
+Splitting it one more time will create you two tiny slimes with a 1x multiplier. We call this a mini slime.
+
+What’s sizes and multipliers without a little scoring to heat things up?
+
+To score you have to get your slime into one of the scoring areas. It will light up and make a chime to let you know you’ve entered the zone.
+The Blue zone is only worth 5 points.
+The Yellow zone is worth 10 points.
+The Red zone is worth 25 points.
+
+There are also two zones that you can score in only if your slime has split.
+The Hollow Yellow zones is worth 10 points.
+The Red dot zones are worth a whopping 100 points!
+
+Just as you can earn points, you can have them taken away by your opponent knocking your slime out of your scoring zone.
+
+	And with that, you're ready to slime up the competition in the sport of Gelatoss!
+Don’t forget, this tutorial doesn’t tell you everything. Keep on the lookout for secret techniques.</Text>
+        </Document>
     </Documents>
 </SearchIndexes>
