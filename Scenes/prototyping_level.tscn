@@ -83,6 +83,7 @@ limit_right = 1210
 [node name="VictoryScreen" parent="ScoreCanvas" instance=ExtResource("5_qgvp8")]
 
 [node name="PauseMenu" parent="ScoreCanvas" instance=ExtResource("6_lfnx2")]
+visible = false
 
 [node name="Jam-a-slime-arena" type="Sprite2D" parent="."]
 z_index = -1

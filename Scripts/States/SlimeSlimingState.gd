@@ -24,7 +24,8 @@ func physics_update(_delta: float) -> void:
 			if can_dizzy:
 				can_dizzy = false
 				state_machine.transition_to("DIZZY")
-			state_machine.transition_to("IDLE")
+			else:
+				state_machine.transition_to("IDLE")
 			
 	
 	if speed < 100: # start fading out the audio to match the slime slowing down
