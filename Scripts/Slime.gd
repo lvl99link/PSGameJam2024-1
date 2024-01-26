@@ -96,6 +96,8 @@ func _ready() -> void:
 	trail.line.default_color = Globals.trail_color_by_player[owned_by.player_num - 1]
 	hit_particles.color = Globals.slime_color_by_player[owned_by.player_num - 1]
 	sliming_particles.color = Globals.slime_color_by_player[owned_by.player_num - 1]
+	# Randomizes the slime's blinking pace.
+	sprite.sprite_frames.set_frame("default", 0, sprite.sprite_frames.get_frame_texture("default", 0), randi_range(24,64))
 
 func _physics_process(_delta: float) -> void:
 	handle_slime_trail_friction()

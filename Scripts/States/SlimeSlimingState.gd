@@ -34,7 +34,7 @@ func physics_update(_delta: float) -> void:
 		tween2.tween_property(slime.slime_audio_player, "volume_db", -25, 3)
 		await tween.finished
 		slime.ground_audio_player.stop()
-	if speed > 600:
+	if speed > 300:
 		can_dizzy = true
 
 func enter(_msg := {}) -> void:
