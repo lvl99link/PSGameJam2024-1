@@ -431,7 +431,6 @@ z_index = 1
 material = SubResource("ShaderMaterial_lytkl")
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_q5qax")
-animation = &"split"
 autoplay = "default"
 
 [node name="Trail" parent="Node2D" instance=ExtResource("2_ldhr5")]
