@@ -13,8 +13,8 @@ A couch competitive game of high velocity slime splitting!
 
 ## Credits
 <Put the way you'd like to be credited here>
-- Fresh		| Programmer, Developer
-- Cosu 		| Music, Audio, QA
-- lvl99link | Project Manager, Developer, QA
-- Gondor	| Game Design, QA
-- Cat 		| Art & Animation
+- Fresh				| Programmer, Developer
+- Cosu 				| Music, Audio, QA
+- Zheis/lvl99link 	| Project Manager, Developer, QA
+- Gondor			| Game Design, QA
+- Cat 				| Art & Animation
