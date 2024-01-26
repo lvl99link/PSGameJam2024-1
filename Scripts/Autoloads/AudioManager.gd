@@ -46,8 +46,8 @@ func crossfade(new_player: AudioStreamPlayer, fade_in_t: float = 1, fade_out_t: 
 	tween.tween_property(current_player, "volume_db", -72, fade_out_t)
 	tween.tween_property(new_player, "volume_db", 0, fade_in_t)
 	await tween.finished
-	#current_player.stream_paused = true
 	current_player = new_player
+	#current_player.stream_paused = true
 
 func play(player: AudioStreamPlayer, fade_in_t: float = 1) -> void:
 	# Start an existing audio player (from the paused state)
@@ -66,11 +66,16 @@ func stop(player: AudioStreamPlayer, fade_out_t: float = 1) -> void:
 
 func on_scene_changed() -> void:
 	# Automatically handle audio shifting based on the current scene
+	# hack fix to not crossfade if we're already running a fade when triggered
+	if current_player.volume_db != 0: 
+		return
+	
 	if get_tree().current_scene.name == "MainMenu":
 		await crossfade(menu_music_player, 0.25, 2)
 	else:
 		await crossfade(game_music_player, 0.25, 2)
 	# If we're going to the main menu, stop all streams except for the menu track
+	# WARNING: Bugged due to timing 
 	for node in get_children():
 		if node is AudioStreamPlayer and node != current_player:
 			stop(node)
