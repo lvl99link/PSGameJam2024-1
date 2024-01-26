@@ -1,10 +1,11 @@
 # Pirate Software Game Jam 2024-1
-This is Team <untitled>'s entry to the 2024's first Pirate Software Game Jam!
+This is Team Pectin's entry to the 2024's first Pirate Software Game Jam!
 
 This readme will be updated with a logline, controls/mechanics instructions, and credits 
 when all that is finalized.
 
 ## What am I playing?
+A couch competitive game of high velocity slime splitting!
 <insert elevator pitch here>
 
 ## Controls
@@ -12,5 +13,8 @@ when all that is finalized.
 
 ## Credits
 <Put the way you'd like to be credited here>
-- Fresh
-- Cosu
+- Fresh		| Programmer, Developer
+- Cosu 		| Music, Audio, QA
+- lvl99link | Project Manager, Developer, QA
+- Gondor	| Game Design, QA
+- Cat 		| Art & Animation

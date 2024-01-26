@@ -15,10 +15,10 @@ var sfx_volume: float = 0.5
 var is_final_turn: bool = false # Don't really like this
 
 const slime_color_by_player: Array[Color] = [ # Slime sprite modulation colors
-	Color(0.38, 0.74, 0.29, 0.7), # Green
-	Color(0.88, 0.282, 0.282, 0.7), # Red
-	Color(0, 0, 1, 0.7), # Blue
-	Color(1, 1, 0, 0.7)  # Yellow
+	Color(0.36, 0.98, 0.23, 0.7), # Green
+	Color(1, 0.3, 0.16, 0.7), # Red
+	Color(0.13, 0.59, 0.71, 0.7), # Blue
+	Color(0.8, 0.67, 0.1, 0.7)  # Yellow
 ]
 
 const trail_color_by_player: Array[Color] = [ # Slime trail colors

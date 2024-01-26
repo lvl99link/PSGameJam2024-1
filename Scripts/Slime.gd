@@ -136,13 +136,13 @@ func set_outline_by_target(target: Target, play_audio: bool = true) -> void:
 	var audio_to_play = null
 	if target.value < 10: 
 		audio_to_play = target.SCORING_NOTE_BLUE
-		set_outline(Color(0,0,1), 3)
+		set_outline(Color(0,0,1), 20)
 	elif target.value < 25: 
 		audio_to_play = target.SCORING_NOTE_YELLOW
-		set_outline(Color(1,1,0), 3)
+		set_outline(Color(1,1,0), 20)
 	elif target.value >= 25: 
 		audio_to_play = target.SCORING_NOTE_RED
-		set_outline(Color(1,0,0), 3)
+		set_outline(Color(1,0,0), 20)
 	if play_audio: Globals.play_audio(audio_to_play)
 
 func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
@@ -230,6 +230,7 @@ func _on_body_entered(body: Node) -> void:
 	if body is StaticBody2D and directional_v > 10: # Only reading walls
 		# Enter impacting state
 		# Change the other state to splitting?
+		state_manager.transition_to("IMPACTING")
 		Globals.play_audio(SLIME_IMPACT_SLAP)
 		Globals.shake(0.18)
 		hit_particles.emitting = true

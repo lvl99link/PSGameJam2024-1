@@ -21,6 +21,9 @@ func physics_update(_delta: float) -> void:
 	if speed < 10:
 		await get_tree().create_timer(1).timeout
 		if speed < 10:
+			if can_dizzy:
+				can_dizzy = false
+				state_machine.transition_to("DIZZY")
 			state_machine.transition_to("IDLE")
 			
 	
@@ -53,7 +56,4 @@ func exit() -> void:
 	slime.sliming_particles.amount = 50
 	slime.slime_audio_player.stop()
 	slime.ground_audio_player.stop()
-	if can_dizzy:
-		Globals.play_random_sfx(slime.slime_dizzys)
-	# go to dizzy or just play dizzy animation and noise here.
 
