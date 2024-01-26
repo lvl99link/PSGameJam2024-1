@@ -179,7 +179,6 @@ func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	call_deferred("spawn", new_slime)
 	
 	Globals.play_random_sfx(slime_impacts)
-	Globals.play_audio(SLIME_IMPACT_SLAP)
 
 func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	if body == self: return
