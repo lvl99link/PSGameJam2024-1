@@ -4,7 +4,10 @@ func handle_input(_event: InputEvent) -> void:
 	pass
 
 func update(_delta: float) -> void:
-	pass
+	var slime: Slime = state_machine.parent as Slime
+	# Hacky fallback in case the animation desyncs from the state machine
+	if slime.sprite.animation != "impact":
+		state_machine.transition_to("SLIMING")
 
 func physics_update(_delta: float) -> void:
 	pass

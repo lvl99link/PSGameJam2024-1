@@ -19,7 +19,9 @@ func toggle_paused() -> void:
 		visible = true
 		animation_player.play("enter")
 		Globals.toggle_audio_effect("Music", 0, true)
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		animation_player.play_backwards("enter")
 		await animation_player.animation_finished
 		visible = false

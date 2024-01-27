@@ -19,22 +19,23 @@ signal transitioned(state_name)
 # Path to the initial active state. We export it to be able to pick the initial state in the inspector.
 @export var initial_state := NodePath()
 
-# Manually import the Slime this machine belongs to. Yes this makes it less "generic", but that's a future problem.
-@onready var parent: Slime = $"../"
+# Automatically grab the parent this machine belongs to. StateMachine MUST be a direct child of node.
+@onready var parent: Node2D = $"../"
 
 # The current active state. At the start of the game, we get the `initial_state`.
 @onready var state: State = get_node(initial_state)
-@onready var DEBUG_STATE_LABEL: Label = $"../DEBUGGING_STATE_LABEL"
+#@onready var DEBUG_STATE_LABEL: Label = $"../DEBUGGING_STATE_LABEL"
 
 var previous_state: State = null
 
 func _ready() -> void:
 	# The state machine assigns itself to the State objects' state_machine property.
 	for child in get_children():
-		child.state_machine = self
+		if child is State:
+			child.state_machine = self
 	state.enter()
 	# WARNING: FOR DEBUGGING REMOVE LATER
-	DEBUG_STATE_LABEL.text = initial_state
+	#DEBUG_STATE_LABEL.text = initial_state
 
 # The state machine subscribes to node callbacks and delegates them to the state objects.
 func _unhandled_input(event: InputEvent) -> void:
@@ -58,5 +59,5 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 	state = get_node(target_state_name)
 	state.enter(msg)
 	# WARNING: FOR DEBUGGING REMOVE LATER	
-	DEBUG_STATE_LABEL.text = state.name
+	#DEBUG_STATE_LABEL.text = state.name
 	emit_signal("transitioned", state.name)

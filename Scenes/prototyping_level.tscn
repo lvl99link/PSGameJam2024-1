@@ -1,17 +1,49 @@
-[gd_scene load_steps=22 format=3 uid="uid://cvbfu4iw0f8c3"]
+[gd_scene load_steps=29 format=3 uid="uid://cvbfu4iw0f8c3"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_2dkag"]
 [ext_resource type="PackedScene" uid="uid://psco1baapw31" path="res://Prefabs/custom_camera.tscn" id="2_k4vor"]
+[ext_resource type="Texture2D" uid="uid://xx2wsg7vw6ic" path="res://Assets/icon.svg" id="2_plmpr"]
 [ext_resource type="PackedScene" uid="uid://dafrdpmlh500b" path="res://Prefabs/UI/score_ui.tscn" id="3_4ww4u"]
+[ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="3_aoeth"]
+[ext_resource type="Script" path="res://Scripts/Hand.gd" id="3_u35k6"]
 [ext_resource type="Script" path="res://addons/donut_collision_polygon2D/donut_collision_polygon2D.gd" id="4_b8j21"]
+[ext_resource type="Script" path="res://Scripts/States/HandDefaultState.gd" id="4_neqxf"]
 [ext_resource type="PackedScene" uid="uid://j8dje6eh86el" path="res://Prefabs/UI/strength_bar.tscn" id="4_s24qq"]
 [ext_resource type="Texture2D" uid="uid://3mcygeh82o2v" path="res://Assets/Art/Maps/Jam-A-Slime-Arena.png" id="4_y73fv"]
 [ext_resource type="PackedScene" uid="uid://dp3lkoqx5nigr" path="res://Prefabs/UI/victory_screen.tscn" id="5_qgvp8"]
+[ext_resource type="Script" path="res://Scripts/States/HandHoldingState.gd" id="6_f2a4q"]
 [ext_resource type="PackedScene" uid="uid://b1xgqwhsvt638" path="res://Prefabs/UI/pause_menu.tscn" id="6_lfnx2"]
+[ext_resource type="Script" path="res://Scripts/States/HandDraggingState.gd" id="7_jkchb"]
 [ext_resource type="PackedScene" uid="uid://cpw7a2j0x3alc" path="res://Prefabs/score_area.tscn" id="8_7supw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jvgl3"]
 radius = 8.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kmuk2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_plmpr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"dragging",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"flick",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"holding",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eiugq"]
 size = Vector2(1088, 1.99951)
@@ -67,6 +99,26 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameManager/CursorArea"]
 shape = SubResource("CircleShape2D_jvgl3")
 debug_color = Color(0, 1, 0.14902, 0.419608)
+
+[node name="HandSprite" type="AnimatedSprite2D" parent="GameManager"]
+z_index = 3
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_kmuk2")
+autoplay = "default"
+script = ExtResource("3_u35k6")
+
+[node name="StateMachine" type="Node" parent="GameManager/HandSprite"]
+script = ExtResource("3_aoeth")
+initial_state = NodePath("FREE")
+
+[node name="FREE" type="Node" parent="GameManager/HandSprite/StateMachine"]
+script = ExtResource("4_neqxf")
+
+[node name="HOLDING" type="Node" parent="GameManager/HandSprite/StateMachine"]
+script = ExtResource("6_f2a4q")
+
+[node name="DRAGGING" type="Node" parent="GameManager/HandSprite/StateMachine"]
+script = ExtResource("7_jkchb")
 
 [node name="StrengthBar" parent="." instance=ExtResource("4_s24qq")]
 visible = false

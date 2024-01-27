@@ -20,6 +20,7 @@ func physics_update(_delta: float) -> void:
 	
 	if speed < 10:
 		await get_tree().create_timer(1).timeout
+		if state_machine.state.name != "SLIMING": return
 		if speed < 10:
 			state_machine.transition_to("IDLE")
 			return

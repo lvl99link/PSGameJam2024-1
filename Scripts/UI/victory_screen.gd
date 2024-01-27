@@ -29,6 +29,7 @@ func _ready() -> void:
 func spawn_menu() -> void:
 	show_map.visible = false
 	visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Globals.toggle_audio_effect("Music", 0, true)
 	AudioManager.play(AudioManager.victory_music_player, 0.25)
 	var color: Color = winner.color_by_player_num[winner.player_num - 1]
@@ -50,11 +51,10 @@ func spawn_menu() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 func _on_menu_pressed() -> void:
-	Globals.toggle_audio_effect("Music", 0, false)
+	AudioManager.stop(AudioManager.victory_music_player)
 	SceneTransition.change_scene(MAIN_MENU)
 
 func _on_rematch_pressed() -> void:
-	Globals.toggle_audio_effect("Music", 0, false)
 	var PROTOTYPING_LEVEL = load("res://Scenes/prototyping_level.tscn") # change to main scene
 	SceneTransition.change_scene(PROTOTYPING_LEVEL)
 

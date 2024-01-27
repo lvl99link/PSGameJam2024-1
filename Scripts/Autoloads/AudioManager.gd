@@ -10,6 +10,7 @@ var game_music_player: AudioStreamPlayer
 var victory_music_player: AudioStreamPlayer
 
 var current_player: AudioStreamPlayer = null
+var tween: Tween
 
 func _ready() -> void:
 	SceneTransition.scene_changed.connect(on_scene_changed)
@@ -41,7 +42,7 @@ func crossfade(new_player: AudioStreamPlayer, fade_in_t: float = 1, fade_out_t: 
 	# Fade out the current player
 	# Fade in the new player
 	if new_player == current_player: return
-	var tween = get_tree().create_tween().set_parallel()
+	tween = get_tree().create_tween().set_parallel()
 	#new_player.stream_paused = false
 	tween.tween_property(current_player, "volume_db", -72, fade_out_t)
 	tween.tween_property(new_player, "volume_db", 0, fade_in_t)
@@ -50,32 +51,26 @@ func crossfade(new_player: AudioStreamPlayer, fade_in_t: float = 1, fade_out_t: 
 	#current_player.stream_paused = true
 
 func play(player: AudioStreamPlayer, fade_in_t: float = 1) -> void:
-	# Start an existing audio player (from the paused state)
+	# Start an existing audio player
 	# Does not add to or overwrite the main 'current player'
 	# Only meant to play atop existing elements.
-	var tween = get_tree().create_tween()
+	var play_tween = get_tree().create_tween()
 	#player.stream_paused = false
-	tween.tween_property(player, "volume_db", 0, fade_in_t)
+	play_tween.tween_property(player, "volume_db", 0, fade_in_t)
 
 func stop(player: AudioStreamPlayer, fade_out_t: float = 1) -> void:
-	# Stop a specific existing audio player (pauses)
-	var tween = get_tree().create_tween()
-	tween.tween_property(player, "volume_db", -72, fade_out_t)
-	await tween.finished
+	# Stop a specific existing audio player
+	var stop_tween = get_tree().create_tween()
+	stop_tween.tween_property(player, "volume_db", -72, fade_out_t)
+	await stop_tween.finished
 	#player.stream_paused = true
 
 func on_scene_changed() -> void:
 	# Automatically handle audio shifting based on the current scene
-	# hack fix to not crossfade if we're already running a fade when triggered
-	if current_player.volume_db != 0: 
-		return
+	if tween and tween.is_running():
+		await tween.finished
 	
 	if get_tree().current_scene.name == "MainMenu":
 		await crossfade(menu_music_player, 0.25, 2)
 	else:
 		await crossfade(game_music_player, 0.25, 2)
-	# If we're going to the main menu, stop all streams except for the menu track
-	# WARNING: Bugged due to timing 
-	for node in get_children():
-		if node is AudioStreamPlayer and node != current_player:
-			stop(node)

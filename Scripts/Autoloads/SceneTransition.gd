@@ -5,6 +5,7 @@ signal scene_changed()
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func change_scene(target: PackedScene, animation: String = "Slide") -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	animation_player.play(animation)
 	await animation_player.animation_finished
 	get_tree().change_scene_to_packed(target)

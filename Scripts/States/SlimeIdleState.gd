@@ -42,7 +42,7 @@ func enter(_msg := {}) -> void:
 	var slime = state_machine.parent as Slime
 	if slime.sprite:
 		await get_tree().create_timer(1).timeout
-		state_machine.parent.sprite.play("default")
+		slime.sprite.play("default")
 
 func exit() -> void:
 	#timer.stop()

@@ -15,6 +15,7 @@ var MAX_SLIMES = Globals.slime_count
 @onready var timer: Timer = $Timer
 @onready var cursor_area: Area2D = $CursorArea # Used for detecting slimes under our cursor
 @onready var drag_line: StrengthLine = StrengthLine.new() # The 'strength indicator and angle' line
+@onready var hand: Hand = $HandSprite
 
 # I think move these to a global audio manager.
 # SFX are loaded that do not necessarily need to play 'from' a specific slime
@@ -43,6 +44,7 @@ var slime_prefab = preload("res://Prefabs/slime.tscn")
 
 func _ready() -> void:
 	Globals.camera = camera
+	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	# Fill out the players array
 	initialize_players()
 	# Fill out each player's roster (hardcoded rn)
@@ -149,10 +151,10 @@ func handle_start_state() -> void:
 		return
 	if can_drag and active_slime and Input.is_action_pressed("fire"):
 		drag_line.visible = true
-		drag_line.points[0] = Vector2(
-			clamp(mouse_pos.x, active_slime.global_position.x - drag_line.MAX_LENGTH, active_slime.global_position.x + drag_line.MAX_LENGTH),
-			clamp(mouse_pos.y, active_slime.global_position.y - drag_line.MAX_LENGTH, active_slime.global_position.y + drag_line.MAX_LENGTH)
-		) # A bit verbose but basically the drag line cant be longer than it's max length
+		var direction: Vector2 = mouse_pos - active_slime.global_position
+		if direction.length() > drag_line.MAX_LENGTH:
+			direction = direction.normalized() * drag_line.MAX_LENGTH
+		drag_line.points[0] = active_slime.global_position + direction
 		drag_line.points[1] = active_slime.global_position
 		
 		# Also handle the 'power bar' asset's position, value, and visibility
