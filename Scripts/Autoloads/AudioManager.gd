@@ -65,6 +65,11 @@ func stop(player: AudioStreamPlayer, fade_out_t: float = 1) -> void:
 	await stop_tween.finished
 	#player.stream_paused = true
 
+func set_volume(mixer: String, volume: float) -> float:
+	var bus_idx = AudioServer.get_bus_index(mixer)
+	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(volume))
+	return volume
+
 func on_scene_changed() -> void:
 	# Automatically handle audio shifting based on the current scene
 	if tween and tween.is_running():

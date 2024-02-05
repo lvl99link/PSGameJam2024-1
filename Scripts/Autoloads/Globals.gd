@@ -9,9 +9,6 @@ var FRICTION: float = 1
 var player_count = 2
 var slime_count = 4
 
-var music_volume: float = 0.5
-var sfx_volume: float = 0.5
-
 var is_final_turn: bool = false # Don't really like this
 
 const slime_color_by_player: Array[Color] = [ # Slime sprite modulation colors
@@ -27,10 +24,6 @@ const trail_color_by_player: Array[Color] = [ # Slime trail colors
 	Color(0, 0, 1, 0.7), # Blue
 	Color(1, 1, 0, 0.7)  # Yellow
 ]
-
-func _ready() -> void:
-	set_volume("Music", music_volume)
-	set_volume("SFX", sfx_volume)
 
 # Maybe move this to a global audio manager autoload script
 func play_random_sfx(sfx_arr: Array[AudioStreamOggVorbis]) -> void:
@@ -50,11 +43,6 @@ func play_audio(file: AudioStream, mixer: String = "SFX", volume: float = 1) -> 
 	await audio_player.finished
 	remove_child(audio_player)
 	audio_player.queue_free()
-
-func set_volume(mixer: String, volume: float) -> float:
-	var bus_idx = AudioServer.get_bus_index(mixer)
-	AudioServer.set_bus_volume_db(bus_idx, linear_to_db(volume))
-	return volume
 
 func toggle_audio_effect(mixer: String, effect_idx: int, enabled=true) -> void:
 	var bus_idx = AudioServer.get_bus_index(mixer)
