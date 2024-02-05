@@ -33,5 +33,4 @@ func _on_resume_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	toggle_paused()
-	var MAIN_MENU = load("res://Scenes/main_menu.tscn")
-	SceneTransition.change_scene(MAIN_MENU)
+	SceneTransition.change_scene("res://Scenes/main_menu.tscn")

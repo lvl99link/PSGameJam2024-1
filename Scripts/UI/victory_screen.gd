@@ -52,11 +52,11 @@ func spawn_menu() -> void:
 
 func _on_menu_pressed() -> void:
 	AudioManager.stop(AudioManager.victory_music_player)
-	SceneTransition.change_scene(MAIN_MENU)
+	SceneTransition.change_scene("res://Scenes/main_menu.tscn")
 
 func _on_rematch_pressed() -> void:
-	var PROTOTYPING_LEVEL = load("res://Scenes/prototyping_level.tscn") # change to main scene
-	SceneTransition.change_scene(PROTOTYPING_LEVEL)
+	AudioManager.stop(AudioManager.victory_music_player)
+	SceneTransition.change_scene("res://Scenes/prototyping_level.tscn")
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
