@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dnv7wug6gtchg"]
+[gd_scene load_steps=10 format=3 uid="uid://dnv7wug6gtchg"]
 
 [ext_resource type="Script" path="res://Scripts/UI/main_menu.gd" id="1_y3b8d"]
 [ext_resource type="Theme" uid="uid://guaqrfny00d3" path="res://Assets/Themes/ui_theme.tres" id="2_vl0x8"]
@@ -7,19 +7,11 @@
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="3_ap54u"]
 [ext_resource type="PackedScene" uid="uid://b7ebcew0fme12" path="res://Prefabs/UI/slime_amount_selector.tscn" id="3_vrrq8"]
 [ext_resource type="PackedScene" uid="uid://7n2ofqo0tfhx" path="res://Prefabs/UI/extras_bar.tscn" id="4_46d6x"]
-[ext_resource type="Texture2D" uid="uid://j2wcuiqcftda" path="res://Assets/Art/UI/logo-frame-1.png" id="5_5qbl0"]
-[ext_resource type="Texture2D" uid="uid://76g6wgcqonve" path="res://Assets/Art/UI/logo-frame-2.png" id="6_idl38"]
+[ext_resource type="PackedScene" uid="uid://bb8bkdkxam8c0" path="res://Prefabs/UI/title.tscn" id="6_vfph8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_unhmg"]
 shader = ExtResource("3_ap54u")
 shader_parameter/lod = 2.0
-
-[sub_resource type="AnimatedTexture" id="AnimatedTexture_roj41"]
-frames = 2
-frame_0/texture = ExtResource("5_5qbl0")
-frame_0/duration = 0.5
-frame_1/texture = ExtResource("6_idl38")
-frame_1/duration = 0.5
 
 [node name="MainMenu" type="Control"]
 process_mode = 3
@@ -77,12 +69,8 @@ theme = ExtResource("2_vl0x8")
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="Title" type="TextureRect" parent="MarginContainer/VBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(100, 310)
+[node name="Title" parent="MarginContainer/VBoxContainer" instance=ExtResource("6_vfph8")]
 layout_mode = 2
-texture = SubResource("AnimatedTexture_roj41")
-expand_mode = 1
 
 [node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

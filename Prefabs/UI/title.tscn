@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bb8bkdkxam8c0"]
+
+[ext_resource type="Texture2D" uid="uid://j2wcuiqcftda" path="res://Assets/Art/UI/logo-frame-1.png" id="1_d2p2k"]
+[ext_resource type="Texture2D" uid="uid://76g6wgcqonve" path="res://Assets/Art/UI/logo-frame-2.png" id="2_torfu"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_roj41"]
+frames = 2
+frame_0/texture = ExtResource("1_d2p2k")
+frame_0/duration = 0.5
+frame_1/texture = ExtResource("2_torfu")
+frame_1/duration = 0.5
+
+[node name="Title" type="TextureRect"]
+clip_contents = true
+custom_minimum_size = Vector2(100, 310)
+texture = SubResource("AnimatedTexture_roj41")
+expand_mode = 1
