@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
-[ext_resource type="Shader" path="res://Assets/Shaders/outline.gdshader" id="2_uljtn"]
+[ext_resource type="Shader" path="res://Assets/Shaders/outline.gdshader" id="2_qorle"]
 [ext_resource type="Texture2D" uid="uid://bjfmgj2t4jnlr" path="res://Assets/Art/Slimes/Slime_Blink/Timeline 6_0000.png" id="3_um73l"]
 [ext_resource type="Texture2D" uid="uid://dnxf1k1ox7sli" path="res://Assets/Art/Slimes/Slime_Blink/Timeline 6_0001.png" id="4_bdoiq"]
 [ext_resource type="Script" path="res://Scripts/StateMachine.gd" id="4_t08mx"]
@@ -96,11 +96,11 @@
 friction = 0.0
 bounce = 0.65
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lytkl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d77ll"]
 resource_local_to_scene = true
-shader = ExtResource("2_uljtn")
+shader = ExtResource("2_qorle")
 shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/modulate_color = Color(1, 0.305882, 0.164706, 1)
+shader_parameter/modulate_color = Color(0.305882, 0.705882, 0.180392, 1)
 shader_parameter/width = 0.0
 shader_parameter/pattern = 2
 shader_parameter/inside = true
@@ -421,14 +421,13 @@ physics_material_override = SubResource("PhysicsMaterial_wy72i")
 gravity_scale = 0.0
 lock_rotation = true
 max_contacts_reported = 1
-contact_monitor = true
 script = ExtResource("1_ug4yn")
 
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Node2D"]
 z_index = 1
-material = SubResource("ShaderMaterial_lytkl")
+material = SubResource("ShaderMaterial_d77ll")
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_q5qax")
 autoplay = "default"

@@ -77,4 +77,9 @@ pause={
 
 [physics]
 
+2d/run_on_separate_thread=true
 2d/default_angular_damp=0.5
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

@@ -88,7 +88,6 @@ var can_split: bool = true
 
 func _ready() -> void:
 	linear_damp = Globals.FRICTION
-	#sprite.sprite_frames.set_frame("default", 0, slime_sprite_by_player[owned_by.player_num - 1])
 	var color = Globals.slime_color_by_player[owned_by.player_num - 1]
 	color.a = 1
 	sprite.material.set_shader_parameter("modulate_color", color)
