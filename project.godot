@@ -22,6 +22,7 @@ boot_splash/minimum_display_time=500
 
 [autoload]
 
+Settings="*res://Scripts/Settings.gd"
 Globals="*res://Scripts/Autoloads/Globals.gd"
 LoadButtons="*res://Scripts/Autoloads/LoadButtons.gd"
 SceneTransition="*res://Scripts/Autoloads/scene_transition.tscn"
@@ -66,6 +67,10 @@ pause={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://Localization/Translations.ar.translation", "res://Localization/Translations.bg.translation", "res://Localization/Translations.bs.translation", "res://Localization/Translations.cs.translation", "res://Localization/Translations.da.translation", "res://Localization/Translations.de.translation", "res://Localization/Translations.el.translation", "res://Localization/Translations.en.translation", "res://Localization/Translations.es.translation", "res://Localization/Translations.fi.translation", "res://Localization/Translations.fr.translation", "res://Localization/Translations.he.translation", "res://Localization/Translations.hu.translation", "res://Localization/Translations.it.translation", "res://Localization/Translations.ja.translation", "res://Localization/Translations.ko.translation", "res://Localization/Translations.nb.translation", "res://Localization/Translations.nl.translation", "res://Localization/Translations.pl.translation", "res://Localization/Translations.pt.translation", "res://Localization/Translations.ro.translation", "res://Localization/Translations.ru.translation", "res://Localization/Translations.sv.translation", "res://Localization/Translations.th.translation", "res://Localization/Translations.tr.translation", "res://Localization/Translations.zh.translation")
 
 [layer_names]
 
