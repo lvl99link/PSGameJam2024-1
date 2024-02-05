@@ -10,6 +10,8 @@ extends Control
 @onready var slime_1_count: Label = %Slime1Count
 @onready var slime_2_count: Label = %Slime2Count
 
+@onready var fps: Label = $MarginContainer/FPS
+
 @onready var score_labels: Array[Label] = [
 	player_1_score,
 	player_2_score
@@ -31,6 +33,10 @@ func _ready() -> void:
 	set_throws_remaining(2, Globals.slime_count)
 	
 	set_slime_texture_color()
+
+func _process(_delta: float) -> void:
+	if not fps.visible: return
+	fps.text = str(Engine.get_frames_per_second())
 
 func set_score(player: int, value: int) -> void:
 	score_labels[player - 1].text = str(value)
