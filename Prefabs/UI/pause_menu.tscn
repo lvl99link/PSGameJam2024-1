@@ -115,7 +115,8 @@ layout_mode = 2
 theme = ExtResource("3_0s7a3")
 theme_override_constants/separation = 32
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="PausedLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0.352941, 0.74902, 0.172549, 1)
 theme_override_constants/shadow_outline_size = 65
@@ -129,6 +130,11 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Resume"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Options"
 
 [node name="AudioSliders" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_c1tve")]
 layout_mode = 2
@@ -149,4 +155,5 @@ libraries = {
 autoplay = "RESET"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

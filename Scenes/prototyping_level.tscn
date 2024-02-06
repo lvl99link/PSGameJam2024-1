@@ -85,8 +85,8 @@ unique_name_in_owner = true
 script = ExtResource("1_2dkag")
 camera = NodePath("../Camera2D")
 player_start_areas = [NodePath("../Player 1 Start/Player1StartArea"), NodePath("../Player 2 Start/Player2StartArea")]
-score_ui = NodePath("../ScoreCanvas/ScoreUI")
-victory_ui = NodePath("../ScoreCanvas/VictoryScreen")
+score_ui = NodePath("../GameUICanvas/ScoreUI")
+victory_ui = NodePath("../GameUICanvas/VictoryScreen")
 strength_bar_ui = NodePath("../StrengthBar")
 
 [node name="Timer" type="Timer" parent="GameManager"]
@@ -128,13 +128,13 @@ scale = Vector2(0.4, 0.4)
 limit_left = -1210
 limit_right = 1210
 
-[node name="ScoreCanvas" type="CanvasLayer" parent="."]
+[node name="GameUICanvas" type="CanvasLayer" parent="."]
 
-[node name="ScoreUI" parent="ScoreCanvas" instance=ExtResource("3_4ww4u")]
+[node name="ScoreUI" parent="GameUICanvas" instance=ExtResource("3_4ww4u")]
 
-[node name="VictoryScreen" parent="ScoreCanvas" instance=ExtResource("5_qgvp8")]
+[node name="VictoryScreen" parent="GameUICanvas" instance=ExtResource("5_qgvp8")]
 
-[node name="PauseMenu" parent="ScoreCanvas" instance=ExtResource("6_lfnx2")]
+[node name="PauseMenu" parent="GameUICanvas" instance=ExtResource("6_lfnx2")]
 visible = false
 
 [node name="Jam-a-slime-arena" type="Sprite2D" parent="."]

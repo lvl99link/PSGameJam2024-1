@@ -2,9 +2,17 @@ extends Control
 
 @onready var resume_button: Button = %Resume
 @onready var quit_button: Button = %Quit
+@onready var options_button: Button = %Options
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var margin_container: MarginContainer = $MarginContainer
+@onready var paused_label: Label = %PausedLabel
+
+var settings_menu_prefab = preload("res://Prefabs/UI/settings_menu.tscn")
 
 func _ready() -> void:
+	paused_label.text = tr("MENU_LABEL_PAUSED")
+	quit_button.text = tr("MENU_LABEL_RETURN_MAIN")
+	options_button.text = tr("MENU_OPTIONS")
 	visible = false
 
 func _input(event: InputEvent) -> void:
@@ -34,3 +42,10 @@ func _on_resume_pressed() -> void:
 func _on_quit_pressed() -> void:
 	toggle_paused()
 	SceneTransition.change_scene("res://Scenes/main_menu.tscn")
+
+func _on_options_pressed() -> void:
+	var settings_menu = settings_menu_prefab.instantiate() as Control
+	settings_menu.position.x = 1920
+	add_child(settings_menu)
+	
+	Globals.change_menu(margin_container, settings_menu)

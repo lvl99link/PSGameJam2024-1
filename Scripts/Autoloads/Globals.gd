@@ -10,6 +10,7 @@ var player_count = 2
 var slime_count = 4
 
 var is_final_turn: bool = false # Don't really like this
+var previous_menu: Control = null # Stores reference to the previously active UI node
 
 const slime_color_by_player: Array[Color] = [ # Slime sprite modulation colors
 	Color(0.36, 0.98, 0.23, 0.7), # Green
@@ -68,3 +69,12 @@ func freeze_frame(timescale: float, duration: float) -> void:
 	await get_tree().create_timer(duration * timescale).timeout
 	Engine.time_scale = 1.0
 	#PhysicsServer2D.set_active(true)
+
+func change_menu(from: Control, to: Control) -> void:
+	var tween = get_tree().create_tween().set_parallel()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+
+	tween.tween_property(from, "position:x", -1920, 0.25).set_ease(Tween.EASE_IN_OUT)
+
+	tween.tween_property(to, "position:x", 0, 0.25).set_ease(Tween.EASE_IN_OUT)
+	previous_menu = from

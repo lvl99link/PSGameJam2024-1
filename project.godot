@@ -22,7 +22,7 @@ boot_splash/minimum_display_time=500
 
 [autoload]
 
-Settings="*res://Scripts/Settings.gd"
+Settings="*res://Scripts/Autoloads/Settings.gd"
 Globals="*res://Scripts/Autoloads/Globals.gd"
 LoadButtons="*res://Scripts/Autoloads/LoadButtons.gd"
 SceneTransition="*res://Scripts/Autoloads/scene_transition.tscn"
