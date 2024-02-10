@@ -3,66 +3,7 @@ extends RigidBody2D
 
 signal slime_impacted(slime: Slime)
 
-#const JAM_A_SLIME_A_BIG = preload("res://Assets/Art/Slimes/Jam-A-Slime-A-Big.png")
-#const RED_SLIME = preload("res://Assets/Art/Slimes/Red_Slime.png")
-
-#const slime_sprite_by_player: Array[Texture2D] = [JAM_A_SLIME_A_BIG, RED_SLIME]
-
-
-#region IMPORT ALL SLIME SOUND RELATED AUDIO SFX
-const SLIME_A_IMPACT_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_A.ogg")
-const SLIME_A_IMPACT_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_B.ogg")
-const SLIME_A_IMPACT_C = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_C.ogg")
-const SLIME_A_IMPACT_D = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Impact_D.ogg")
-
-const SLIME_A_SELECT_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Select_A.ogg")
-const SLIME_A_SELECT_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Select_B.ogg")
-
-const SLIME_A_THROW_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Throw_A.ogg")
-
-const SLIME_A_DIZZY_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_A.ogg")
-const SLIME_A_DIZZY_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_B.ogg")
-const SLIME_A_DIZZY_C = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_C.ogg")
-
-const SLIME_A_HAHA = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Haha.ogg")
-const SLIME_A_SURPRISE_A = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_A.ogg")
-const SLIME_A_SURPRISE_B = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_B.ogg")
-const SLIME_A_SURPRISE_C = preload("res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_C.ogg")
-
-const SLIME_SLIDE_BASE = preload("res://Assets/SFX/OGG/slime_slide_BASE.ogg")
-const SLIME_IMPACT_SLAP = preload("res://Assets/SFX/OGG/Impacts/Slime_impact_slap.ogg")
-const ICE_SLIDE_BASE = preload("res://Assets/SFX/OGG/ice_slide_BASE.ogg")
-#endregion
-
-#region CONSTRUCT SFX VARIANT ARRAYS
-@onready var slime_impacts: Array[AudioStreamOggVorbis] = [
-	SLIME_A_IMPACT_A,
-	SLIME_A_IMPACT_B,
-	SLIME_A_IMPACT_C,
-	SLIME_A_IMPACT_D
-]
-@onready var slime_selects: Array[AudioStreamOggVorbis] = [
-	SLIME_A_SELECT_A,
-	SLIME_A_SELECT_B
-]
-@onready var slime_throws: Array[AudioStreamOggVorbis] = [
-	SLIME_A_THROW_A,
-	SLIME_A_IMPACT_A,
-	SLIME_A_IMPACT_B,
-	SLIME_A_IMPACT_C,
-	SLIME_A_IMPACT_D
-]
-@onready var slime_dizzys: Array[AudioStreamOggVorbis] = [
-	SLIME_A_DIZZY_A,
-	SLIME_A_DIZZY_B,
-	SLIME_A_DIZZY_C
-]
-@onready var slime_surprised: Array[AudioStreamOggVorbis] = [
-	SLIME_A_SURPRISE_A,
-	SLIME_A_SURPRISE_B,
-	SLIME_A_SURPRISE_C
-]
-#endregion
+@export var slime_data: SlimeBase
 
 @onready var state_manager: StateMachine = $StateManager
 @onready var slime_audio_player: AudioStreamPlayer2D = $SlimeTrailAudioPlayer
@@ -82,19 +23,22 @@ const ICE_SLIDE_BASE = preload("res://Assets/SFX/OGG/ice_slide_BASE.ogg")
 @onready var slime_detection_area: Area2D = $Node2D/SlimeDetectionArea
 
 var owned_by: Player
-var multiplier: int = 4
-var slime_friction: float = 1.4
+var multiplier: int
+#var slime_friction: float = 1.4
 var can_split: bool = true
 
 func _ready() -> void:
-	linear_damp = Globals.FRICTION
+	linear_damp = slime_data.slime_friction
+	multiplier = slime_data.base_multiplier
+	
 	var color = Globals.slime_color_by_player[owned_by.player_num - 1]
 	color.a = 1
+	# Set colors of things appropriately
 	sprite.material.set_shader_parameter("modulate_color", color)
-	
 	trail.line.default_color = Globals.trail_color_by_player[owned_by.player_num - 1]
 	hit_particles.color = Globals.slime_color_by_player[owned_by.player_num - 1]
 	sliming_particles.color = Globals.slime_color_by_player[owned_by.player_num - 1]
+	
 	# Randomizes the slime's blinking pace.
 	sprite.sprite_frames.set_frame("default", 0, sprite.sprite_frames.get_frame_texture("default", 0), randi_range(24,64))
 
@@ -113,9 +57,9 @@ func handle_slime_trail_friction() -> void:
 	if len(trails) > 0:
 		for t in trails:
 			if t != trail.collision_area:
-				linear_damp = Globals.FRICTION * slime_friction
+				linear_damp = slime_data.slime_friction * slime_data.trail_friction
 	else:
-		linear_damp = Globals.FRICTION
+		linear_damp = slime_data.slime_friction
 
 func calculate_score() -> int:
 	# Gets all the 'score areas' that the slime might be overlapping
@@ -145,6 +89,12 @@ func set_outline_by_target(target: Target, play_audio: bool = true) -> void:
 		audio_to_play = target.SCORING_NOTE_RED
 		set_outline(Color(1,0,0), 20)
 	if play_audio: Globals.play_audio(audio_to_play)
+
+func swap_textures(p_texture : Texture2D) -> void:
+	for anim_name in sprite.sprite_frames.get_animation_names():
+		for i in sprite.sprite_frames.get_frame_count(anim_name):
+			var texture : AtlasTexture = sprite.sprite_frames.get_frame_texture(anim_name, i)
+			texture.atlas = p_texture
 
 func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	# Function handles the 'splitting' of a slime when impacted by another
@@ -177,7 +127,7 @@ func split(hit_vector: Vector2 = Vector2.ZERO) -> void:
 	new_slime.linear_velocity = new_slime.linear_velocity.rotated(-perpendicular.angle()/8)
 	call_deferred("spawn", new_slime)
 	
-	Globals.play_random_sfx(slime_impacts)
+	Globals.play_random_sfx(slime_data.slime_impacts)
 
 func _on_slime_detection_area_body_entered(body: Slime) -> void:
 	if body == self: return
@@ -202,36 +152,31 @@ func _on_slime_detection_area_body_entered(body: Slime) -> void:
 
 func clone() -> Slime:
 	# Function creates and returns a fully constructed clone of the current instance of this slime
-	# It has to set each variable in this script manually, else it'll be null
-	# I'm honestly not sure which types of values *need* to be set. This seems to work fine for now.
+	# NOTE that some variables must be set after spawn, as _ready can override to defaults
+	# TODO: Maybe combine clone and spawn
 	var new_slime = duplicate(5) as Slime
 	new_slime.owned_by = owned_by
-	new_slime.multiplier = multiplier
 	new_slime.can_split = false
-	new_slime.trail = trail.duplicate(5) as Trail
-	new_slime.trail.width = trail.width
 	owned_by.slimes_on_field.append(new_slime)
-	#new_slime.sprite = sprite.duplicate(5)
-	# I think we need to set the initial state, somehow
 	
 	return new_slime
 
 func spawn(new_slime: Slime) -> void:
 	get_parent().add_child(new_slime)
+	new_slime.multiplier = multiplier
 	new_slime.sprite.material = sprite.material.duplicate()
 	new_slime.trail.can_draw = true
 	new_slime.state_manager.transition_to("IMPACTING")
 
 func _on_body_entered(body: Node) -> void:
 	# Whenever we hit another physics body
-	Globals.play_audio(SLIME_IMPACT_SLAP)
+	Globals.play_audio(slime_data.SLIME_IMPACT_SLAP)
 	
 	var directional_v = sqrt(pow(linear_velocity.x, 2) + pow(linear_velocity.y, 2))
 	if body is StaticBody2D and directional_v > 10: # Only reading walls
 		# Enter impacting state
-		# Change the other state to splitting?
 		state_manager.transition_to("IMPACTING")
-		Globals.play_audio(SLIME_IMPACT_SLAP)
+		Globals.play_audio(slime_data.SLIME_IMPACT_SLAP)
 		Globals.shake(0.18)
 		hit_particles.emitting = true
 

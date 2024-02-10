@@ -82,6 +82,7 @@ func initialize_rosters() -> void:
 		# Hard coding filling out each player's roster for now
 		for i in MAX_SLIMES:
 			var slime: Slime = slime_prefab.instantiate() as Slime
+			# TODO: Instance appropriate textures/animations for slime and trails
 			slime.owned_by = player
 			player.roster.append(slime)
 			player.available_roster.append(slime)
@@ -100,9 +101,11 @@ func handle_start_state() -> void:
 	var collider: CollisionShape2D = area.get_node("CollisionShape2D") as CollisionShape2D
 	var shape: Rect2 = collider.shape.get_rect()
 	var mouse_pos: Vector2 = get_global_mouse_position()
+	# TODO: Handle controller inputs simultaneously
 	
 	#region HANDLING PICKING UP A SLIME IF THERE IS NO ACTIVE SLIME
 	# TODO: Clean up, refactor, and maybe extract
+	# Pick up a slime if able
 	if not (active_slime or held_slime) and Input.is_action_just_pressed("fire"):
 		if cursor_area.has_overlapping_bodies():
 			var slime = cursor_area.get_overlapping_bodies()[0] as Slime
@@ -111,9 +114,11 @@ func handle_start_state() -> void:
 				return 
 			set_held_slime(slime)
 			last_valid_slime_pos = held_slime.global_position
+	# If holding a slime, follow cursor
 	if held_slime and Input.is_action_pressed("fire"):
 		held_slime.trail.can_draw = false
 		held_slime.global_position = mouse_pos
+	# Let go of slime
 	elif held_slime and Input.is_action_just_released("fire"):
 		# Check if the slime is over a starting line
 		if held_slime.start_detection_area.has_overlapping_areas():
@@ -130,6 +135,7 @@ func handle_start_state() -> void:
 	#region HANDLING FOR WHEN SLIME IS IN START LINE READY TO BE DRAGGED
 	if not Input.is_action_pressed("fire"):
 		strength_bar_ui.visible = false
+	# When a slime on the line is clicked
 	if active_slime and Input.is_action_just_pressed("fire"):
 		var selected_slimes = cursor_area.get_overlapping_bodies()
 		if len(selected_slimes) > 0 and selected_slimes[0] != active_slime:
@@ -139,6 +145,7 @@ func handle_start_state() -> void:
 			set_held_slime(selected_slimes[0])
 		can_drag =  cursor_area.has_overlapping_bodies() and\
 					cursor_area.get_overlapping_bodies()[0] == active_slime
+	# Upon releasing to fire a slime
 	if can_drag and active_slime and Input.is_action_just_released("fire"):
 		if cursor_area.has_overlapping_bodies() and cursor_area.get_overlapping_bodies()[0] == active_slime:
 			return # Cancel launch if mouse is still over the slime when let go
@@ -149,6 +156,7 @@ func handle_start_state() -> void:
 		can_drag = false
 		launch_slime()
 		return
+	# Upon pulling back while click is held to drag
 	if can_drag and active_slime and Input.is_action_pressed("fire"):
 		drag_line.visible = true
 		var direction: Vector2 = mouse_pos - active_slime.global_position
@@ -161,6 +169,7 @@ func handle_start_state() -> void:
 		strength_bar_ui.visible = true
 		strength_bar_ui.global_position = active_slime.global_position + Vector2(80,-80)
 		strength_bar_ui.value = drag_line.strength * 100
+	# If we're not dragging but there is an active slime, let it follow the cursor in the y axis
 	elif active_slime:
 		drag_line.visible = false
 		active_slime.global_position.y = clamp(mouse_pos.y, shape.size.y * -1 / 2, shape.size.y / 2)
@@ -179,10 +188,10 @@ func handle_sliming_state() -> void:
 
 func set_held_slime(slime: Slime) -> void:
 	if slime == null:
-		Globals.play_random_sfx(held_slime.slime_surprised)
+		Globals.play_random_sfx(held_slime.slime_data.slime_surprised)
 		Globals.play_audio(SLIME_PLACE)
 	else:
-		Globals.play_random_sfx(slime.slime_selects)
+		Globals.play_random_sfx(slime.slime_data.slime_selects)
 		Globals.play_audio(SLIME_PICKUP)
 	held_slime = slime
 
@@ -203,7 +212,7 @@ func launch_slime() -> void:
 	players[turn - 1].slimes_on_field.append(active_slime)
 	swap_camera_to(active_slime)
 	
-	Globals.play_random_sfx(active_slime.slime_throws)
+	Globals.play_random_sfx(active_slime.slime_data.slime_throws)
 	score_ui.set_throws_remaining(players[turn - 1].player_num, len(players[turn-1].available_roster) - 1)
 
 func swap_camera_to(target: Node2D = null):
@@ -232,7 +241,7 @@ func next_turn() -> void:
 		return
 	Globals.is_final_turn = rounds_elapsed == MAX_SLIMES - 1 and turn == player_count
 	swap_camera_to(player_start_areas[turn - 1])
-	Globals.zoom() # reset zoom if not default	
+	Globals.zoom() # reset zoom if not default
 	state = ROUND.START
 
 func calculate_scores() -> void:

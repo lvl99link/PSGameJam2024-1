@@ -1,6 +1,7 @@
-[gd_scene load_steps=106 format=3 uid="uid://bkivx7otqtykv"]
+[gd_scene load_steps=107 format=3 uid="uid://bkivx7otqtykv"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_ug4yn"]
+[ext_resource type="Resource" uid="uid://dmr32lljdx0jk" path="res://Scripts/Slimes/slime_base.tres" id="2_it8rh"]
 [ext_resource type="PackedScene" uid="uid://cbigstm4mqgeo" path="res://Prefabs/trail.tscn" id="2_ldhr5"]
 [ext_resource type="Shader" path="res://Assets/Shaders/outline.gdshader" id="2_qorle"]
 [ext_resource type="Texture2D" uid="uid://bjfmgj2t4jnlr" path="res://Assets/Art/Slimes/Slime_Blink/Timeline 6_0000.png" id="3_um73l"]
@@ -421,7 +422,9 @@ physics_material_override = SubResource("PhysicsMaterial_wy72i")
 gravity_scale = 0.0
 lock_rotation = true
 max_contacts_reported = 1
+contact_monitor = true
 script = ExtResource("1_ug4yn")
+slime_data = ExtResource("2_it8rh")
 
 [node name="Node2D" type="Node2D" parent="."]
 

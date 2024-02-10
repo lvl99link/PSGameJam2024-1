@@ -49,8 +49,8 @@ func enter(_msg := {}) -> void:
 	var slime = state_machine.parent as Slime
 	slime.sliming_particles.emitting = true
 	slime.sprite.play("sliming")
-	slime.slime_audio_player.stream = slime.SLIME_SLIDE_BASE
-	slime.ground_audio_player.stream = slime.ICE_SLIDE_BASE
+	slime.slime_audio_player.stream = slime.slime_data.SLIME_SLIDE_BASE
+	slime.ground_audio_player.stream = slime.slime_data.ICE_SLIDE_BASE
 	slime.slime_audio_player.play()
 	slime.ground_audio_player.play()
 
@@ -62,6 +62,6 @@ func exit() -> void:
 	slime.ground_audio_player.stop()
 	
 	if can_dizzy:
-		Globals.play_random_sfx(slime.slime_dizzys)
+		Globals.play_random_sfx(slime.slime_data.slime_dizzys)
 		slime.sprite.play("dizzy")
 	#state_machine.transition_to("IDLE")

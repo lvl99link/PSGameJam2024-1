@@ -4,7 +4,6 @@ extends Node
 # Sure it's probably better to split responsibility into multiple but this is fine for now.
 
 var camera: CustomCamera = null
-var FRICTION: float = 1
 
 var player_count = 2
 var slime_count = 4

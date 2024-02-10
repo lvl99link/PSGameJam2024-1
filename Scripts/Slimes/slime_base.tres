@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="SlimeBase" load_steps=15 format=3 uid="uid://dmr32lljdx0jk"]
+
+[ext_resource type="Script" path="res://Scripts/Slimes/SlimeBase.gd" id="1_rgbc6"]
+[ext_resource type="AudioStream" uid="uid://dppuaq5dumxsn" path="res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_A.ogg" id="2_g0h04"]
+[ext_resource type="AudioStream" uid="uid://bkjhcgncut8rx" path="res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_B.ogg" id="3_7s0e4"]
+[ext_resource type="AudioStream" uid="uid://cuyge2m7ltlmu" path="res://Assets/SFX/OGG/Slimes/Slime_A_Dizzy_C.ogg" id="4_e3ewm"]
+[ext_resource type="AudioStream" uid="uid://d4ne7jbjf1r1" path="res://Assets/SFX/OGG/Slimes/Slime_A_Impact_A.ogg" id="5_10rka"]
+[ext_resource type="AudioStream" uid="uid://clcs42v4ve67v" path="res://Assets/SFX/OGG/Slimes/Slime_A_Impact_B.ogg" id="6_087np"]
+[ext_resource type="AudioStream" uid="uid://f6is0qr3421b" path="res://Assets/SFX/OGG/Slimes/Slime_A_Impact_C.ogg" id="7_7r3tg"]
+[ext_resource type="AudioStream" uid="uid://gu2wlgmu13u4" path="res://Assets/SFX/OGG/Slimes/Slime_A_Impact_D.ogg" id="8_txdxc"]
+[ext_resource type="AudioStream" uid="uid://d2f0n78ntckp3" path="res://Assets/SFX/OGG/Slimes/Slime_A_Select_A.ogg" id="9_rsqlt"]
+[ext_resource type="AudioStream" uid="uid://dg1a8jf4hnk7c" path="res://Assets/SFX/OGG/Slimes/Slime_A_Select_B.ogg" id="10_1c5wm"]
+[ext_resource type="AudioStream" uid="uid://c007rb6idbg1f" path="res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_A.ogg" id="11_ss7nw"]
+[ext_resource type="AudioStream" uid="uid://iu4oeic55mt0" path="res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_B.ogg" id="12_jwxel"]
+[ext_resource type="AudioStream" uid="uid://dfmhy5n7cetkf" path="res://Assets/SFX/OGG/Slimes/Slime_A_Surprise_C.ogg" id="13_al263"]
+[ext_resource type="AudioStream" uid="uid://c4240sxu018hs" path="res://Assets/SFX/OGG/Slimes/Slime_A_Throw_A.ogg" id="14_617qf"]
+
+[resource]
+script = ExtResource("1_rgbc6")
+slime_impacts = Array[AudioStreamOggVorbis]([ExtResource("5_10rka"), ExtResource("6_087np"), ExtResource("7_7r3tg"), ExtResource("8_txdxc")])
+slime_selects = Array[AudioStreamOggVorbis]([ExtResource("9_rsqlt"), ExtResource("10_1c5wm")])
+slime_throws = Array[AudioStreamOggVorbis]([ExtResource("14_617qf"), ExtResource("5_10rka"), ExtResource("6_087np"), ExtResource("7_7r3tg"), ExtResource("8_txdxc")])
+slime_dizzys = Array[AudioStreamOggVorbis]([ExtResource("2_g0h04"), ExtResource("3_7s0e4"), ExtResource("4_e3ewm")])
+slime_surprised = Array[AudioStreamOggVorbis]([ExtResource("11_ss7nw"), ExtResource("12_jwxel"), ExtResource("13_al263")])
+trail_friction = 1.4
+slime_friction = 1.0
+base_multiplier = 4
