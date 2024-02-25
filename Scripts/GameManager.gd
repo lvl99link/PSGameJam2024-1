@@ -209,7 +209,8 @@ func launch_slime() -> void:
 	var x = strength * abs(angle.x) * direction
 	var y = strength * angle.y
 	active_slime.apply_impulse(Vector2(x, y))
-	players[turn - 1].slimes_on_field.append(active_slime)
+	if active_slime not in players[turn - 1].slimes_on_field:
+		players[turn - 1].slimes_on_field.append(active_slime)
 	swap_camera_to(active_slime)
 	
 	Globals.play_random_sfx(active_slime.slime_data.slime_throws)
